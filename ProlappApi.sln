@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProlappApi", "ProlappApi.csproj", "{B7CCE2B4-21E3-4954-8C67-821F95A813C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7CCE2B4-21E3-4954-8C67-821F95A813C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7CCE2B4-21E3-4954-8C67-821F95A813C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7CCE2B4-21E3-4954-8C67-821F95A813C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CCE2B4-21E3-4954-8C67-821F95A813C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CEB9555F-76EC-4E08-BAC1-7E0AC6E5D0DF}
+	EndGlobalSection
+EndGlobal
