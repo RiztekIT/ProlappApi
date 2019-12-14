@@ -87,6 +87,7 @@ namespace ProlappApi.Controllers
                 return "Failed to Add" + exe;
             }
         }
+        //hola ricardo
         public string Delete(int id)
         {
             try
