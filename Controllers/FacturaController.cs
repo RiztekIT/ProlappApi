@@ -12,11 +12,12 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
+    [RoutePrefix("api/Factura")]
     public class FacturaController : ApiController
     {
 
 
-
+        //Select de tabla factura
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
@@ -33,8 +34,65 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Select  de Cierto Detalle de Factura
+        [Route("DetalleFactura/{id}")]
+        public HttpResponseMessage GetDetalleFacturaId(int id)
+        {
+            DataTable table = new DataTable();
 
+            string query = @"select * from DetalleFactura where IdDetalle =" + id;
 
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //Select Folio y sumarle 1 para generarlo Unico`
+        [Route("Folio")]
+        public string GetFolio()
+        {
+            string folio;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select top 1 folio from Factura order by folio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                folio = row["folio"].ToString();
+            }
+
+            return folio;
+        }
+        [Route("DetalleFactura")]
+        public HttpResponseMessage GetDetalleFactura()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleFactura";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Insert a Factura 
         public string Post(Factura factura)
         {
             try
@@ -51,7 +109,7 @@ namespace ProlappApi.Controllers
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
                 string query = @"
-                                Execute itInsertNuevoClientes " + factura.IdCliente + " , '"
+                                Execute itNuevaFactura " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '" 
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '" 
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '" 
@@ -87,7 +145,41 @@ namespace ProlappApi.Controllers
                 return "Failed to Add" + exe;
             }
         }
-        //hola ricardo
+        //Insert DetalleFactura
+        [Route("InsertDetalleFactura/{id}")]
+        public string PostDetalleFactura(Factura factura, int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itNuevaDetalleFacturaId " + id + " , '"
+                                + factura.ClaveProducto + "' , '" + factura.Unidad + "' , '" + factura.Producto + "' , '" 
+                                + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '"
+                                + factura.Cantidad + "' , '" + factura.Importe + "' , '"
+                                + factura.Observaciones + @"'
+                                ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Added Successfully";
+            }
+            catch (Exception exe)
+            {
+                return "Failed to Add" + exe;
+            }
+        }
+        //Borrar Factura incluyendo detalles de factura
         public string Delete(int id)
         {
             try
@@ -117,42 +209,19 @@ namespace ProlappApi.Controllers
                 return "Failed to Delete" + ex;
             }
         }
-
-        public string Put(Factura factura)
+        //Delete de Detalle Factura de una Factura
+        [Route("DeleteDetalleFactura/{id}")]
+        public string DeleteDetalleFactura(int id)
         {
             try
             {
 
 
                 DataTable table = new DataTable();
-                //Las variables de fecha, son igualadas a un valor Datatime
-                DateTime time = factura.FechaDeExpedicion;
-                DateTime time2 = factura.FechaVencimiento;
-                DateTime time3 = factura.FechaDeEntrega;
-                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
-                string format = "yyyy-MM-dd HH:mm:ss";
-                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
-                //time.ToString(format)
+
 
                 string query = @"
-                                Execute itInsertNuevoClientes " + factura.Id + " , " + factura.IdCliente + " , '"
-                                + factura.Serie + "' , '" + factura.Folio + "' , '"
-                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
-                                + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
-                                + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
-                                + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '"
-                                + factura.Descuento + "' , '" + factura.ImpuestosRetenidos + "' , '"
-                                + factura.ImpuestosTrasladados + "' , '" + factura.Total + "' , '"
-                                + factura.FormaDePago + "' , '" + factura.MetodoDePago + "' , '"
-                                + factura.Cuenta + "' , '" + factura.Moneda + "' , '"
-                                + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
-                                + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '"
-                                + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '"
-                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
-                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '"
-                                + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '"
-                                + factura.Estatus + "' , '" + factura.Ver + @"'
-                                ";
+                              exec dtBorrarDetalleFactura " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -164,19 +233,14 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Updated Successfully";
+                return "Deleted Successfully";
             }
-            catch (Exception exe)
+            catch (Exception ex)
             {
-                return "Failed to Update" + exe;
-
-
-
-
-
-
+                return "Failed to Delete" + ex;
             }
         }
+
 
 
 
