@@ -39,10 +39,15 @@ namespace ProlappApi.Controllers
             try
             {
 
-
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time = usuario.FechaUltimoAcceso;
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertaNuevoUsuario '" + usuario.Nombre + "' , '" + usuario.NombreUsuario + "' , '" + usuario.ApellidoPaterno + "' , '" + usuario.ApellidoMaterno + "' , '" + usuario.Correo + "' , '" + usuario.Telefono + "' , '" + usuario.Contra + @"'
+                                Execute itInsertNuevoUsuario '" + usuario.Nombre + "' , '" + usuario.NombreUsuario + "' , '" + usuario.ApellidoPaterno + "' , '" + usuario.ApellidoMaterno + "' , '" + usuario.Correo + "' , '" + usuario.Telefono + "' , '" + usuario.Contra + "' , '" + time.ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -57,9 +62,9 @@ namespace ProlappApi.Controllers
 
                 return "Added Successfully";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "Failed to Add";
+                return "Failed to Add" + ex;
             }
         }
 
@@ -97,12 +102,18 @@ namespace ProlappApi.Controllers
         {
             try
             {
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time = usuario.FechaUltimoAcceso;
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
 
 
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarUsuario " + usuario.IdUsuario + ",'" + usuario.Nombre + "','"+ usuario.NombreUsuario + "','" + usuario.ApellidoPaterno + "','" + usuario.ApellidoMaterno + "','" + usuario.Correo + "'," + usuario.Telefono + ",'" + usuario.Contra + @"'
+                                exec etEditarUsuario " + usuario.IdUsuario + ",'" + usuario.Nombre + "','"+ usuario.NombreUsuario + "','" + usuario.ApellidoPaterno + "','" + usuario.ApellidoMaterno + "','" + usuario.Correo + "'," + usuario.Telefono + ",'" + usuario.Contra + "' , '" + time.ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

@@ -46,7 +46,9 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevoClientes '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior + @"'
+                                Execute itInsertNuevoClientes '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
+                                "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
+                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -106,7 +108,9 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarClientes " + cliente.IdClientes + " , '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior + @"'
+                                exec etEditarCliente " + cliente.IdClientes + " , '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
+                                "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
+                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

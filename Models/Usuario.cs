@@ -16,6 +16,7 @@ namespace ProlappApi.Models
         public string Correo { get; set; }
         public string Telefono { get; set; }
         public string Contra { get; set; }
+        public DateTime FechaUltimoAcceso { get; set; }
 
 
 

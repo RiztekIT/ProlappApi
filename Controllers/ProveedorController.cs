@@ -43,7 +43,9 @@ namespace ProlappApi.Controllers
                 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevoProveedor '" + proveedor.Nombre + "' , '" + proveedor.RFC + "' , '" + proveedor.RazonSocial + "' , '" + proveedor.Calle + "' , '" + proveedor.Colonia + "' , '" + proveedor.CP + "' , '" + proveedor.Ciudad + "' , '" + proveedor.Estado + "' , '" + proveedor.NumeroInterior + "' , '" +proveedor.NumeroExterior + @"'
+                                Execute itInsertNuevoProveedor '" + proveedor.Nombre + "' , '" + proveedor.RFC + "' , '" + proveedor.RazonSocial + "' , '" + proveedor.Calle + "' , '" + proveedor.Colonia + "' , '" + proveedor.CP + "' , '" + proveedor.Ciudad + "' , '" + proveedor.Estado + "' , '" + proveedor.NumeroInterior + "' , '" + proveedor.NumeroExterior +
+                                "' , '" + proveedor.ClaveProveedor + "' , '" + proveedor.Estatus + "' , '" + proveedor.LimiteCredito + "' , '" + proveedor.DiasCredito + "' , '"  + 
+                                proveedor.MetodoPago + "' , '"  + proveedor.UsoCFDI + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -103,7 +105,9 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarProveedor " + proveedor.IdProveedor + " , '" + proveedor.Nombre + "' , '" + proveedor.RFC + "' , '" + proveedor.RazonSocial + "' , '" + proveedor.Calle + "' , '" + proveedor.Colonia + "' , '" + proveedor.CP + "' , '" + proveedor.Ciudad + "' , '" + proveedor.Estado + "' , '" + proveedor.NumeroInterior + "' , '" + proveedor.NumeroExterior + @"'
+                                exec etEditarProveedor " + proveedor.IdProveedor + " , '" + proveedor.Nombre + "' , '" + proveedor.RFC + "' , '" + proveedor.RazonSocial + "' , '" + proveedor.Calle + "' , '" + proveedor.Colonia + "' , '" + proveedor.CP + "' , '" + proveedor.Ciudad + "' , '" + proveedor.Estado + "' , '" + proveedor.NumeroInterior + "' , '" + proveedor.NumeroExterior +
+                                "' , '" + proveedor.ClaveProveedor + "' , '" + proveedor.Estatus + "' , '" + proveedor.LimiteCredito + "' , '" + proveedor.DiasCredito + "' , '" +
+                                proveedor.MetodoPago + "' , '" + proveedor.UsoCFDI + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

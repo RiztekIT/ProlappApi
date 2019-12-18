@@ -41,6 +41,7 @@ namespace ProlappApi.Models
         public string Vendedor { get; set; }
         public string Estatus { get; set; }
         public string Ver { get; set; }
+        public string Usuario { get; set; }
 
         //Detalle Factura
 
@@ -54,6 +55,7 @@ namespace ProlappApi.Models
         public string Cantidad { get; set; }
         public string Importe { get; set; }
         public string ObservacionesConcepto { get; set; }
+        public string TextoExtra { get; set; }
 
 
 

@@ -18,6 +18,12 @@ namespace ProlappApi.Models
         public string Estado { get; set; }
         public string NumeroInterior { get; set; }
         public string NumeroExterior { get; set; }
+        public string ClaveCliente {get; set;}
+        public string Estatus {get; set;}
+        public string LimiteCredito {get; set;}
+        public string DiasCredito {get; set;}
+        public string MetodoPago {get; set;}
+        public string UsoCFDI {get; set;}
 
-    }
+}
 }
