@@ -74,6 +74,7 @@ namespace ProlappApi.Controllers
 
             return folio;
         }
+        //Select detalle factura
         [Route("DetalleFactura")]
         public HttpResponseMessage GetDetalleFactura()
         {
@@ -125,7 +126,7 @@ namespace ProlappApi.Controllers
                                 + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"  
                                 + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '" 
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '" 
-                                + factura.Estatus + "' , '" + factura.Ver + @"'
+                                + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -145,9 +146,70 @@ namespace ProlappApi.Controllers
                 return "Failed to Add" + exe;
             }
         }
+        //Editar Factura
+        public string Put(Factura factura)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time = factura.FechaDeExpedicion;
+                DateTime time2 = factura.FechaVencimiento;
+                DateTime time3 = factura.FechaDeEntrega;
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+
+                string query = @"
+                                Execute itEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
+                                + factura.Serie + "' , '" + factura.Folio + "' , '"
+                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
+                                + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
+                                + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
+                                + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '"
+                                + factura.Descuento + "' , '" + factura.ImpuestosRetenidos + "' , '"
+                                + factura.ImpuestosTrasladados + "' , '" + factura.Total + "' , '"
+                                + factura.FormaDePago + "' , '" + factura.MetodoDePago + "' , '"
+                                + factura.Cuenta + "' , '" + factura.Moneda + "' , '"
+                                + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
+                                + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '"
+                                + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '"
+                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
+                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '"
+                                + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '"
+                                + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + @"'
+                                ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Updated Successfully";
+            }
+            catch (Exception exe)
+            {
+                return "Failed to Update" + exe;
+
+
+
+
+
+
+
+            }
+        }
         //Insert DetalleFactura
-        [Route("InsertDetalleFactura/{id}")]
-        public string PostDetalleFactura(Factura factura, int id)
+        [Route("InsertDetalleFactura")]
+        public string PostDetalleFactura(Factura factura)
         {
             try
             {
@@ -155,11 +217,11 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itNuevaDetalleFacturaId " + id + " , '"
-                                + factura.ClaveProducto + "' , '" + factura.Unidad + "' , '" + factura.Producto + "' , '" 
+                                Execute itInsertNuevaDetalleFacturaId " + factura.Id + " , '"
+                                + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
                                 + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '"
                                 + factura.Cantidad + "' , '" + factura.Importe + "' , '"
-                                + factura.Observaciones + @"'
+                                + factura.Observaciones + "' , '" + factura.TextoExtra + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
