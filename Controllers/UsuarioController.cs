@@ -9,6 +9,9 @@ using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Logging;
 
 namespace ProlappApi.Controllers
 {
@@ -31,6 +34,51 @@ namespace ProlappApi.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("api/usuario/login/")]
+        public string PostAut(Usuario usuario)
+        {
+            DataTable table = new DataTable();
+            
+
+            string query = @"select * from dbo.Usuario where NombreUsuario ='" +usuario.NombreUsuario+"' and contra='"+usuario.Contra+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                if (table.Rows.Count > 0)
+                {
+                    //var secretKey = ConfigurationManager.AppSettings["JWT_SECRET_KEY"];
+                    var secretKey = "RiztekTKey123456";
+                    var audienceToken = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
+                    var issuerToken = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
+                    var expireTime = ConfigurationManager.AppSettings["JWT_EXPIRE_MINUTES"];
+                    var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(secretKey));
+                    var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "Ivan2019") });
+                    IdentityModelEventSource.ShowPII = true;
+                    
+                    var tokenhandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var jwtSecurityToken = tokenhandler.CreateJwtSecurityToken(
+                        audience: audienceToken,
+                        issuer: issuerToken,
+                        subject: claimsIdentity,
+                        notBefore: DateTime.UtcNow,
+                        expires: DateTime.UtcNow.AddMinutes(1),
+                        signingCredentials: signingCredentials
+                        );
+                    var jwtTokenString = tokenhandler.WriteToken(jwtSecurityToken);
+                    return jwtTokenString;
+                }
+                else
+                {
+                    return "Error";
+                }
+            }
+
         }
 
 
