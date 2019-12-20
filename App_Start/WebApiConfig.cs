@@ -25,7 +25,7 @@ namespace ProlappApi
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(
                 new MediaTypeHeaderValue("text/html"));
 
-            config.EnableCors(new EnableCorsAttribute("http://localhost:4200", "*", "*"));
+            config.EnableCors(new EnableCorsAttribute("http://192.168.1.67:4200", "*", "*"));
         }
     }
 }
