@@ -24,6 +24,7 @@ namespace ProlappApi.Models
         public string DiasCredito {get; set;}
         public string MetodoPago {get; set;}
         public string UsoCFDI {get; set;}
+        public string IdApi { get; set; }
 
 }
 }

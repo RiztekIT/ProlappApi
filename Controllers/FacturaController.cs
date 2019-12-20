@@ -245,7 +245,7 @@ namespace ProlappApi.Controllers
         }
         //Insert DetalleFactura
         [Route("InsertDetalleFactura")]
-        public string PostDetalleFactura(Factura factura)
+        public string PostDetalleFactura(DetalleFactura factura)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevaDetalleFacturaId " + factura.Id + " , '"
+                                Execute itInsertNuevaDetalleFacturaId " + factura.IdFactura + " , '"
                                 + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
                                 + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '"
                                 + factura.Cantidad + "' , '" + factura.Importe + "' , '"
