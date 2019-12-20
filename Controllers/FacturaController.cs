@@ -34,6 +34,42 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Select Ultima Factura Creada
+        [Route("UltimaFactura")]
+        public HttpResponseMessage GetUltimaFactura()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX ( Factura.Id) + 1 as Id from Factura";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //Select Productos
+        [Route("getProductos")]
+        public HttpResponseMessage GetProductos()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from producto";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
         //Select  de Cierto Detalle de Factura
         [Route("DetalleFactura/{id}")]
         public HttpResponseMessage GetDetalleFacturaId(int id)
@@ -52,7 +88,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        //Select Folio y sumarle 1 para generarlo Unico`
+        //Select Folio 
         [Route("Folio")]
         public string GetFolio()
         {
@@ -110,7 +146,7 @@ namespace ProlappApi.Controllers
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
                 string query = @"
-                                Execute itNuevaFactura " + factura.IdCliente + " , '"
+                                Execute itInsertNuevaFactura " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '" 
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '" 
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '" 
@@ -164,7 +200,7 @@ namespace ProlappApi.Controllers
                 //time.ToString(format)
 
                 string query = @"
-                                Execute itEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
+                                Execute etEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '"
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
@@ -271,7 +307,7 @@ namespace ProlappApi.Controllers
                 return "Failed to Delete" + ex;
             }
         }
-        //Delete de Detalle Factura de una Factura
+        //Delete Detalle Factura en  especifico
         [Route("DeleteDetalleFactura/{id}")]
         public string DeleteDetalleFactura(int id)
         {
