@@ -52,6 +52,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Select Productos
+        [Route("getProductos")]
+        public HttpResponseMessage GetProductos()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from producto";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
         //Select  de Cierto Detalle de Factura
         [Route("DetalleFactura/{id}")]
         public HttpResponseMessage GetDetalleFacturaId(int id)
@@ -182,7 +200,7 @@ namespace ProlappApi.Controllers
                 //time.ToString(format)
 
                 string query = @"
-                                Execute itEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
+                                Execute etEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '"
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
