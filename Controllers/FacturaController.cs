@@ -76,7 +76,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleFactura where IdDetalle =" + id;
+            string query = @"select * from DetalleFactura where IdFactura =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
