@@ -279,7 +279,7 @@ namespace ProlappApi.Controllers
         }
         //Editar Factura
         [Route("UpdateDetalleFactura")]
-        public string Put(DetalleFactura detalleFactura)
+        public string PutDetalleFactura(DetalleFactura detalleFactura)
         {
             try
             {
