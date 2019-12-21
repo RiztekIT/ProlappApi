@@ -277,6 +277,41 @@ namespace ProlappApi.Controllers
                 return "Failed to Add" + exe;
             }
         }
+        //Editar Factura
+        [Route("UpdateDetalleFactura")]
+        public string Put(DetalleFactura detalleFactura)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute etEditarDetalleFactura " + detalleFactura.IdDetalle + " , '"
+                                + detalleFactura.ClaveProducto + "' , '" + detalleFactura.Producto + "' , '" + detalleFactura.Unidad + "' , '"
+                                + detalleFactura.ClaveSat + "' , '" + detalleFactura.PrecioUnitario + "' , '"
+                                + detalleFactura.Cantidad + "' , '" + detalleFactura.Importe + "' , '"
+                                + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + @"'
+                                ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Updated Successfully";
+            }
+            catch (Exception exe)
+            {
+                return "Failed to Update" + exe;
+
+            }
+        }
         //Borrar Factura incluyendo detalles de factura
         public string Delete(int id)
         {
