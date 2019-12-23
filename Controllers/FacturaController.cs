@@ -34,13 +34,51 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("FacturaCliente")]
+        public HttpResponseMessage GetFacturaCliente()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"exec jnFacturaCliente";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        [Route("id/{id}")]
+        public HttpResponseMessage GetFactura(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Factura where Id=" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Select Ultima Factura Creada
         [Route("UltimaFactura")]
         public HttpResponseMessage GetUltimaFactura()
         {
             DataTable table = new DataTable();
 
-            string query = @"select MAX ( Factura.Id) + 1 as Id from Factura";
+            
+            string query = @"select MAX (Factura.Id) + 1 as Id from Factura";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
