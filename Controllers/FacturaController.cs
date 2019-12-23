@@ -96,7 +96,7 @@ namespace ProlappApi.Controllers
             DataRow row;
             DataTable table = new DataTable();
 
-            string query = @"select top 1 folio from Factura order by folio desc";
+            string query = @"select MAX ( Factura.Folio) + 1 as Folio from Factura";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
