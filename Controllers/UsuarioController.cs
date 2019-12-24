@@ -108,11 +108,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Added Successfully";
+                return "Usuario Agregado";
             }
             catch (Exception ex)
             {
-                return "Failed to Add" + ex;
+                return "Se produjo un error" + ex;
             }
         }
 
@@ -138,11 +138,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Deleted Successfully";
+                return "Se Elimino Correctamente";
             }
             catch (Exception)
             {
-                return "Failed to Delete";
+                return "Se produjo un error";
             }
         }
 
@@ -174,11 +174,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Updated Successfully";
+                return "Se Actualizo Correctamente";
             }
             catch (Exception)
             {
-                return "Failed to Update";
+                return "Se produjo un error";
             }
         }
 

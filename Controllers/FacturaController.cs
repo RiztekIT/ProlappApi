@@ -213,11 +213,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Added Successfully";
+                return "Factura Agregada";
             }
             catch (Exception exe)
             {
-                return "Failed to Add" + exe;
+                return "Se produjo un error" + exe;
             }
         }
         //Editar Factura
@@ -267,11 +267,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Updated Successfully";
+                return "Actualizacion Exitosa";
             }
             catch (Exception exe)
             {
-                return "Failed to Update" + exe;
+                return "Se produjo un error" + exe;
 
 
 
@@ -308,11 +308,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Added Successfully";
+                return "Producto Agregado";
             }
             catch (Exception exe)
             {
-                return "Failed to Add" + exe;
+                return "Se produjo un error" + exe;
             }
         }
         //Editar Factura
@@ -342,11 +342,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Updated Successfully";
+                return "Actualizacion Existosa";
             }
             catch (Exception exe)
             {
-                return "Failed to Update" + exe;
+                return "Se produjo un error" + exe;
 
             }
         }
@@ -373,11 +373,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Deleted Successfully";
+                return "Se Elimino Correctamente";
             }
             catch (Exception ex)
             {
-                return "Failed to Delete" + ex;
+                return "Se produjo un error" + ex;
             }
         }
         //Delete Detalle Factura en  especifico
@@ -404,11 +404,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Deleted Successfully";
+                return "Se Elimino Correctamente";
             }
             catch (Exception ex)
             {
-                return "Failed to Delete" + ex;
+                return "Se produjo un error" + ex;
             }
         }
 
