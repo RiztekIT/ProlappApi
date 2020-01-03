@@ -189,9 +189,9 @@ namespace ProlappApi.Controllers
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '" 
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '" 
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '" 
-                                + factura.UsoDelCFDI + "' , '"+ factura.Subtotal + "' , '" 
+                                + factura.UsoDelCFDI + "' , '"+ factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '" 
                                 + factura.Descuento + "' , '" + factura.ImpuestosRetenidos + "' , '" 
-                                + factura.ImpuestosTrasladados + "' , '" + factura.Total + "' , '" 
+                                + factura.ImpuestosTrasladados + "' , '" + factura.ImpuestosTrasladadosDlls + "' , '"  + factura.Total + "' , '" + factura.TotalDlls + "' , '" 
                                 + factura.FormaDePago + "' , '" + factura.MetodoDePago + "' , '" 
                                 + factura.Cuenta + "' , '" + factura.Moneda + "' , '" 
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '" 
@@ -243,9 +243,9 @@ namespace ProlappApi.Controllers
                                 + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
-                                + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '"
+                                + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '" 
                                 + factura.Descuento + "' , '" + factura.ImpuestosRetenidos + "' , '"
-                                + factura.ImpuestosTrasladados + "' , '" + factura.Total + "' , '"
+                                + factura.ImpuestosTrasladados + "' , '" + factura.ImpuestosTrasladadosDlls + "' , '" + factura.Total + "' , '" + factura.TotalDlls + "' , '" 
                                 + factura.FormaDePago + "' , '" + factura.MetodoDePago + "' , '"
                                 + factura.Cuenta + "' , '" + factura.Moneda + "' , '"
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
@@ -293,8 +293,8 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute itInsertNuevaDetalleFacturaId " + factura.IdFactura + " , '"
                                 + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
-                                + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '"
-                                + factura.Cantidad + "' , '" + factura.Importe + "' , '"
+                                + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '" + factura.PrecioUnitarioDlls + "' , '" 
+                                + factura.Cantidad + "' , '" + factura.Importe + "' , '" + factura.ImporteDlls + "' , '" 
                                 + factura.Observaciones + "' , '" + factura.TextoExtra + @"'
                                 ";
 
@@ -327,8 +327,8 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute etEditarDetalleFactura " + detalleFactura.IdDetalle + " , '"
                                 + detalleFactura.ClaveProducto + "' , '" + detalleFactura.Producto + "' , '" + detalleFactura.Unidad + "' , '"
-                                + detalleFactura.ClaveSat + "' , '" + detalleFactura.PrecioUnitario + "' , '"
-                                + detalleFactura.Cantidad + "' , '" + detalleFactura.Importe + "' , '"
+                                + detalleFactura.ClaveSat + "' , '" + detalleFactura.PrecioUnitario + "' , '" + detalleFactura.PrecioUnitarioDlls + "' , '" 
+                                + detalleFactura.Cantidad + "' , '" + detalleFactura.Importe + "' , '"  + detalleFactura.ImporteDlls + "' , '" 
                                 + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + @"'
                                 ";
 

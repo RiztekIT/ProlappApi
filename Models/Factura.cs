@@ -19,10 +19,13 @@ namespace ProlappApi.Models
         public string UUID { get; set; }
         public string UsoDelCFDI { get; set; }
         public string Subtotal { get; set; }
+        public string SubtotalDlls { get; set; }
         public string Descuento { get; set; }
         public string ImpuestosRetenidos { get; set; }
         public string ImpuestosTrasladados { get; set; }
+        public string ImpuestosTrasladadosDlls { get; set; }
         public string Total { get; set; }
+        public string TotalDlls { get; set; }
         public string FormaDePago { get; set; }
         public string MetodoDePago { get; set; }
         public string Cuenta { get; set; }
