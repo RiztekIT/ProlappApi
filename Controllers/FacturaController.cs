@@ -52,6 +52,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("FacturaCliente/{id}")]
+        public HttpResponseMessage GetFacturaClienteId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where id =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("id/{id}")]
         public HttpResponseMessage GetFactura(int id)
@@ -115,6 +133,24 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from DetalleFactura where IdFactura =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("DetalleFacturaProducto/{id}")]
+        public HttpResponseMessage GetDetalleFacturaProductoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select DetalleFactura.*, Producto.* from DetalleFactura LEFT JOIN Producto on DetalleFactura.ClaveProducto=Producto.ClaveProducto where IdFactura =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

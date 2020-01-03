@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -155,6 +156,43 @@ namespace ProlappApi.Controllers
 
             }
         }
+        [Route("UID")]
+        public string PostUID(Cliente cliente)
+            {
+                try
+                {
+
+
+                    DataTable table = new DataTable();
+
+                    string query = @"update cliente set IdApi = "+cliente.IdApi+" where RFC='"+cliente.RFC+"'";
+
+                    using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                    using (var cmd = new SqlCommand(query, con))
+                    using (var da = new SqlDataAdapter(cmd))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        da.Fill(table);
+                    }
+
+
+
+                    return "UID Actualizado";
+                }
+                catch (Exception exe)
+                {
+                    return "Failed to Update" + exe;
+
+
+
+
+
+
+
+                }
+
+
+            }
 
 
 
