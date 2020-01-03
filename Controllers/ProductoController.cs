@@ -60,11 +60,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Added Successfully";
+                return "Producto Agregado";
             }
             catch (Exception exe)
             {
-                return "Failed to Add" + exe;
+                return "Se produjo un error" + exe;
             }
         }
 
@@ -90,11 +90,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Deleted Successfully";
+                return "Se Elimino Correctamente";
             }
             catch (Exception)
             {
-                return "Failed to Delete";
+                return "Se produjo un error";
             }
         }
 
@@ -123,11 +123,11 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Updated Successfully";
+                return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
             {
-                return "Failed to Update" + exe;
+                return "Se produjo un error" + exe;
 
 
 
