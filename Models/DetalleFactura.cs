@@ -20,6 +20,8 @@ namespace ProlappApi.Models
         public string ImporteDlls { get; set; }
         public string Observaciones { get; set; }
         public string TextoExtra { get; set; }
+        public string ImporteIVA { get; set; }
+        public string ImporteIVADlls { get; set; }
 
     }
 }

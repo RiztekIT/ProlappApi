@@ -144,7 +144,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
+        // Select Detalle Factura por id
         [Route("DetalleFacturaProducto/{id}")]
         public HttpResponseMessage GetDetalleFacturaProductoId(int id)
         {
@@ -331,7 +331,8 @@ namespace ProlappApi.Controllers
                                 + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
                                 + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '" + factura.PrecioUnitarioDlls + "' , '" 
                                 + factura.Cantidad + "' , '" + factura.Importe + "' , '" + factura.ImporteDlls + "' , '" 
-                                + factura.Observaciones + "' , '" + factura.TextoExtra + @"'
+                                + factura.Observaciones + "' , '" + factura.TextoExtra + "' , '"
+                                + factura.ImporteIVA + "' , '" + factura.ImporteIVADlls + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -365,7 +366,8 @@ namespace ProlappApi.Controllers
                                 + detalleFactura.ClaveProducto + "' , '" + detalleFactura.Producto + "' , '" + detalleFactura.Unidad + "' , '"
                                 + detalleFactura.ClaveSat + "' , '" + detalleFactura.PrecioUnitario + "' , '" + detalleFactura.PrecioUnitarioDlls + "' , '" 
                                 + detalleFactura.Cantidad + "' , '" + detalleFactura.Importe + "' , '"  + detalleFactura.ImporteDlls + "' , '" 
-                                + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + @"'
+                                + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + "' , '"
+                                + detalleFactura.ImporteIVA + "' , '" + detalleFactura.ImporteIVADlls + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
