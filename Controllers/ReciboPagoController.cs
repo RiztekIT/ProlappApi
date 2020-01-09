@@ -79,6 +79,7 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //put
         public string Put(ReciboPago ReciboPago)
         {
             try
