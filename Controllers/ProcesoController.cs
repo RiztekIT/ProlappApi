@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" exec stSelectTablaUsuario " ;
+            string query = @" select IdUsuario, Nombre, NombreUsuario, Correo, Telefono from Usuario ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
