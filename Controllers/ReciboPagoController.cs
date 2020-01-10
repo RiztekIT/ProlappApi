@@ -195,7 +195,7 @@ namespace ProlappApi.Controllers
         }
 
         //Join PagoCFDI con Facturas, donde el ID  de la factura sea el mismo y coincida con el IdRecibo
-        [Route("PagoCFDIFactura")]
+        [Route("PagoCFDIFactura/{id}")]
         public HttpResponseMessage GetPagoCFDIFactura(int id)
         {
             DataTable table = new DataTable();
