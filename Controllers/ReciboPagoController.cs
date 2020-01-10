@@ -200,7 +200,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"exec jnPagoCFDIFactura" + id;
+            /* string query = @"exec jnPagoCFDIFactura" + id;*/
+            string query = @"Select PagoCFDI.*, Factura.* from PagoCFDI LEFT JOIN Factura ON PagoCFDI.IdFactura = Factura.Id where IdReciboPago =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
