@@ -21,25 +21,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"exec stSelectTablaProceso";
-
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-            using (var cmd = new SqlCommand(query, con))
-            using (var da = new SqlDataAdapter(cmd))
-            {
-                cmd.CommandType = CommandType.Text;
-                da.Fill(table);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, table);
-        }
-
-        [Route("ProcesoArea")]
-        public HttpResponseMessage GetProcesoArea()
-        {
-            DataTable table = new DataTable();
-
-            string query = @"select Area from procesos";
+            string query = @"select Area from Procesos group by Area";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
