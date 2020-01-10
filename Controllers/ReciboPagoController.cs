@@ -194,13 +194,13 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        //Join PagoCFDI con Facturas, donde el ID  de la factura sea el mismo
+        //Join PagoCFDI con Facturas, donde el ID  de la factura sea el mismo y coincida con el IdRecibo
         [Route("PagoCFDIFactura")]
-        public HttpResponseMessage GetPagoCFDIFactura()
+        public HttpResponseMessage GetPagoCFDIFactura(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"exec jnPagoCFDIFactura";
+            string query = @"exec jnPagoCFDIFactura" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
