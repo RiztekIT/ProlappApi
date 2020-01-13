@@ -13,6 +13,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
+    [RoutePrefix("api/Empresa")]
     public class EmpresaController : ApiController
     {
 
@@ -37,7 +38,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select Foto from dbo.Empresa";
+            string query = @"select Foto from Empresa";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
