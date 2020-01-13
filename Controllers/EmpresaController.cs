@@ -32,6 +32,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("EmpresaFoto")]
+        public HttpResponseMessage GetEmpresaFoto()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Foto from dbo.Empresa";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         public string Put(Empresa empresa)
         {
@@ -44,7 +62,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarEmpresa " + empresa.IdEmpresa + " , '" + empresa.RFC + "' , '" + empresa.RazonSocial + "' , '" + empresa.Calle + "' , " + empresa.NumeroInterior + " , "
                                     + empresa.NumeroExterior + " , " + empresa.CP + " , '" + empresa.Colonia + "' , '" + empresa.Ciudad + "' , '" + empresa.Estado + "' , '" + empresa.Pais + "' , '"
-                                    + empresa.Regimen + @"'
+                                    + empresa.Regimen + "', " + empresa.Foto + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
