@@ -34,7 +34,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("ProcesoPrivilegio")]
+        [Route("ProcesoPrivilegio/{id}")]
         public HttpResponseMessage GetProcesoPrivilegio(int id)
         {
             DataTable table = new DataTable();
