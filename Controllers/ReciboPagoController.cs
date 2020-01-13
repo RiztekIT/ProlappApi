@@ -35,6 +35,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("ReciboPagoCliente")]
+        public HttpResponseMessage GetReciboPagoCliente()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"exec jnReciboPagoCliente";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
         public string Post(ReciboPago ReciboPago)
         {
             try
@@ -79,6 +99,7 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //put
         public string Put(ReciboPago ReciboPago)
         {
             try
@@ -161,6 +182,26 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from PagoCFDI";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Join PagoCFDI con Facturas, donde el ID  de la factura sea el mismo y coincida con el IdRecibo
+        [Route("PagoCFDIFactura/{id}")]
+        public HttpResponseMessage GetPagoCFDIFactura(int id)
+        {
+            DataTable table = new DataTable();
+
+            /* string query = @"exec jnPagoCFDIFactura" + id;*/
+            string query = @"Select PagoCFDI.*, Factura.* from PagoCFDI LEFT JOIN Factura ON PagoCFDI.IdFactura = Factura.Id where IdReciboPago =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

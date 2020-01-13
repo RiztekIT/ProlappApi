@@ -21,7 +21,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"exec stSelectTablaProceso";
+            string query = @"select Area from Procesos group by Area";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -34,25 +34,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("ProcesoArea")]
-        public HttpResponseMessage GetProcesoArea()
-        {
-            DataTable table = new DataTable();
-
-            string query = @"select Area from procesos";
-
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-            using (var cmd = new SqlCommand(query, con))
-            using (var da = new SqlDataAdapter(cmd))
-            {
-                cmd.CommandType = CommandType.Text;
-                da.Fill(table);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, table);
-        }
-
-        [Route("ProcesoPrivilegio")]
+        [Route("ProcesoPrivilegio/{id}")]
         public HttpResponseMessage GetProcesoPrivilegio(int id)
         {
             DataTable table = new DataTable();
@@ -75,7 +57,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" exec stSelectTablaUsuario " ;
+            string query = @" select IdUsuario, Nombre, NombreUsuario, Correo, Telefono from Usuario ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

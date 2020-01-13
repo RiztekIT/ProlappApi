@@ -317,6 +317,48 @@ namespace ProlappApi.Controllers
 
             }
         }
+        [Route("Cancelar/{id}")]
+        public string PutCancel(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+               
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+               
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+
+                string query = @"update Factura set Estatus='Cancelada' where Id="+id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Cancelacion Exitosa";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+
+
+
+
+
+
+            }
+        }
+
         //Insert DetalleFactura
         [Route("InsertDetalleFactura")]
         public string PostDetalleFactura(DetalleFactura factura)
