@@ -19,5 +19,6 @@ namespace ProlappApi.Models
         public string Estado { get; set; }
         public string Pais { get; set; }
         public string Regimen { get; set; }
+        public string Foto { get; set; }
     }
 }
