@@ -53,6 +53,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Select Id Ultimo Pago Recibo
+        [Route("UltimoReciboPago")]
+        public HttpResponseMessage GetUltimoReciboPago()
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @"select MAX(ReciboPago.Id) + 1 as Id from ReciboPago";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
         public string Post(ReciboPago ReciboPago)
