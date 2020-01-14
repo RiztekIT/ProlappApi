@@ -13,6 +13,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
+    [RoutePrefix("api/Empresa")]
     public class EmpresaController : ApiController
     {
 
@@ -32,6 +33,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("EmpresaFoto")]
+        public HttpResponseMessage GetEmpresaFoto()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Foto from Empresa from xml path";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         public string Put(Empresa empresa)
         {
