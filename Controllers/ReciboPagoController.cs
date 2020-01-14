@@ -73,6 +73,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Select ReciboPago por ID
+        [Route ("ReciboPagoId/{id}")]
+        public HttpResponseMessage GetReciboPagoId(int id)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @"Select * from ReciboPago where Id =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
         public string Post(ReciboPago ReciboPago)
