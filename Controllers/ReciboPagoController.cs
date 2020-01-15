@@ -94,7 +94,7 @@ namespace ProlappApi.Controllers
         }
 
         //Select Todas las facturas de IdCliente
-        [Route("ReciboPagoId/FacturaIdCliente/{id}")]
+        [Route("FacturaIdCliente/{id}")]
         public HttpResponseMessage GetFacturaIdCliente(int id)
         {
             DataTable table = new DataTable();
