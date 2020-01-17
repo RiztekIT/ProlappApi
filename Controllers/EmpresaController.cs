@@ -92,7 +92,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                  UPDATE TABLE EMPRESA SET Foto = BULKCOLUMN FROM Openrowset(Bulk'" + foto + "', single_Blob) as Foto  @";
+                                  UPDATE EMPRESA SET Foto = '" + foto + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -114,6 +114,6 @@ namespace ProlappApi.Controllers
 
    
 
-
+     
 
 }
