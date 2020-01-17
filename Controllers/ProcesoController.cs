@@ -94,7 +94,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" select NombreProceso from procesos where Area = " + areas;
+            string query = @" select NombreProceso from procesos where Area = '" + areas + "';"; 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
