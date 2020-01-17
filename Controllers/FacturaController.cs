@@ -203,6 +203,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Select Cliente dependiendo el IdFactura
+        [Route("FacturaClienteID/{id}")]
+        public HttpResponseMessage GetFacturaClienteID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Cliente where IdClientes =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Insert a Factura 
         public string Post(Factura factura)
         {
