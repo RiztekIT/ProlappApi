@@ -94,6 +94,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                   UPDATE EMPRESA SET Foto = '" + foto + "'";
 
+
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
                 using (var da = new SqlDataAdapter(cmd))
