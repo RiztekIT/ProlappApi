@@ -34,12 +34,12 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("ProcesoPrivilegio/{id}")]
-        public HttpResponseMessage GetProcesoPrivilegio(int id)
+        [Route("ProcesoPrivilegio")]
+        public HttpResponseMessage GetProcesoPrivilegio()
         {
             DataTable table = new DataTable();
 
-            string query = @" exec jnPrivilegiosUsuario " + id;
+            string query = @"	select distinct Area from Procesos";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
