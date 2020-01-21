@@ -109,6 +109,53 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("PermisoDelete/{id}/{id1}")]
+        public string Delete(int id, int id1)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" delete from privilegios where IdUsuario=" + id + " and idprocesos= " + id1 + ";";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return "Se elimino correctamente";
+        }
+
+        [Route("PermisoPost")]
+        public string Post(Privilegio privilegio)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itInsertNuevoPermiso '" + privilegio.IdUsuario + "' , '" + privilegio.IdProceso + @"'
+                                ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Permiso Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
 
     }
 }

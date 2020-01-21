@@ -8,7 +8,7 @@ namespace ProlappApi.Models
     public class Privilegio
     {
         public long IdPrivilegio { get; set; }
-        public long IdUsuairo { get; set; }
+        public long IdUsuario { get; set; }
         public long IdProceso { get; set; }
     }
 }
