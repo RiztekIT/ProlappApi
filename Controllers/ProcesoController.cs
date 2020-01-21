@@ -52,12 +52,13 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("ProcesoArea/{id}")]
-        public HttpResponseMessage GetProcesoArea(int id)
+        [Route("ProcesoArea")]
+        public HttpResponseMessage GetProcesoArea()
         {
             DataTable table = new DataTable();
 
-            string query = @" exec jnAreasUsuario " + id;
+            //string query = @" exec jnAreasUsuario " + id;
+            string query = @"	select distinct Area from Procesos";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -89,13 +90,13 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("ProcesoNombre/{areas}")]
-        public HttpResponseMessage GetProcesoNombre(string areas)
+        [Route("ProcesoNombre/{areas}/{id}")]
+        public HttpResponseMessage GetProcesoNombre(string areas, int id)
         {
             DataTable table = new DataTable();
 
             //string query = @" select NombreProceso from procesos where Area = '" + areas + "';";
-            string query = @" select * from procesos left join privilegios on Privilegios.IdProcesos=Procesos.idprocesos and Privilegios.IdUsuario=15 where area= '" + areas + "';";
+            string query = @" select * from procesos left join privilegios on Privilegios.IdProcesos=Procesos.idprocesos and Privilegios.IdUsuario="+ id +" where area= '" + areas + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

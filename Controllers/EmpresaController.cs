@@ -63,8 +63,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarEmpresa " + empresa.IdEmpresa + " , '" + empresa.RFC + "' , '" + empresa.RazonSocial + "' , '" + empresa.Calle + "' , " + empresa.NumeroInterior + " , "
                                     + empresa.NumeroExterior + " , " + empresa.CP + " , '" + empresa.Colonia + "' , '" + empresa.Ciudad + "' , '" + empresa.Estado + "' , '" + empresa.Pais + "' , '"
-                                    + empresa.Regimen + "', " + empresa.Foto + @"'
-                                ";
+                                    + empresa.Regimen + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -83,7 +82,7 @@ namespace ProlappApi.Controllers
             }
         }
         [Route("EditarEmpresaFoto")]
-        public string Postfoto(string foto)
+        public string Putfoto(Empresa empresa)
         {
             try
             {
@@ -92,7 +91,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                  UPDATE EMPRESA SET Foto = '" + foto + "'";
+                                  UPDATE EMPRESA SET Foto = '" + empresa.Foto + "';";
 
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -107,7 +106,7 @@ namespace ProlappApi.Controllers
             }
             catch (Exception exe)
             {
-                return "Se produjo un error" + exe;
+                return "Se produjo un error" + exe + empresa.Foto;
 
             }
         }
