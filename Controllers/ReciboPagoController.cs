@@ -120,11 +120,11 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total
+            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
-                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio
+                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id
                                 Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >0";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
