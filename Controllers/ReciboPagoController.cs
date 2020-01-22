@@ -113,6 +113,30 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Select de Facturas dependiendo Cliente, estatus timbrada, El saldo del PagoCFDI es mayor a 0
+        [Route("FacturaPagoCFDI/{id}")]
+        public HttpResponseMessage GetFacturaPagoCFDI(int id)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total
+                                from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
+                                where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
+                                where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
+                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio
+                                Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >0";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
         public string Post(ReciboPago ReciboPago)
