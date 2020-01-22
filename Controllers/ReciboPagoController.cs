@@ -120,12 +120,32 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id
+            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
                                 group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id
                                 Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >0";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Select de PagosCFDI
+        [Route("ReciboPagoCFDI/{id}")]
+        public HttpResponseMessage GetReciboPagoCFDI(int id)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @"  select * from PagoCFDI where PagoCFDI.IdReciboPago = " + id + " order by PagoCFDI.NoParcialidad ASC";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
