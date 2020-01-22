@@ -17,7 +17,7 @@ namespace ProlappApi.Controllers
             int iUploadedCnt = 0;
 
             string sPath = "";
-            sPath = System.Web.Hosting.HostingEnvironment.MapPath("~/FileTemps/");
+            sPath = System.Web.Hosting.HostingEnvironment.MapPath("C:/FileTemps/");
 
             System.Web.HttpFileCollection hfc = System.Web.HttpContext.Current.Request.Files;
 
