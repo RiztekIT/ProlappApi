@@ -127,15 +127,15 @@ namespace ProlappApi.Controllers
             return "Se elimino correctamente";
         }
 
-        [Route("PermisoPost")]
-        public string Post(Privilegio privilegio)
+        [Route("PermisoPost/{id}/{id1}")]
+        public string Post(int id, int id1)
         {
             try
             {
 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevoPermiso '" + privilegio.IdUsuario + "' , '" + privilegio.IdProceso + @"'
+                                Execute itInsertNuevoPermiso '" + id + "' , '" + id1 + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
