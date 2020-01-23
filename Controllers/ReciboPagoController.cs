@@ -137,6 +137,46 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Select de las facturas dependiendo el cliente y estatus timbrada (Se ejecutara cuando no haya ningun PagoCFDI correspondiente a ese recibo de pago)
+        [Route("FacturaPrimerPagoCFDI/{id}")]
+        public HttpResponseMessage GetFacturaPrimerPagoCFDI(int id)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @" Select * from Factura
+                             where Factura.IdCliente = " + id + @"
+                             and Factura.Estatus = 'Timbrada'";
+    
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //Obtener el Ultimo NoParcialidad y sumarle 1
+        [Route("UltimoNoParcialidad/{id}")]
+        public HttpResponseMessage GetUltimoNoParcialidad(int id)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @"  Select MAX((PagoCFDI.NoParcialidad)) + 1 as NoParcialidad from PagoCFDI where PagoCFDI.IdFactura = "+ id +"";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         //Select de PagosCFDI
         [Route("ReciboPagoCFDI/{id}")]
