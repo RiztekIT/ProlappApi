@@ -6,6 +6,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.IO;
 
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
 
 namespace ProlappApi.Controllers
 {
@@ -18,7 +22,7 @@ namespace ProlappApi.Controllers
 
             string sPath = "";
 
-            sPath = System.Web.Hosting.HostingEnvironment.MapPath("~/FileTemps");
+            sPath = System.Web.Hosting.HostingEnvironment.MapPath("~/FileTemps/");
 
 
             System.Web.HttpFileCollection hfc = System.Web.HttpContext.Current.Request.Files;
