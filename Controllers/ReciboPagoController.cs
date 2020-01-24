@@ -185,7 +185,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @"  select * from PagoCFDI where PagoCFDI.IdReciboPago = " + id + " order by PagoCFDI.NoParcialidad ASC";
+            string query = @"  select * from PagoCFDI where PagoCFDI.IdReciboPago = " + id + " order by PagoCFDI.Id ASC";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
