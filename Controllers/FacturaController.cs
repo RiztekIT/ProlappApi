@@ -201,6 +201,26 @@ namespace ProlappApi.Controllers
 
             return folio;
         }
+        //Join Clientes Factura
+        [Route("ClienteFactura/{id}")]
+        public string GetClienteFactura(int id)
+        {
+            
+            DataTable table = new DataTable();
+
+            string query = @"exec ClienteFactura"+ id ;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Select detalle factura
         [Route("DetalleFactura")]
         public HttpResponseMessage GetDetalleFactura()

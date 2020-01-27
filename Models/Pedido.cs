@@ -14,9 +14,9 @@ namespace ProlappApi.Models
         public string Descuento { get; set; }
         public string Total { get; set; }
         public string Observaciones { get; set; }
-        public string FechaVencimiento { get; set; }
+        public DateTime FechaVencimiento { get; set; }
         public string OrdenDeCompra { get; set; }
-        public string FechaDeEntrega { get; set; }
+        public DateTime FechaDeEntrega { get; set; }
         public string CondicionesDePago { get; set; }
         public string Vendedor { get; set; }
         public string Estatus { get; set; }
