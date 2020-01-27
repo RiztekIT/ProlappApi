@@ -69,6 +69,23 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("FacturaClienteFolio/{id}")]
+        public HttpResponseMessage GetFacturaClienteFolio(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where Folio =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
         [Route("id/{id}")]
