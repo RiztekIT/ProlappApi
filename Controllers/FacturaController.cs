@@ -201,7 +201,6 @@ namespace ProlappApi.Controllers
 
             return folio;
         }
-  
         //Select detalle factura
         [Route("DetalleFactura")]
         public HttpResponseMessage GetDetalleFactura()

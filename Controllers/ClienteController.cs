@@ -6,8 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-
-
 using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,10 +16,6 @@ namespace ProlappApi.Controllers
     [RoutePrefix("api/Cliente")]
     public class ClienteController : ApiController
     {
-
-
-
-       
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();

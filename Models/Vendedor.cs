@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web;
 
 namespace ProlappApi.Models
 {
-    public class VendedorController : ApiController
+    public class Vendedor
     {
         public long IdVendedor { get; set; }
         public string Nombre { get; set; }
