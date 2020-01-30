@@ -26,7 +26,7 @@ namespace ProlappApi.Models
         public string UsoCFDI {get; set;}
         public string IdApi { get; set; }
         public string MetodoPagoCliente { get; set; }
-        public string Vendedor { get; set; }
+        public int Vendedor { get; set; }
 
 }
 }
