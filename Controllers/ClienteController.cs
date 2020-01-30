@@ -67,7 +67,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute itInsertNuevoClientes '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
                                 "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
-                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + @"'
+                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + "' , '" + cliente.MetodoPagoCliente + "' , " + cliente.Vendedor + @"
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -129,7 +129,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarCliente " + cliente.IdClientes + " , '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
                                 "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
-                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + @"'
+                                cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + "' , '" + cliente.MetodoPagoCliente + "' , " + cliente.Vendedor + @"
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
