@@ -60,7 +60,7 @@ namespace ProlappApi.Controllers
             }
         }
 
-        public string Delete(Vendedor vendedor)
+        public string Delete(int Id)
         {
             try
             {
@@ -68,9 +68,9 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-
+                    
                 string query = @"
-                              exec dtBorrarVendedor " + vendedor.IdVendedor;
+                              exec dtBorrarVendedor " + Id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
