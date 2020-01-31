@@ -292,6 +292,7 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + exe;
             }
         }
+       
         //Editar Factura
         public string Put(Factura factura)
         {

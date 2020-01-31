@@ -338,6 +338,45 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Seleccionar el total de cierta Factura dependiendo  el id del PagoCFDI
+        [Route("TotalFactura/{id}")]
+        public HttpResponseMessage GetTotalFactura(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Total from Factura where id =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener pagocfdi en base a idFactura
+        [Route("PagoCFDIFacturaID/{id}")]
+        public HttpResponseMessage GetPagoCFDIFacturaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PagoCFDI where IdFactura =" + id + "order by Id ASC";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
         //Join PagoCFDI con Facturas, donde el ID  de la factura sea el mismo y coincida con el IdRecibo
         [Route("PagoCFDIFactura/{id}")]
         public HttpResponseMessage GetPagoCFDIFactura(int id)
