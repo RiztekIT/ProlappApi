@@ -68,7 +68,7 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Pedido Agregad";
+                return "Pedido Agregado";
             }
             catch (Exception exe)
             {
