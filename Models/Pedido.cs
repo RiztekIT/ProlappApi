@@ -24,6 +24,7 @@ namespace ProlappApi.Models
         public long Factura { get; set; }
         public string LugarDeEntrega { get; set; }
         public string Moneda { get; set; }
+        public string Prioridad { get; set;  }
 
 
     }
