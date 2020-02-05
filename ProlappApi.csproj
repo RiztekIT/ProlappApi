@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
+    <Compile Include="Controllers\FolioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
     <Compile Include="Controllers\ProcesoController.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\Folio.cs" />
     <Compile Include="Models\PagoCFDI.cs" />
     <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\PrecioLeche.cs" />

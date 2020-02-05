@@ -52,7 +52,7 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Cliente Agregado";
+                return "Vendedor Agregado";
             }
             catch (Exception exe)
             {
