@@ -51,12 +51,32 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Join de Pedido con cliente
         [Route("PedidoCliente")]
         public HttpResponseMessage GetPedidoCliente()
         {
             DataTable table = new DataTable();
 
             string query = @"Select Pedidos.*, Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes;";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalles de pedido dependiendo el id del pedido
+        [Route("DetallePedidoId/{id}")]
+        public HttpResponseMessage GetDetallePedidoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetallePedidos where IdPedido =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
