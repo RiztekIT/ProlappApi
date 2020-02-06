@@ -220,7 +220,99 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error";
             }
         }
+        //Agregar Detalle Pedido
+        [Route("InsertDetallePedido")] 
+        public string PostDetallePedido(DetallePedido dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itInsertNuevoDetallePedido " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
+                                + dp.Producto + "' , '" + dp.Unidad + "' , '"
+                                + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra +
+                                @"'";
 
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+        //Editar Detalle Pedido
+        [Route("EditDetallePedido")]
+        public string PutDetallePedido(DetallePedido dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute etEditarDetallePedido " + dp.IdDetallePedido + " , " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
+                                + dp.Producto + "' , '" + dp.Unidad + "' , '"
+                                + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra +
+                                @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error " + exe;
+            }
+        }
+        //Eliminar Detalle Pedido
+        [Route("DeleteDetallePedido/{id}")]
+        public string DeleteDetallePedido(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              exec dtBorrarDetallePedido " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
 
     }
 }
