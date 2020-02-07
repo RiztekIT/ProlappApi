@@ -314,5 +314,24 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("SumaImporte")]
+        public HttpResponseMessage GetSumaImporte()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as importeDlls FROM DetallePedidos";
+            
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
     }
 }
