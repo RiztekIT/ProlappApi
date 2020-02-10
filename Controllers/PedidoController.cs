@@ -231,8 +231,8 @@ namespace ProlappApi.Controllers
                                 Execute itInsertNuevoDetallePedido " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                                 + dp.Producto + "' , '" + dp.Unidad + "' , '"
                                 + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
-                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra +
-                                @"'";
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" 
+                                + dp.PrecioUnitarioDlls + "' , '" + dp.ImporteDlls + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -262,8 +262,8 @@ namespace ProlappApi.Controllers
                                 Execute etEditarDetallePedido " + dp.IdDetallePedido + " , " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                                 + dp.Producto + "' , '" + dp.Unidad + "' , '"
                                 + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
-                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra +
-                                @"'";
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" + dp.PrecioUnitarioDlls+ "' , '" 
+                                + dp.ImporteDlls + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

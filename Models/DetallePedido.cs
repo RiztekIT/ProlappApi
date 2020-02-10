@@ -19,6 +19,9 @@ namespace ProlappApi.Models
         public string Importe { get; set; }
         public string Observaciones { get; set; }
         public string TextoExtra { get; set; }
+        public string PrecioUnitarioDlls { get; set; }
+        public string ImporteDlls { get; set; }
+
 
     }
 }
