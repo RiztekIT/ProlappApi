@@ -333,5 +333,35 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+
+        //Editar Stock Product
+        [Route("EditStockProducto/{id}/{stock}")]
+        public string PutStockProducto(int id, string stock)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @" update Producto set Stock = '" + stock + "' where IdProducto = " + id + ";"; 
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Producto Stock Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error " + exe;
+            }
+        }
+
+
+
     }
 }
