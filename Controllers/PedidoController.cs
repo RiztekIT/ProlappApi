@@ -334,13 +334,13 @@ namespace ProlappApi.Controllers
         }
 
 
-        [Route("ProductoDetalleProducto/{ClaveProducto}")]
-        public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto)
+        [Route("ProductoDetalleProducto/{ClaveProducto}/{Id}")]
+        public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto, int Id)
         {
             DataTable table = new DataTable();
 
             string query = @"
-                             exec jnProductoDetalleProducto '" + ClaveProducto + "';";
+                             exec jnProductoDetalleProducto '" + ClaveProducto + "','"+Id+";";
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
