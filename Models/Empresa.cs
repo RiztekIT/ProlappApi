@@ -11,9 +11,9 @@ namespace ProlappApi.Models
         public string RFC { get; set; }
         public string RazonSocial { get; set; }
         public string Calle { get; set; }
-        public string NumeroInterior { get; set; }
-        public string NumeroExterior { get; set; }
-        public string CP { get; set; }
+        public int NumeroInterior { get; set; }
+        public int NumeroExterior { get; set; }
+        public int CP { get; set; }
         public string Colonia { get; set; }
         public string Ciudad { get; set; }
         public string Estado { get; set; }
