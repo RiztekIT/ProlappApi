@@ -117,9 +117,7 @@ namespace ProlappApi.Controllers
 
 
                 DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevaEmpresa '" + empresa.RFC + "' , '" + empresa.RazonSocial + "' , '" + empresa.Calle + "' , " + empresa.NumeroInterior + " , "  + empresa.NumeroExterior +  " , " + empresa.CP + " , '"
-                                 + empresa.Colonia + "' , '" + empresa.Ciudad + "' , '" + empresa.Estado + "' , '" + empresa.Pais + "' , '"  + empresa.Regimen +  @" ";
+                string query = @" Execute itInsertNuevaEmpresa '" + empresa.RFC + "' , '" + empresa.RazonSocial + "' , '" + empresa.Calle + "' , " + empresa.NumeroInterior + " , "  + empresa.NumeroExterior +  " , " + empresa.CP + " , '"  + empresa.Colonia + "' , '" + empresa.Ciudad + "' , '" + empresa.Estado + "' , '" + empresa.Pais + "' , '"  + empresa.Regimen +  "' , '" + empresa.Foto + "'" ;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -131,7 +129,7 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Cliente Agregado";
+                return "Empresa Agregada";
             }
             catch (Exception exe)
             {
