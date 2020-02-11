@@ -51,6 +51,44 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Join de Pedido con cliente
+        [Route("PedidoCliente")]
+        public HttpResponseMessage GetPedidoCliente()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select Pedidos.*, Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes order by IdPedido;";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalles de pedido dependiendo el id del pedido
+        [Route("DetallePedidoId/{id}")]
+        public HttpResponseMessage GetDetallePedidoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetallePedidos where IdPedido =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("UltimoPedido")]
         public HttpResponseMessage GetUtimoPedido()
         {
@@ -182,6 +220,147 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error";
             }
         }
+        //Agregar Detalle Pedido
+        [Route("InsertDetallePedido")] 
+        public string PostDetallePedido(DetallePedido dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itInsertNuevoDetallePedido " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
+                                + dp.Producto + "' , '" + dp.Unidad + "' , '"
+                                + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" 
+                                + dp.PrecioUnitarioDlls + "' , '" + dp.ImporteDlls + "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+        //Editar Detalle Pedido
+        [Route("EditDetallePedido")]
+        public string PutDetallePedido(DetallePedido dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute etEditarDetallePedido " + dp.IdDetallePedido + " , " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
+                                + dp.Producto + "' , '" + dp.Unidad + "' , '"
+                                + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" + dp.PrecioUnitarioDlls+ "' , '" 
+                                + dp.ImporteDlls + "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error " + exe;
+            }
+        }
+        //Eliminar Detalle Pedido
+        [Route("DeleteDetallePedido/{id}")]
+        public string DeleteDetallePedido(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              exec dtBorrarDetallePedido " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
+
+        [Route("SumaImporte")]
+        public HttpResponseMessage GetSumaImporte()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as importeDlls FROM DetallePedidos";
+            
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        //Editar Stock Product
+        [Route("EditStockProducto/{id}/{stock}")]
+        public string PutStockProducto(int id, string stock)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @" update Producto set Stock = '" + stock + "' where IdProducto = " + id + ";"; 
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Producto Stock Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error " + exe;
+            }
+        }
+
 
 
     }
