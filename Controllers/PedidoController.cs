@@ -33,7 +33,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        [Route ("PedidoId/{id}")]
+        [Route("PedidoId/{id}")]
         public HttpResponseMessage GetPedidoId(int id)
         {
             DataTable table = new DataTable();
@@ -164,7 +164,7 @@ namespace ProlappApi.Controllers
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
                 string query = @"
-                                Execute etEditarPedido " + pedido.IdPedido + " , "+ pedido.IdCliente + " , '" + pedido.Folio + "' , '"
+                                Execute etEditarPedido " + pedido.IdPedido + " , " + pedido.IdCliente + " , '" + pedido.Folio + "' , '"
                                 + pedido.Subtotal + "' , '" + pedido.Descuento + "' , '"
                                 + pedido.Total + "' , '" + pedido.Observaciones + "' , '"
                                 + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
@@ -221,7 +221,7 @@ namespace ProlappApi.Controllers
             }
         }
         //Agregar Detalle Pedido
-        [Route("InsertDetallePedido")] 
+        [Route("InsertDetallePedido")]
         public string PostDetallePedido(DetallePedido dp)
         {
             try
@@ -231,7 +231,7 @@ namespace ProlappApi.Controllers
                                 Execute itInsertNuevoDetallePedido " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                                 + dp.Producto + "' , '" + dp.Unidad + "' , '"
                                 + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
-                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" 
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '"
                                 + dp.PrecioUnitarioDlls + "' , '" + dp.ImporteDlls + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -262,7 +262,7 @@ namespace ProlappApi.Controllers
                                 Execute etEditarDetallePedido " + dp.IdDetallePedido + " , " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                                 + dp.Producto + "' , '" + dp.Unidad + "' , '"
                                 + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
-                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" + dp.PrecioUnitarioDlls+ "' , '" 
+                                + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '" + dp.PrecioUnitarioDlls + "' , '"
                                 + dp.ImporteDlls + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -320,7 +320,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as importeDlls FROM DetallePedidos";
-            
+
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -332,6 +332,5 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
     }
 }

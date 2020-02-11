@@ -47,7 +47,7 @@ namespace ProlappApi.Controllers
                                 Execute itInsertNuevoProducto '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
                                 "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
                                 + producto.Estatus + "' , '" + producto.UnidadMedida + "' , "  + producto.IVA + " , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + @"'
+                                "' , '" + producto.ClaveSAT + "' , " + producto.Categoria + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -110,7 +110,7 @@ namespace ProlappApi.Controllers
                                 exec etEditarProducto " + producto.IdProducto + " , '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
                                 "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
                                 + producto.Estatus + "' , '" + producto.UnidadMedida + "' , " + producto.IVA + " , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + @"'
+                                "' , '" + producto.ClaveSAT + "'," + producto.Categoria + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

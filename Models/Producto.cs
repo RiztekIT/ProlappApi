@@ -20,6 +20,7 @@ namespace ProlappApi.Models
         public string IVA { get; set; }
         public string CodigoBarras { get; set; }
         public string ClaveSAT { get; set; }
+        public string Categoria { get; set; }
 
     }
 }
