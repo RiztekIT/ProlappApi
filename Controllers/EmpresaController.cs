@@ -110,6 +110,34 @@ namespace ProlappApi.Controllers
 
             }
         }
+        public string Post(Empresa empresa)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itInsertNuevaEmpresa '" + empresa.RFC + "' , '" + empresa.RazonSocial + "' , '" + empresa.Calle + "' , " + empresa.NumeroInterior + " , "  + empresa.NumeroExterior +  " , " + empresa.CP + " , '"
+                                 + empresa.Colonia + "' , '" + empresa.Ciudad + "' , '" + empresa.Estado + "' , '" + empresa.Pais + "' , '"  + empresa.Regimen +  @" ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Cliente Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
     }
 
    
