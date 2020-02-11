@@ -340,7 +340,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"
-                             exec jnProductoDetalleProducto '" + ClaveProducto + "','"+Id+";";
+                             exec jnProductoDetalleProducto '" + ClaveProducto + "',"+Id+";";
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
