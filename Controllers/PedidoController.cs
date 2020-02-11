@@ -357,12 +357,12 @@ namespace ProlappApi.Controllers
 
         //Editar Stock Product
         [Route("EditStockProducto/{id}/{stock}")]
-        public string PutStockProducto(int id, string stock)
+        public string PutStockProducto(string id, string stock)
         {
             try
             {
                 DataTable table = new DataTable();
-                string query = @" update Producto set Stock = '" + stock + "' where IdProducto = " + id + ";";
+                string query = @" update Producto set Stock = '" + stock + "' where ClaveProducto = '" + id + "';";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
