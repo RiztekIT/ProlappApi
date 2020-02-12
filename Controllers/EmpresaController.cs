@@ -81,8 +81,8 @@ namespace ProlappApi.Controllers
 
             }
         }
-        [Route("EditarEmpresaFoto")]
-        public string Putfoto(Empresa empresa)
+        [Route("EditarEmpresaFoto/{Foto}/{Id}")]
+        public string Putfoto(string Foto, int Id)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                  UPDATE EMPRESA SET Foto = '" + empresa.Foto + "';";
+                                  UPDATE EMPRESA SET Foto = '" + Foto + "' where IdEmpresa =  " + Id + " ;";
 
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -106,7 +106,7 @@ namespace ProlappApi.Controllers
             }
             catch (Exception exe)
             {
-                return "Se produjo un error" + exe + empresa.Foto;
+                return "Se produjo un error" + exe + Foto;
 
             }
         }
