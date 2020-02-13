@@ -314,12 +314,12 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("SumaImporte")]
-        public HttpResponseMessage GetSumaImporte()
+        [Route("SumaImporte/{id}")]
+        public HttpResponseMessage GetSumaImporte(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as importeDlls FROM DetallePedidos";
+            string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as importeDlls FROM DetallePedidos where IdPedido=" +id;
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
