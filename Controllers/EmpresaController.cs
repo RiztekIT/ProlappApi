@@ -50,7 +50,23 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("LastEmpresa")]
+        public HttpResponseMessage GetLastEmpresa()
+        {
+            DataTable table = new DataTable();
 
+            string query = @"select top 1 IdEmpresa from Empresa order by IdEmpresa desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         public string Put(Empresa empresa)
         {
