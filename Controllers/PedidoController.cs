@@ -314,6 +314,38 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //Eliminar Detalle Pedido
+        [Route("DeleteAllDetallePedido/{id}")]
+        public string DeleteAllDetallePedido(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              Delete DetallePedidos where IdPedido = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
+
         [Route("SumaImporte/{id}")]
         public HttpResponseMessage GetSumaImporte(int id)
         {
