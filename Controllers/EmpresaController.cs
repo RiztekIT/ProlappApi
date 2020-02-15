@@ -33,6 +33,32 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("BorrarEmpresa/{id}")]
+        public string Delete(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" exec dtBorrarEmpresa " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+
         [Route("EmpresaFoto")]
         public HttpResponseMessage GetEmpresaFoto()
         {
