@@ -113,7 +113,8 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             
-            string query = @"select MAX (Factura.Id) + 1 as Id from Factura";
+            //string query = @"select MAX (Factura.Id) + 1 as Id from Factura";
+            string query = @"select IDENT_CURRENT( 'Factura' ) as Id from Factura";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -529,6 +530,35 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("DeleteFacturaCreada")]
+        public string DeleteFacturaCreada()
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"delete from factura where Estatus='Creada';";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Se produjo un error" + ex;
+            }
+        }
 
 
 
