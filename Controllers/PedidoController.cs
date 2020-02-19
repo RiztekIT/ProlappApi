@@ -365,6 +365,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("Folio")]
+        public HttpResponseMessage GetFolio()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX(Folio) as Folio from Pedidos";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("ProductoDetalleProducto/{ClaveProducto}/{Id}")]
         public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto, int Id)
