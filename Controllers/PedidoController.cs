@@ -384,6 +384,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("Vendedor")]
+        public HttpResponseMessage GetVendedor()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Vendedor";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("ProductoDetalleProducto/{ClaveProducto}/{Id}")]
         public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto, int Id)
