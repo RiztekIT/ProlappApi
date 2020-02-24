@@ -25,6 +25,9 @@ namespace ProlappApi.Models
         public string LugarDeEntrega { get; set; }
         public string Moneda { get; set; }
         public string Prioridad { get; set;  }
+        public string SubtotalDlls { get; set; }
+        public string DescuentoDlls { get; set; }
+        public string TotalDlls { get; set; }
 
 
     }
