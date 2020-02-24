@@ -22,5 +22,6 @@ namespace ProlappApi.Models
        public string USDA { get; set; }
        public string Shipper { get; set; }
        public string Pedimiento { get; set; }
+       public string Estatus { get; set; }
     }
 }
