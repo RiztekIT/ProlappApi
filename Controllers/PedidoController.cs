@@ -128,7 +128,8 @@ namespace ProlappApi.Controllers
                                 + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
-                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + @"'
+                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "', '" 
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -170,7 +171,8 @@ namespace ProlappApi.Controllers
                                 + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
-                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + @"'
+                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "' , '" 
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
