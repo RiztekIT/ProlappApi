@@ -20,6 +20,7 @@ namespace ProlappApi.Models
         public string Kilos { get; set; }
         public string Notas { get; set; }
         public string Usuario { get; set; }
+        public string Estatus { get; set; }
 
     }
 }
