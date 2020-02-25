@@ -34,6 +34,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("Checkbox/{ClaveSAT}")]
+        public HttpResponseMessage GetCheckbox(string ClaveSAT)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from UnidadMedida where ClaveSAT ='" + ClaveSAT + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
         public string Post(UnidadMedida um)
@@ -74,7 +92,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              Delete UnidadMedida where IdUnidadMedida = " + id;
+                              Delete UnidadMedida where ClaveSAT = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
