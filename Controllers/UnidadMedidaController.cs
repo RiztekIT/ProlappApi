@@ -92,7 +92,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              Delete UnidadMedida where IdUnidadMedida = " + id;
+                              Delete UnidadMedida where ClaveSAT = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
