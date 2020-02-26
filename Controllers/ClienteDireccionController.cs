@@ -135,6 +135,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //JOIN DIRECCION CLIENTE CON CLIENTE
+        [Route("JoinDireccionCliente")]
+        public HttpResponseMessage GetJoinDireccionCliente()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DireccionesCliente left join Cliente on Cliente.IdClientes = DireccionesCliente.IdCliente";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
     }
