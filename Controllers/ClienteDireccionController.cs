@@ -136,12 +136,12 @@ namespace ProlappApi.Controllers
         }
 
         //JOIN DIRECCION CLIENTE CON CLIENTE
-        [Route("JoinDireccionCliente")]
-        public HttpResponseMessage GetJoinDireccionCliente()
+        [Route("JoinDireccionCliente/{id}")]
+        public HttpResponseMessage GetJoinDireccionCliente(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DireccionesCliente left join Cliente on Cliente.IdClientes = DireccionesCliente.IdCliente";
+            string query = @"select * from DireccionesCliente left join Cliente on Cliente.IdClientes = DireccionesCliente.IdCliente where IdCliente = "+ id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
