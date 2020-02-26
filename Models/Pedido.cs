@@ -28,6 +28,7 @@ namespace ProlappApi.Models
         public string SubtotalDlls { get; set; }
         public string DescuentoDlls { get; set; }
         public string TotalDlls { get; set; }
+        public string Flete { get; set; }
 
 
     }
