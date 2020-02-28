@@ -153,7 +153,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec etEditarEstatusDetalleCarga " + ordencarga.IdOrdenCarga + " , '" + ordencarga.Estatus  +"'";
+                string query = @" exec etEditarEstatusDetalleCarga" + ordencarga.IdOrdenCarga + " , '" + ordencarga.Estatus  +"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

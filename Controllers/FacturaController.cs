@@ -561,6 +561,35 @@ namespace ProlappApi.Controllers
         }
 
 
+        [Route("EstatusFacturaPagada")]
+        public string PutEstatusDetalle(Factura factura)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @" exec etEditarEstatusFacturaPagada " + factura.Id +"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+
 
 
 
