@@ -55,11 +55,11 @@ namespace ProlappApi.Controllers
                                 Certificado, NumeroDeCertificado, UUID, UsoDelCFDI, Subtotal, Descuento, ImpuestosRetenidos, ImpuestosTrasladados,
                                 Total, FormaDePago, MetodoDePago, Cuenta, Moneda, CadenaOriginal, SelloDigitalSAT, SelloDigitalCFDI, NumeroDeSelloSAT,
 RFCDelPAC, Observaciones, FechaVencimiento, OrdenDeCompra, TipoDeCambio, FechaDeEntrega, CondicionesDePago, Vendedor,
-Estatus, Ver, Usuario, SubtotalDlls, ImpuestosTrasladadosDlls, TotalDlls)
+Estatus, Ver, Usuario, SubtotalDlls, ImpuestosTrasladadosDlls, TotalDlls, Relacion)
 values (" + nc.IdCliente + "," + nc.IdFactura + ", '" + nc.Serie + "'," + nc.Folio + ", '" + nc.Tipo + "', '" + time.ToString(format) + "', '" + nc.LugarDeExpedicion + "', '" + nc.Certificado + "', '" + nc.NumeroDeCertificado + "', '" + nc.UUID + "', '" + nc.UsoDelCFDI + "' , '" + nc.Subtotal + "','" + nc.Descuento +
 "', '" + nc.ImpuestosRetenidos + "', '" + nc.ImpuestosTrasladados + "', '" + nc.Total + "', '" + nc.FormaDePago + "', '" + nc.MetodoDePago + "', '" + nc.Cuenta + "', '" + nc.Moneda + "', '" + nc.CadenaOriginal + "', '" + nc.SelloDigitalSAT + "', '" + nc.SelloDigitalCFDI + "', '" + nc.NumeroDeSelloSAT +
 "', '" + nc.RFCdelPAC + "', '" + nc.Observaciones + "', '" + time2.ToString(format) + "', '" + nc.OrdenDeCompra + "', '" + nc.TipoDeCambio + "', '" + time3.ToString(format) + "', '" + nc.CondicionesDePago + "', '" + nc.Vendedor + "', '" + nc.Estatus + "', '" + nc.Ver + "', '" + nc.Usuario + "','" +
-nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls + "' );";
+nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls + "','"+ nc.Relacion +"' );";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -93,7 +93,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
                                 update NotaCredito set IdCliente = "+ nc.IdCliente +", IdFactura ="+ nc.IdFactura+ ", Serie = '"+nc.Serie+"', Folio ="+ nc.Folio +", Tipo = '"+ nc.Tipo+ "', FechaDeExpedicion = '"+ time.ToString(format) +"', LugarDeExpedicion = '" +nc.LugarDeExpedicion+"', Certificado= '"+nc.Certificado+ "', NumeroDeCertificado = '"+nc.NumeroDeCertificado+
                                 "',UUID='"+nc.UUID+"', UsoDelCFDI='"+nc.UsoDelCFDI+"', Subtotal='"+nc.Subtotal+"', Descuento= '"+nc.Descuento+"', ImpuestosRetenidos = '"+nc.ImpuestosRetenidos+"', ImpuestosTrasladados = '"+nc.ImpuestosTrasladados+"', Total = '"+nc.Total+"', FormaDePago = '"+nc.FormaDePago+"', MetodoDePago = '"+nc.MetodoDePago+"',"+
                                 "Cuenta= '"+nc.Cuenta+"', Moneda='"+ nc.Moneda+"', CadenaOriginal='"+nc.CadenaOriginal+"', SelloDigitalSAT='"+nc.SelloDigitalSAT+"', SelloDigitalCFDI = '"+nc.SelloDigitalCFDI+"', NumeroDeSelloSAT = '"+nc.NumeroDeSelloSAT+"', RFCDelPAC = '"+nc.RFCdelPAC+"', Observaciones='"+nc.Observaciones+"', FechaVencimiento='"+time2.ToString(format)+
-                    "',OrdenDeCompra ='"+nc.OrdenDeCompra+"', TipoDeCambio='"+nc.TipoDeCambio+"', FechaDeEntrega='"+time3.ToString(format)+"', CondicionesDePago='"+nc.CondicionesDePago+"', Vendedor='"+nc.Vendedor+"', Estatus='"+nc.Estatus+"', Ver='"+nc.Ver+"', Usuario='"+nc.Usuario+"', SubtotalDlls='"+nc.SubtotalDlls+"', ImpuestosTrasladadosDlls='"+nc.ImpuestosTrasladadosDlls+"',TotalDlls='"+nc.TotalDlls+"' where IdNotaCredito = 1;";
+                    "',OrdenDeCompra ='"+nc.OrdenDeCompra+"', TipoDeCambio='"+nc.TipoDeCambio+"', FechaDeEntrega='"+time3.ToString(format)+"', CondicionesDePago='"+nc.CondicionesDePago+"', Vendedor='"+nc.Vendedor+"', Estatus='"+nc.Estatus+"', Ver='"+nc.Ver+"', Usuario='"+nc.Usuario+"', SubtotalDlls='"+nc.SubtotalDlls+"', ImpuestosTrasladadosDlls='"+nc.ImpuestosTrasladadosDlls+"',TotalDlls='"+nc.TotalDlls+"', Relacion='"+ nc.Relacion+ "' where IdNotaCredito ="+ nc.IdNotaCredito+";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

@@ -47,6 +47,7 @@ namespace ProlappApi.Models
         public string Estatus { get; set; }
         public string Ver { get; set; }
         public string Usuario { get; set; }
+        public string Relacion { get; set; }
 
     }
 }
