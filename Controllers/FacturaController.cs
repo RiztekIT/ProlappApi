@@ -561,7 +561,7 @@ namespace ProlappApi.Controllers
         }
 
 
-        [Route("EstatusFacturaPagada")]
+        [Route("Pagada")]
         public string PutEstatusDetalle(Factura factura)
         {
             try
