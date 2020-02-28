@@ -116,8 +116,6 @@ namespace ProlappApi.Controllers
         {
             try
             {
-
-
                 DataTable table = new DataTable();
 
                 string query = @"
@@ -131,19 +129,11 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-
-
                 return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
             {
                 return "Se produjo un error" + exe;
-
-
-
-
-
-
 
             }
         }
