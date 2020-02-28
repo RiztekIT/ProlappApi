@@ -33,6 +33,23 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("NotaDetalle")]
+        public HttpResponseMessage GetFacturaCliente()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"exec jnNotaDetalleCredito";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         //Insert Nota Credito
         public string Post(NotaCredito nc)
@@ -141,6 +158,30 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
                 return "Se produjo un error";
             }
         }
+        [Route("DeleteNotaCreada")]
+        public string DeleteFacturaCreada()
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"delete from NotaCredito where Estatus='Creada';";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Se produjo un error" + ex;
+            }
+        }
 
         //Obtener Detalle Nota Credito
         [Route("DetalleNotaCredito")]
@@ -149,6 +190,23 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             DataTable table = new DataTable();
 
             string query = @"Select * from DetalleNotaCredito;";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetDetalleNotaCredito/{id}")]
+        public HttpResponseMessage GetDetalleFacturaId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleNotaCredito where IdDetalleNotaCredito =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
