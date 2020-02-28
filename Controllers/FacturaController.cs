@@ -570,7 +570,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec etEditarEstatusFacturaPagada " + factura.Id +"";
+                string query = @" exec etEditarEstatusFacturaPagada " + factura.UUID +"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
