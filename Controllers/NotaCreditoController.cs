@@ -246,7 +246,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleNotaCredito where IdDetalleNotaCredito =" + id;
+            string query = @"select * from DetalleNotaCredito where IdNotaCredito =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
