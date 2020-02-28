@@ -561,8 +561,8 @@ namespace ProlappApi.Controllers
         }
 
 
-        [Route("Pagada")]
-        public string PutEstatusDetalle(Factura factura)
+        [Route("Pagada/{UUID}")]
+        public string PutEstatusDetalle(string UUID)
         {
             try
             {
@@ -570,7 +570,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec etEditarEstatusFacturaPagada " + factura.UUID +"";
+                string query = @" exec etEditarEstatusFacturaPagada " + UUID;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
