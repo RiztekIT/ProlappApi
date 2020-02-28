@@ -56,7 +56,7 @@ namespace ProlappApi.Controllers
                                 Total, FormaDePago, MetodoDePago, Cuenta, Moneda, CadenaOriginal, SelloDigitalSAT, SelloDigitalCFDI, NumeroDeSelloSAT,
 RFCDelPAC, Observaciones, FechaVencimiento, OrdenDeCompra, TipoDeCambio, FechaDeEntrega, CondicionesDePago, Vendedor,
 Estatus, Ver, Usuario, SubtotalDlls, ImpuestosTrasladadosDlls, TotalDlls, Relacion)
-values (" + nc.IdCliente + "," + nc.IdFactura + ", '" + nc.Serie + "'," + nc.Folio + ", '" + nc.Tipo + "', '" + time.ToString(format) + "', '" + nc.LugarDeExpedicion + "', '" + nc.Certificado + "', '" + nc.NumeroDeCertificado + "', '" + nc.UUID + "', '" + nc.UsoDelCFDI + "' , '" + nc.Subtotal + "','" + nc.Descuento +
+values (" + nc.IdCliente + "," + nc.IdFactura + ", '" + nc.Serie + "','" + nc.Folio + "', '" + nc.Tipo + "', '" + time.ToString(format) + "', '" + nc.LugarDeExpedicion + "', '" + nc.Certificado + "', '" + nc.NumeroDeCertificado + "', '" + nc.UUID + "', '" + nc.UsoDelCFDI + "' , '" + nc.Subtotal + "','" + nc.Descuento +
 "', '" + nc.ImpuestosRetenidos + "', '" + nc.ImpuestosTrasladados + "', '" + nc.Total + "', '" + nc.FormaDePago + "', '" + nc.MetodoDePago + "', '" + nc.Cuenta + "', '" + nc.Moneda + "', '" + nc.CadenaOriginal + "', '" + nc.SelloDigitalSAT + "', '" + nc.SelloDigitalCFDI + "', '" + nc.NumeroDeSelloSAT +
 "', '" + nc.RFCdelPAC + "', '" + nc.Observaciones + "', '" + time2.ToString(format) + "', '" + nc.OrdenDeCompra + "', '" + nc.TipoDeCambio + "', '" + time3.ToString(format) + "', '" + nc.CondicionesDePago + "', '" + nc.Vendedor + "', '" + nc.Estatus + "', '" + nc.Ver + "', '" + nc.Usuario + "','" +
 nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls + "','"+ nc.Relacion +"' );";
