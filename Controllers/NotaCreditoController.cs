@@ -206,7 +206,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
         //Obtener DetalleNotaCredito en base a IDNOTACREDITO
         [Route("DetalleNotaCreditoID/{id}")]
         public HttpResponseMessage GetDetalleNotaCreditoID(int id)
-        {
+            {
             DataTable table = new DataTable();
 
             string query = @"select * from DetalleNotaCredito where IdNotaCredito ="+ id;
@@ -241,6 +241,27 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        //Obtener Ultima Nota de credito de una factura en especifico por Id Factura
+        [Route("UltimaNotaCreditoFacturaID/{id}")]
+        public HttpResponseMessage UltimaNotaCreditoFacturaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 * from NotaCredito where IdFactura ="+ id + " order by IdNotaCredito DESC";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //GET detalle Nota Credito por ID
         [Route("GetDetalleNotaCredito/{id}")]
         public HttpResponseMessage GetDetalleFacturaId(int id)
         {
