@@ -183,6 +183,46 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             }
         }
 
+
+        //Obtener Ultima Nota Credito
+        [Route("UltimaNotaCredito")]
+        public HttpResponseMessage GetUltimaNotaCredito()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX(NotaCredito.IdNotaCredito) as Id from NotaCredito;";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener DetalleNotaCredito en base a IDNOTACREDITO
+        [Route("DetalleNotaCreditoID/{id}")]
+        public HttpResponseMessage GetDetalleNotaCreditoID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleNotaCredito where IdNotaCredito ="+ id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
         //Obtener Detalle Nota Credito
         [Route("DetalleNotaCredito")]
         public HttpResponseMessage GetDetalleNotaCredito()
