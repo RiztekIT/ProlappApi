@@ -114,8 +114,8 @@ namespace ProlappApi.Controllers
         }
 
         //Select de Facturas dependiendo Cliente, estatus timbrada, El saldo del PagoCFDI es mayor a 0
-        [Route("FacturaPagoCFDI/{id}")]
-        public HttpResponseMessage GetFacturaPagoCFDI(int id)
+        [Route("FacturaPagoCFDI/{id}/{folio}")]
+        public HttpResponseMessage GetFacturaPagoCFDI(int id, int folio)
         {
             DataTable table = new DataTable();
 
@@ -124,6 +124,7 @@ namespace ProlappApi.Controllers
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
+                                and Factura.Folio="+ folio + @"
                                 group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id
                                 Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >0";
 
@@ -185,7 +186,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @"  select * from PagoCFDI where PagoCFDI.IdReciboPago = " + id + " order by PagoCFDI.Id ASC";
+            string query = @"  select PagoCFDI.*,Factura.* from PagoCFDI left join Factura on PagoCFDI.IdFactura=Factura.Id where PagoCFDI.IdReciboPago = " + id + " order by PagoCFDI.Id ASC";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -475,6 +476,36 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                               exec dtBorrarPagoCFDI " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Se produjo un error" + ex;
+            }
+        }
+
+        [Route("DeletePagoCreado")]
+        public string DeletePagoCreado()
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"delete from ReciboPago where Estatus='Creada';";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
