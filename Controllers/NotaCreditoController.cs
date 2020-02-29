@@ -280,6 +280,25 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Get ultimo Folio Nota Credito y sumarle 1
+        [Route("GetUltimoFolio")]
+        public HttpResponseMessage GetUltimoFolio()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX (Folio) + 1 as Folio from NotaCredito";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Insertar Detalle Nota Credito
         [Route("InsertDetalleNotaCredito")]
         public string PostDetalleNotaCredito(DetalleNotaCredito d)
