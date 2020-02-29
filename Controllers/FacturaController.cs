@@ -594,7 +594,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select idcliente,Folio,Tipo,FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente=" + id + "union all select idcliente,Folio,Tipo,FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente=" + id +" order by FechaDeExpedicion desc ";
+            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
