@@ -306,6 +306,8 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             DataTable table = new DataTable();
 
             string query = @"select * from DetalleNotaCredito where IdNotaCredito =" + id;
+<<<<<<< HEAD
+=======
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -325,6 +327,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             DataTable table = new DataTable();
 
             string query = @"select MAX (Folio) + 1 as Folio from NotaCredito";
+>>>>>>> 13e56b8e905ee3ee5f1e995952ff37a30fee6c9c
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

@@ -589,10 +589,22 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("Reporte/{id}")]
+        public HttpResponseMessage GetReporte(int id)
+        {
+            DataTable table = new DataTable();
 
+            string query = @"select idcliente,Folio,Tipo,FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente=" + id + "union all select idcliente,Folio,Tipo,FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente=" + id +" order by FechaDeExpedicion desc ";
 
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
 
-
-
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
     }
 }
