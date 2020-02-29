@@ -59,8 +59,9 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-
-            string query = @"select MAX(ReciboPago.Id) + 1 as Id from ReciboPago";
+            
+            string query = @"select IDENT_CURRENT( 'ReciboPago' ) as Id from ReciboPago";
+            //string query = @"select MAX(ReciboPago.Id) + 1 as Id from ReciboPago";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
