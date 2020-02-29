@@ -203,6 +203,24 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             }
         }
 
+        //Obtener SUMA de cantidades de detalles en base a una factura
+        [Route("SumaCantidades/{id}/{clave}")]
+        public HttpResponseMessage GetUltimaNotaCredito(int id, string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select sum(Convert(float,Cantidad)) as Cantidad from DetalleNotaCredito where IdNotaCredito in (select IdNotaCredito from NotaCredito where IdFactura="+ id +") and ClaveProducto='"+ clave +"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         //Obtener Ultima Nota Credito
         [Route("UltimaNotaCredito")]
