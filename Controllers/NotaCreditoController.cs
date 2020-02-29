@@ -244,7 +244,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
 
         //Obtener Ultima Nota de credito de una factura en especifico por Id Factura
         [Route("UltimaNotaCreditoFacturaID/{id}")]
-        public HttpResponseMessage UltimaNotaCreditoFacturaID(int id)
+        public HttpResponseMessage GetUltimaNotaCreditoFacturaID(int id)
         {
             DataTable table = new DataTable();
 
