@@ -202,6 +202,30 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
                 return "Se produjo un error" + ex;
             }
         }
+        [Route("DeleteAllDetalleNotaCredito/{id}")]
+        public string DeleteAllDetalleNotaCredito(int id)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"delete from DetalleNotaCredito where IdNotaCredito="+id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Se produjo un error" + ex;
+            }
+        }
 
         //Obtener SUMA de cantidades de detalles en base a una factura
         [Route("SumaCantidades/{id}/{clave}")]
