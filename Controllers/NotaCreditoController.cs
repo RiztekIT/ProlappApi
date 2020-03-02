@@ -202,6 +202,7 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
                 return "Se produjo un error" + ex;
             }
         }
+        //Eliminar todas las notas de credito correspondientes a cierta nota de credito
         [Route("DeleteAllDetalleNotaCredito/{id}")]
         public string DeleteAllDetalleNotaCredito(int id)
         {
