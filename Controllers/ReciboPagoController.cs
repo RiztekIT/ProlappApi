@@ -121,13 +121,13 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
+            string query = @" Select Factura.Folio,PagoCFDI.IdReciboPago, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
                                 and Factura.Folio="+ folio + @"
-                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id
-                                Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >0";
+                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id, PagoCFDI.IdReciboPago
+                                Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >=0";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
