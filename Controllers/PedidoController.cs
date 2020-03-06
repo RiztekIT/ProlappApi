@@ -89,6 +89,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener direcciones de cierto cliente por ID
+        [Route("DireccionCliente/{id}")]
+        public HttpResponseMessage GetDireccionCliente(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DireccionesCliente where IdCliente =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("UltimoPedido")]
         public HttpResponseMessage GetUtimoPedido()
         {
