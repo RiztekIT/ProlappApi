@@ -108,6 +108,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener direcciones por ID Direccion
+        [Route("DireccionID/{id}")]
+        public HttpResponseMessage GetDireccionID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DireccionesCliente where IdDireccion =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("UltimoPedido")]
         public HttpResponseMessage GetUtimoPedido()
         {
@@ -148,7 +167,7 @@ namespace ProlappApi.Controllers
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
                                 + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "', '" 
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete +  @"'
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + " , " + pedido.IdDireccion +  @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -191,7 +210,7 @@ namespace ProlappApi.Controllers
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
                                 + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "' , '" 
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + @"'
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + " , " + pedido.IdDireccion + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
