@@ -77,7 +77,7 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + exe;
             }
         }
-
+        [Route("{id}")]
         public string Delete(int Id)
         {
             try
