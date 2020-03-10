@@ -106,6 +106,27 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Recibo pago JOIN pagos CFDI correspondientes a esa Factura
+        [Route("PagoCFDI/{id}")]
+        public HttpResponseMessage GetPagoCFDI(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select PagoCFDI.*, ReciboPago.* from PagoCFDI left join ReciboPago ON PagoCFDI.IdReciboPago = ReciboPago.Id where IdFactura =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
         //Select Ultima Factura Creada
         [Route("UltimaFactura")]
         public HttpResponseMessage GetUltimaFactura()
