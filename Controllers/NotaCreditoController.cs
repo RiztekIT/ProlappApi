@@ -344,6 +344,26 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener CIERTO DETALLE FACTURA por IdFactura y Clave Producto
+         [Route("GetDetalleFactura/{id}/{clave}")]
+        public HttpResponseMessage GetDetalleFacturaId(int id, string clave)
+        {
+            DataTable table = new DataTable();
+                    
+            string query = @"select * from DetalleFactura where IdFactura = "+ id + " and ClaveProducto = '"+ clave +"';";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Get ultimo Folio Nota Credito y sumarle 1
         [Route("GetUltimoFolio")]
         public HttpResponseMessage GetUltimoFolio()
@@ -352,6 +372,24 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
 
             string query = @"select MAX (Folio) + 1 as Folio from NotaCredito";
 
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("NCClienteFolio/{id}")]
+        public HttpResponseMessage GetFacturaClienteFolio(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select NotaCredito.* ,Cliente.* from NotaCredito LEFT JOIN Cliente ON NotaCredito.IdCliente = Cliente.IdClientes where Folio =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

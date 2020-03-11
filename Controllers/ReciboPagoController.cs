@@ -365,7 +365,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from PagoCFDI where IdFactura =" + id + "order by Id ASC";
+            //string query = @"select * from PagoCFDI where IdFactura =" + id + "order by Id ASC";
+            string query = @"select PagoCFDI.*, ReciboPago.* from PagoCFDI left join ReciboPago on PagoCFDI.IdReciboPago=ReciboPago.Id where PagoCFDI.IdFactura =" + id + "order by ReciboPago.Estatus ASC";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

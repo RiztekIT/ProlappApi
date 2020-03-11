@@ -14,7 +14,7 @@ using System.Configuration;
 namespace ProlappApi.Controllers
 {
 
- 
+    [RoutePrefix("api/Vendedor")]
     public class VendedorController : ApiController
     {
         public HttpResponseMessage Get()
@@ -22,6 +22,24 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from Vendedor";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("{id}")]
+        public HttpResponseMessage GetVendedorId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Vendedor where IdVendedor = "+ id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -59,7 +77,7 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + exe;
             }
         }
-
+        [Route("{id}")]
         public string Delete(int Id)
         {
             try

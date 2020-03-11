@@ -29,6 +29,7 @@ namespace ProlappApi.Models
         public string DescuentoDlls { get; set; }
         public string TotalDlls { get; set; }
         public string Flete { get; set; }
+        public long IdDireccion { get; set; }
 
 
     }

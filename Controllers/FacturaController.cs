@@ -106,6 +106,27 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Recibo pago JOIN pagos CFDI correspondientes a esa Factura
+        [Route("PagoCFDI/{id}")]
+        public HttpResponseMessage GetPagoCFDI(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select PagoCFDI.*, ReciboPago.* from PagoCFDI left join ReciboPago ON PagoCFDI.IdReciboPago = ReciboPago.Id where IdFactura =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
         //Select Ultima Factura Creada
         [Route("UltimaFactura")]
         public HttpResponseMessage GetUltimaFactura()
@@ -594,9 +615,10 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id +" order by FechaDeExpedicion desc ";
+            //string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id +" order by FechaDeExpedicion desc ";
+            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id + " union all select Idcliente, Id    ,Tipo, FechaExpedicion, Cantidad, Moneda, TipoCambio, Cantidad from ReciboPago where IdCliente= " + id + " order by FechaDeExpedicion desc ";
 
-           // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
+            // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
