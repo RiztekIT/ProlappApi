@@ -344,6 +344,26 @@ nc.SubtotalDlls + "', '" + nc.ImpuestosTrasladadosDlls + "', '" + nc.TotalDlls +
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener CIERTO DETALLE FACTURA por IdFactura y Clave Producto
+         [Route("GetDetalleFactura/{id}/{clave}")]
+        public HttpResponseMessage GetDetalleFacturaId(int id, string clave)
+        {
+            DataTable table = new DataTable();
+                    
+            string query = @"select * from DetalleFactura where IdFactura = "+ id + " and ClaveProducto = '"+ clave +"';";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Get ultimo Folio Nota Credito y sumarle 1
         [Route("GetUltimoFolio")]
         public HttpResponseMessage GetUltimoFolio()
