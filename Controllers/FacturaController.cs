@@ -294,8 +294,7 @@ namespace ProlappApi.Controllers
                                 + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"  
                                 + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '" 
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '" 
-                                + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + @"'
-                                ";
+                                + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + "' exec itInsertarNuevoSaldo " + factura.Folio + " , '" + factura.Total +"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

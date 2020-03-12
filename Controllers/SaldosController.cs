@@ -87,7 +87,7 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
-                string query = @" Execute itInsertarNuevoSaldo " +saldos.IdFactura+ " , '" +saldos.SaldoPendiente+ "'";
+                string query = @" Execute itInsertarNuevoSaldo " +saldos.Folio+ " , '" +saldos.SaldoPendiente+ "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -104,11 +104,11 @@ namespace ProlappApi.Controllers
             }
         }
         [Route("SaldoFactura/{id}")]
-        public HttpResponseMessage GetFacturaClienteId(int id)
+        public HttpResponseMessage GetFacturaClienteId(string Folio)
         {
             DataTable table = new DataTable();
 
-            string query = @"select Factura.* ,Saldos.* from Factura left join Saldos ON Factura.Id = Saldos.IdFactura where Id =" + id;
+            string query = @"select Factura.* ,Saldos.* from Factura left join Saldos ON Factura.Folio = Saldos.Folio where Saldos.Folio =" + Folio;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

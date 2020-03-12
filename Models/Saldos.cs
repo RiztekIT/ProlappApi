@@ -8,7 +8,7 @@ namespace ProlappApi.Models
     public class Saldos
     {
       public int IdSaldos { get; set; }
-      public int IdFactura { get; set; }
-      public int SaldoPendiente { get; set; }
+      public string Folio { get; set; }
+      public string SaldoPendiente { get; set; }
     }
 }
