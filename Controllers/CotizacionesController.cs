@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
 using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,14 +11,14 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Saldos")]
-    public class SaldosController : ApiController
+    [RoutePrefix("api/Cotizaciones")]
+    public class CotizacionesController : ApiController
     {
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from dbo.Saldos";
+            string query = @"exec stSelectTablaCotizaciones";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -31,7 +30,8 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        [Route("BorrarSaldo/{id}")]
+
+        [Route("BorrarCotizacion/{id}")]
         public string Delete(int id)
         {
             try
@@ -39,7 +39,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarSaldo " + id;
+                string query = @" exec dtBorrarCotizacion " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -49,7 +49,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se elimino correctamente";
+                return "Se elimino Correctamente";
             }
             catch (Exception)
             {
@@ -57,14 +57,20 @@ namespace ProlappApi.Controllers
             }
         }
 
-        public string Put(Saldos saldos)
+        public string Put(Cotizaciones cotizaciones)
         {
             try
             {
+
+
                 DataTable table = new DataTable();
+                DateTime time = cotizaciones.FechaDeExpedicion;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarSaldo " +saldos.IdSaldos+" , '" +saldos.SaldoPendiente+ "'";
+                                exec etEditarCotizacion " + cotizaciones.IdCotizaciones + " , " +cotizaciones.IdCliente+ " , '" +cotizaciones.Nombre+ "' , '" +cotizaciones.RFC+ "' , '" +cotizaciones.Subtotal+"' , '" +cotizaciones.Total+ "' , '" +cotizaciones.Descuento+ "' , '"
+                                +cotizaciones.SubtotalDlls+ "' , '" +cotizaciones.TotalDlls+ "' , '" +cotizaciones.DescuentoDlls+ "', '" +cotizaciones.Observaciones+ "' , '" +cotizaciones.Vendedor+ "' , '" +cotizaciones.Moneda+ "' , '" +time.ToString(format)+ "' , '" 
+                                +cotizaciones.Flete+ "' , " +cotizaciones.Folio+ " , '" +cotizaciones.Telefono+ "' , '" +cotizaciones.Correo+ "' ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -82,12 +88,20 @@ namespace ProlappApi.Controllers
 
             }
         }
-        public string Post(Saldos saldos)
+
+        public string Post(Cotizaciones cotizaciones)
         {
             try
             {
+
+
                 DataTable table = new DataTable();
-                string query = @" Execute itInsertarNuevoSaldo '" +saldos.Folio+ "' , '" +saldos.SaldoPendiente+ "'";
+                DateTime time = cotizaciones.FechaDeExpedicion;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
+                string query = @" Execute itInsertNuevaCotizacion " + cotizaciones.IdCliente + " , '" + cotizaciones.Nombre + "' , '" + cotizaciones.RFC + "' , '" + cotizaciones.Subtotal + "' , '" + cotizaciones.Total + "' , '" + cotizaciones.Descuento + "' , '"
+                                + cotizaciones.SubtotalDlls + "' , '" + cotizaciones.TotalDlls + "' , '" + cotizaciones.DescuentoDlls + "' , '" + cotizaciones.Observaciones + "' , '" + cotizaciones.Vendedor + "' , '" + cotizaciones.Moneda + "' , '" + time.ToString(format) +
+                                "' , '" + cotizaciones.Flete + "' , " + cotizaciones.Folio + " , '" + cotizaciones.Telefono + "' , '" + cotizaciones.Correo + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -96,30 +110,16 @@ namespace ProlappApi.Controllers
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
                 }
-                return "Saldo Agregado";
+
+
+
+                return "Cotizacion Agregada";
             }
             catch (Exception exe)
             {
                 return "Se produjo un error" + exe;
             }
         }
-        [Route("SaldoFactura/{id}")]
-        public HttpResponseMessage GetFacturaClienteId(string Folio)
-        {
-            DataTable table = new DataTable();
 
-            string query = @"select Factura.* ,Saldos.* from Factura left join Saldos ON Factura.Folio = Saldos.Folio where Saldos.Folio =" + Folio;
-
-            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-            using (var cmd = new SqlCommand(query, con))
-            using (var da = new SqlDataAdapter(cmd))
-            {
-                cmd.CommandType = CommandType.Text;
-                da.Fill(table);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, table);
-        }
     }
-
 }
