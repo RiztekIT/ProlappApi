@@ -87,7 +87,7 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
-                string query = @" Execute itInsertarNuevoSaldo " +saldos.Folio+ " , '" +saldos.SaldoPendiente+ "'";
+                string query = @" Execute itInsertarNuevoSaldo '" +saldos.Folio+ "' , '" +saldos.SaldoPendiente+ "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
