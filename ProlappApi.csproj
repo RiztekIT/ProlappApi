@@ -186,6 +186,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
     <Compile Include="Controllers\OrdenCargaController.cs" />
+    <Compile Include="Controllers\OrdenDescargaController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
     <Compile Include="Controllers\ProcesoController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -193,6 +194,8 @@
     <Compile Include="Controllers\ReciboPagoController.cs" />
     <Compile Include="Controllers\RelacionController.cs" />
     <Compile Include="Controllers\SaldosController.cs" />
+    <Compile Include="Controllers\TarimaController.cs" />
+    <Compile Include="Controllers\TraspasoTarimaController.cs" />
     <Compile Include="Controllers\UnidadMedidaController.cs" />
     <Compile Include="Controllers\UploadFilesController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -206,7 +209,9 @@
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleNotaCredito.cs" />
     <Compile Include="Models\DetalleOrdenCarga.cs" />
+    <Compile Include="Models\DetalleOrdenDescarga.cs" />
     <Compile Include="Models\DetallePedido.cs" />
+    <Compile Include="Models\DetalleTarima.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Factura.cs" />
@@ -224,6 +229,8 @@
     <Compile Include="Models\ReciboPago.cs" />
     <Compile Include="Models\Relacion.cs" />
     <Compile Include="Models\Saldos.cs" />
+    <Compile Include="Models\Tarima.cs" />
+    <Compile Include="Models\TraspasoTarima.cs" />
     <Compile Include="Models\UnidadMedida.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vendedor.cs" />

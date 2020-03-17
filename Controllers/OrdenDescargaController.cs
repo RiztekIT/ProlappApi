@@ -12,14 +12,14 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/OrdenCarga")]
-    public class OrdenCargaController : ApiController
+    [RoutePrefix("api/OrdenDescarga")]
+    public class OrdenDescargaController : ApiController
     {
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from dbo.OrdenCarga";
+            string query = @"select * from dbo.OrdenDescarga";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -31,12 +31,13 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        [Route("DetalleOrdenCarga/{id}")]
-        public HttpResponseMessage GetDetalleOrdenCargaId(int id)
+
+        [Route("GetDetalleOrdenDescarga")]
+        public HttpResponseMessage GetDetalleOrdenDescarga()
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id;
+            string query = @"select * from DetalleOrdenDescarga";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -57,7 +58,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarOrdenCarga " + id;
+                string query = @" exec dtBorrarOrdenDescarga " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -74,7 +75,7 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
-        [Route("BorrarDetalleOrdenCarga/{id}")]
+        [Route("BorrarDetalleOrdenDescarga/{id}")]
         public string DeleteDetalleOrdenCarga(int id)
         {
             try
@@ -82,7 +83,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarDetalleOrdenCarga " + id;
+                string query = @" exec dtBorrarDetalleOrdenDescarga" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -99,7 +100,10 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
-        public string Post(OrdenCarga ordencarga)
+
+
+
+        public string Post(OrdenDescarga ordenDescarga)
         {
             try
             {
@@ -107,19 +111,19 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
 
-                DateTime time = ordencarga.FechaEnvio;
-                DateTime time2 = ordencarga.FechaInicioCarga;
-                DateTime time3 = ordencarga.FechaFinalCarga;
-                DateTime time4 = ordencarga.FechaExpedicion;
+                DateTime time = ordenDescarga.FechaLlegada;
+                DateTime time2 = ordenDescarga.FechaInicioDescarga;
+                DateTime time3 = ordenDescarga.FechaFinalDescarga;
+                DateTime time4 = ordenDescarga.FechaExpedicion;
 
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
-                                ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" + 
-                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario +  @"'";
+                                exec itInsertNuevaOrdenDescarga " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
+                                "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -138,15 +142,15 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("AddDetalleOrdenCarga")]
-        public string PostDetalleOrdenCarga(DetalleOrdenCarga doc)
+        [Route("AddDetalleOrdenDescarga")]
+        public string PostDetalleOrdenDescarga(DetalleOrdenDescarga dodc)
         {
             try
             {
-               DataTable table = new DataTable();
+                DataTable table = new DataTable();
 
                 string query = @"
-                                exec itInsertNuevoDetalleOrdenCarga " + doc.IdOrdenCarga + " , " + doc.IdTarima + @"";
+                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , " + dodc.IdTarima + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -165,7 +169,8 @@ namespace ProlappApi.Controllers
             }
         }
 
-        public string Put(OrdenCarga ordencarga)
+
+        public string Put(OrdenDescarga ordenDescarga)
         {
             try
             {
@@ -173,19 +178,19 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                DateTime time = ordencarga.FechaEnvio;
-                DateTime time2 = ordencarga.FechaInicioCarga;
-                DateTime time3 = ordencarga.FechaFinalCarga;
-                DateTime time4 = ordencarga.FechaExpedicion;
+                DateTime time = ordenDescarga.FechaLlegada;
+                DateTime time2 = ordenDescarga.FechaInicioDescarga;
+                DateTime time3 = ordenDescarga.FechaFinalDescarga;
+                DateTime time4 = ordenDescarga.FechaExpedicion;
 
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
-                                ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
-                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
+                               exec etEditarOrdenDescarga " + ordenDescarga.IdOrdenDescarga + " , " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
+                                "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -203,45 +208,15 @@ namespace ProlappApi.Controllers
 
             }
         }
-        [Route("UpdateDetalleOrdenCarga")]
-        public string PutDetalleOrdenCarga(DetalleOrdenCarga doc)
+        [Route("UpdateDetalleOrdenDescarga")]
+        public string PutDetalleOrdenDescarga(DetalleOrdenDescarga doc)
         {
             try
             {
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdTarima + @"";
-
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                using (var cmd = new SqlCommand(query, con))
-                using (var da = new SqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    da.Fill(table);
-                }
-
-                return "Se Actualizo Correctamente";
-            }
-            catch (Exception exe)
-            {
-                return "Se produjo un error" + exe;
-
-            }
-        }
-
-
-
-        [Route("EstatusDetalle")]
-        public string PutEstatusDetalle(OrdenCarga ordencarga)
-        {
-            try
-            {
-
-
-                DataTable table = new DataTable();
-
-                string query = @" exec etEditarEstatusDetalleCarga" + ordencarga.IdOrdenCarga + " , '" + ordencarga.Estatus  +"'";
+                                exec etEditarDetalleOrdenDescarga " + doc.IdDetalleOrdenDescarga + " , " + doc.IdOrdenDescarga + " , " + doc.IdTarima + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
