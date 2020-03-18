@@ -54,10 +54,10 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenCarga left join DetalleOrdenCarga on OrdenCarga.IdOrdenCarga = DetalleOrdenCarga.IdOrdenCarga  
+            string query = @"select * from DetalleOrdenCarga 
                                 left join Tarima on DetalleOrdenCarga.IdTarima=Tarima.IdTarima 
                                     left join DetalleTarima on DetalleTarima.IdTarima=Tarima.IdTarima
-                                        where OrdenCarga.IdOrdenCarga = " + id;
+                                           where DetalleOrdenCarga.IdOrdenCarga =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
