@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Cotizaciones")]
+    [RoutePrefix("api/Cotizacion")]
     public class CotizacionesController : ApiController
     {
         public HttpResponseMessage Get()
@@ -56,6 +56,46 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
+
+        [Route("GetCotizacionesDetalleCotizaciones/{ClaveProducto}/{Id}")]
+        public HttpResponseMessage GetCotizacionesDetalleCotizaciones(String ClaveProducto, int Id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                             exec jnProductoDetalleProducto '" + ClaveProducto + "'," + Id + ";";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalles de Cotizaciones dependiendo el id de la cotizacion
+        [Route("DetalleCotizacionesId/{id}")]
+        public HttpResponseMessage GetDetalleCotizacionesId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCotizaciones where IdCotizacion =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         public string Put(Cotizaciones cotizaciones)
         {
@@ -138,6 +178,167 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("CotizacionId/{id}")]
+        public HttpResponseMessage GetPedidoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Cotizaciones where IdCotizacion =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("DetalleCotizacionId/{id}")]
+        public HttpResponseMessage GetDetallePedidoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCotizaciones where IdCotizacion =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("SumaImporte/{id}")]
+        public HttpResponseMessage GetSumaImporte(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"SELECT sum(CAST(Importe AS float)) as importe, sum(CAST(ImporteDlls AS float)) as ImporteDlls FROM DetalleCotizaciones where IdCotizacion = " + id;
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //Agregar Detalle Pedido
+        [Route("InsertDetalleCotizacion")]
+        public string PostDetallePedido(DetalleCotizacion dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute itInsertNuevoDetalleCotizacion " +dp.IdCotizacion+ " , '" +dp.ClaveProducto+ "' , '" +dp.Producto+ "' , '" +dp.Unidad+ "' , '" +dp.PrecioUnitario+ "' , '" +dp.PrecioUnitarioDlls+ "' , '" 
+                                + dp.Cantidad + "' , '" + dp.Importe + "' , '" + dp.ImporteDlls + "' , '" + dp.Observaciones + "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+        //Editar Detalle Pedido
+        [Route("EditDetalleCotizacion")]
+        public string PutDetalleCotizacion(DetalleCotizacion dp)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+                string query = @"
+                                Execute etEditarDetalleCotizacion " + dp.IdDetalleCotizacion + " , " +dp.IdCotizacion+ " , '" +dp.ClaveProducto+ "' , '" +dp.Producto+ "' , '" +dp.Unidad+ "' , '" +dp.PrecioUnitario+ "' , '" +dp.PrecioUnitarioDlls+ "' , '" 
+                                +dp.Cantidad+ "' , '" +dp.Importe+ "' , '" +dp.ImporteDlls+ "' , '" +dp.Observaciones+ "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Detalle Pedido Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error " + exe;
+            }
+        }
+        [Route("ProductoDetalleProducto/{ClaveProducto}/{Id}")]
+        public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto, int Id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                             exec jnProductoDetalleProductoCotizaciones '" + ClaveProducto + "'," + Id + ";";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("DeleteDetalleCotizacion/{id}")]
+        public string DeleteDetallePedido(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              exec dtBorrarDetalleCotizacion " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
 
     }
+
+
 }
