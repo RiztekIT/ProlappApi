@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Cotizaciones")]
+    [RoutePrefix("api/Cotizacion")]
     public class CotizacionesController : ApiController
     {
         public HttpResponseMessage Get()
