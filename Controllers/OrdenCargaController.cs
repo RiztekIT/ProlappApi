@@ -31,6 +31,26 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        //Obtener Orden Carga por IDORDENCARGA
+        [Route("OrdenCargaID/{id}")]
+        public HttpResponseMessage GetOrdenCargaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenCarga where IdOrdenCarga  =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("DetalleOrdenCarga/{id}")]
         public HttpResponseMessage GetDetalleOrdenCargaId(int id)
         {
