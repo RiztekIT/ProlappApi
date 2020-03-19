@@ -57,6 +57,45 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("GetCotizacionesDetalleCotizaciones/{ClaveProducto}/{Id}")]
+        public HttpResponseMessage GetCotizacionesDetalleCotizaciones(String ClaveProducto, int Id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                             exec jnProductoDetalleProducto '" + ClaveProducto + "'," + Id + ";";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalles de Cotizaciones dependiendo el id de la cotizacion
+        [Route("DetalleCotizacionesId/{id}")]
+        public HttpResponseMessage GetDetalleCotizacionesId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCotizaciones where IdCotizacion =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         public string Put(Cotizaciones cotizaciones)
         {
             try
@@ -122,4 +161,6 @@ namespace ProlappApi.Controllers
         }
 
     }
+
+
 }
