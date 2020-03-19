@@ -31,6 +31,26 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        //Obtener Orden Carga por IDORDENCARGA
+        [Route("OrdenCargaID/{id}")]
+        public HttpResponseMessage GetOrdenCargaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenCarga where IdOrdenCarga  =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("DetalleOrdenCarga/{id}")]
         public HttpResponseMessage GetDetalleOrdenCargaId(int id)
         {
@@ -253,8 +273,8 @@ namespace ProlappApi.Controllers
 
 
 
-        [Route("EstatusDetalle")]
-        public string PutEstatusDetalle(OrdenCarga ordencarga)
+        [Route("EstatusDetalle/{Id}/{Estatus}")]
+        public string PutEstatusDetalle(int Id, string Estatus)
         {
             try
             {
@@ -262,7 +282,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec etEditarEstatusDetalleCarga" + ordencarga.IdOrdenCarga + " , '" + ordencarga.Estatus  +"'";
+                string query = @" exec etEditarEstatusDetalleCarga " + Id + " , '" + Estatus + "'; ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
