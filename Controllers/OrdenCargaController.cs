@@ -253,8 +253,8 @@ namespace ProlappApi.Controllers
 
 
 
-        [Route("EstatusDetalle")]
-        public string PutEstatusDetalle(OrdenCarga ordencarga)
+        [Route("EstatusDetalle/{Id}/{Estatus}")]
+        public string PutEstatusDetalle(int Id, string Estatus)
         {
             try
             {
@@ -262,7 +262,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec etEditarEstatusDetalleCarga" + ordencarga.IdOrdenCarga + " , '" + ordencarga.Estatus  +"'";
+                string query = @" exec etEditarEstatusDetalleCarga" + Id + " , '" + Estatus  +"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
