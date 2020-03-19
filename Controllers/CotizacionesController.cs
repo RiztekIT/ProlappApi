@@ -96,6 +96,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+
         public string Put(Cotizaciones cotizaciones)
         {
             try
