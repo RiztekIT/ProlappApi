@@ -287,6 +287,56 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error " + exe;
             }
         }
+        [Route("ProductoDetalleProducto/{ClaveProducto}/{Id}")]
+        public HttpResponseMessage GetProductoDetalleProducto(String ClaveProducto, int Id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                             exec jnProductoDetalleProductoCotizaciones '" + ClaveProducto + "'," + Id + ";";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("DeleteDetalleCotizacion/{id}")]
+        public string DeleteDetallePedido(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              exec dtBorrarDetalleCotizacion " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
 
     }
 
