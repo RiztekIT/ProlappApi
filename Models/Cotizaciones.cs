@@ -7,7 +7,7 @@ namespace ProlappApi.Models
 {
     public class Cotizaciones
     {
-        public long IdCotizaciones { get; set; }
+        public long IdCotizacion { get; set; }
         public long IdCliente { get; set; }
         public string Nombre { get; set; }
         public string RFC { get; set; }
