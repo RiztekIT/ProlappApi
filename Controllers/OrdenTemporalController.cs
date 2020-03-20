@@ -67,11 +67,13 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-
+                DateTime time = ot.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
                                 exec itInsertNuevaOrdenTemporal " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
-                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos + @"'";
+                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
+                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -96,9 +98,12 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
+                DateTime time = ot.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
                 string query = @"
                                 exec itInsertNuevaOrdenTemporal " + ot.IdOrdenTemporal + " , " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
-                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos + @"'";
+                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
+                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
