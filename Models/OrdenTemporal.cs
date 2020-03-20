@@ -16,6 +16,9 @@ namespace ProlappApi.Models
         public string ClaveProducto { get; set; }
         public string Lote { get; set; }
         public string Sacos { get; set; }
+        public string Producto { get; set; }
+        public string PesoTotal { get; set; }
+        public DateTime FechaCaducidad { get; set; }
 
     }
 }
