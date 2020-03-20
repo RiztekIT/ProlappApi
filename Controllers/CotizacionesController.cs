@@ -308,7 +308,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("DeleteDetalleCotizacion/{id}")]
-        public string DeleteDetallePedido(int id)
+        public string DeleteDetalleCotizacion(int id)
         {
             try
             {
@@ -336,6 +336,41 @@ namespace ProlappApi.Controllers
             {
                 return "Se produjo un error";
             }
+        }
+        [Route("Folio")]
+        public HttpResponseMessage GetFolio()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX(Folio) as Folio from Cotizaciones";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("UltimaCotizacion")]
+        public HttpResponseMessage GetUtimoPedido()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select MAX(IdCotizacion) as IdCotizacion from Cotizaciones";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
     }
