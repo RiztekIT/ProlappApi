@@ -68,16 +68,15 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        //PRueba RC
         //Obtener MASTER JOIN
         [Route("MasterID/{id}")]
         public HttpResponseMessage GetMasterID(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleOrdenCarga 
-                                left join Tarima on DetalleOrdenCarga.IdTarima=Tarima.IdTarima 
-                                    left join DetalleTarima on DetalleTarima.IdTarima=Tarima.IdTarima
-                                           where DetalleOrdenCarga.IdOrdenCarga =" + id;
+            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
