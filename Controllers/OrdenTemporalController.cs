@@ -35,7 +35,7 @@ namespace ProlappApi.Controllers
 
         //Obtener orden Temporal por OrdenCargaID, LOTE Y CLAVE PRODUCTO
         [Route("OrdenTemporal/{id}/{lote}/{clave}")]
-        public HttpResponseMessage GetDetalleOrdenCargaId(int id, string lote, string clave)
+        public HttpResponseMessage GetOrdenTemporal(int id, string lote, string clave)
         {
             DataTable table = new DataTable();
 
