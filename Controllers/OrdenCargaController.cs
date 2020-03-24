@@ -186,8 +186,15 @@ namespace ProlappApi.Controllers
             {
                DataTable table = new DataTable();
 
+                DateTime time = doc.FechaMFG;
+                DateTime time2 = doc.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
                 string query = @"
-                                exec itInsertNuevoDetalleOrdenCarga " + doc.IdOrdenCarga + " , " + doc.IdTarima + @"";
+                                exec itInsertNuevoDetalleOrdenCarga " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
+                                "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
+                                "' , '" + doc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -251,8 +258,15 @@ namespace ProlappApi.Controllers
             {
                 DataTable table = new DataTable();
 
+                DateTime time = doc.FechaMFG;
+                DateTime time2 = doc.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
                 string query = @"
-                                exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdTarima + @"";
+                                exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
+                                "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento + "' , '" + 
+                                doc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

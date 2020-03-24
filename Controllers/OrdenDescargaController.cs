@@ -149,8 +149,15 @@ namespace ProlappApi.Controllers
             {
                 DataTable table = new DataTable();
 
+                DateTime time = dodc.FechaMFG;
+                DateTime time2 = dodc.FechaCaducidad; 
+                string format = "yyyy-MM-dd HH:mm:ss";
+
                 string query = @"
-                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , " + dodc.IdTarima + @"";
+                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
+                                "' , '" + dodc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -209,14 +216,21 @@ namespace ProlappApi.Controllers
             }
         }
         [Route("UpdateDetalleOrdenDescarga")]
-        public string PutDetalleOrdenDescarga(DetalleOrdenDescarga doc)
+        public string PutDetalleOrdenDescarga(DetalleOrdenDescarga dodc)
         {
             try
             {
                 DataTable table = new DataTable();
+                DateTime time = dodc.FechaMFG;
+                DateTime time2 = dodc.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
 
                 string query = @"
-                                exec etEditarDetalleOrdenDescarga " + doc.IdDetalleOrdenDescarga + " , " + doc.IdOrdenDescarga + " , " + doc.IdTarima + @"";
+                                exec etEditarDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
+                                "' , '" + dodc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
