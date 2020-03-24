@@ -50,13 +50,14 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
-        [Route("DetalleOrdenCarga/{id}")]
-        public HttpResponseMessage GetDetalleOrdenCargaId(int id)
+        
+        //Obtener Detalle orden Carga por ID, LOTE y CLAVE PRODUCTO 
+        [Route("DetalleOrdenCarga/{id}/{lote}/{clave}")]
+        public HttpResponseMessage GetDetalleOrdenCargaId(int id, string lote, string clave)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id;
+            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote + '" + lote + "' and ClaveProducto + '" + clave + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
