@@ -287,6 +287,8 @@ namespace ProlappApi.Controllers
 
 
 
+
+
         [Route("EstatusDetalle/{Id}/{Estatus}")]
         public string PutEstatusDetalle(int Id, string Estatus)
         {
@@ -297,6 +299,34 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @" exec etEditarEstatusDetalleCarga " + Id + " , '" + Estatus + "'; ";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("UpdateSaldo/{id}/{saldo}")]
+        public string PutUpdateSaldo(int id, string saldo)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "' where IdDetalleOrdenCarga = "+ id + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
