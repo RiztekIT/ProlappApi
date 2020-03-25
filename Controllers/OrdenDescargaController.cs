@@ -101,6 +101,25 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //Obtener MASTER JOIN
+        [Route("MasterID/{id}")]
+        public HttpResponseMessage GetMasterID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
         public string Post(OrdenDescarga ordenDescarga)
