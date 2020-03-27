@@ -50,6 +50,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener cierto detalle tarima por IdTarima
+        [Route("GetDetalleTarimaID/{id}")]
+        public HttpResponseMessage GetDetalleTarimaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where IdTarima =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         [Route("BorrarTarima/{id}")]
         public string Delete(int id)
@@ -138,10 +156,14 @@ namespace ProlappApi.Controllers
             {
                 DataTable table = new DataTable();
 
+                DateTime time = dt.FechaMFG;
+                DateTime time2 = dt.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
                 string query = @"
                                 exec itInsertNuevoDetalleTarima " + dt.IdTarima + " , '" + dt.ClaveProducto + "' , '" + dt.Producto + "' , '" + dt.Sacos +
                                 "' , '" + dt.PesoxSaco + "' , '" + dt.Lote + "' , " + dt.IdProveedor + " , '" + dt.Proveedor + "' , '" + dt.PO
-                                + "' , '" + dt.FechaMFG + "' , '" + dt.FechaCaducidad + "' , '" + dt.Shipper + "' , '" + dt.USDA + "' , '" + dt.Pedimento + @"";
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dt.Shipper + "' , '" + dt.USDA + "' , '" + dt.Pedimento + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

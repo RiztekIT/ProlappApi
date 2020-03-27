@@ -33,6 +33,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener orden Temporal por OrdenCargaID, LOTE Y CLAVE PRODUCTO
+        [Route("OrdenTemporal/{id}/{lote}/{clave}")]
+        public HttpResponseMessage GetOrdenTemporal(int id, string lote, string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenTemporal where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("BorrarOrdenTemporal/{id}")]
         public string Delete(int id)
         {
@@ -83,7 +102,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
