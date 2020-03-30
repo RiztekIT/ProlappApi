@@ -239,6 +239,59 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //Update TARIMA Sacos y peso Total
+        [Route("UpdateTarimaSacosPeso/{id}/{sacos}/{peso}")]
+        public string PutTarimasSacosPeso(int id, string sacos, string peso)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update Tarima set Sacos = '" + sacos + "', PesoTotal = '" + peso + "' where IdTarima = " + id + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        //Update DETALLE TARIMA IDTarima y Sacos
+        [Route("UpdateDetalleTarimaIdSacos/{idt}/{iddt}/{sacos}")]
+        public string PutDetalleTarimaIdSacos(int idt, int iddt, string sacos)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleTarima set IdTarima = " + idt + ", Sacos = '" + sacos + "' where IdDetalleTarima = " + iddt + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
 
 
 
