@@ -12,7 +12,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Tarima")]
+    [RoutePrefix("api/TraspasoTarima")]
     public class TraspasoTarimaController : ApiController
     {
 
