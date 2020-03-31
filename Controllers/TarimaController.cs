@@ -88,6 +88,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener ultima tarima insertada
+        [Route("GetUltimaTarima")]
+        public HttpResponseMessage GetUltimaTarima()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 * from Tarima order by Tarima.IdTarima desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+  
+
         [Route("BorrarTarima/{id}")]
         public string Delete(int id)
         {
