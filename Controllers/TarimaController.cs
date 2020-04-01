@@ -87,6 +87,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener cierto detalle tarima por IdDetalleTarima
+        [Route("GetDetalleTarimaIDdetalle/{id}")]
+        public HttpResponseMessage GetDetalleTarimaIDdetalle(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where IdDetalleTarima =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         //Obtener ultima tarima insertada
         [Route("GetUltimaTarima")]
