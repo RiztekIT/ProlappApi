@@ -92,7 +92,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec itInsertNuevaOrdenTemporal " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
                                 " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
-                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + @"'";
+                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + "' , '" + ot.Comentarios + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -122,7 +122,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec itInsertNuevaOrdenTemporal " + ot.IdOrdenTemporal + " , " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
                                 " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
-                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + @"'";
+                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + "' , '" + ot.Comentarios +@"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
