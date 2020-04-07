@@ -19,6 +19,7 @@ namespace ProlappApi.Models
         public string Producto { get; set; }
         public string PesoTotal { get; set; }
         public DateTime FechaCaducidad { get; set; }
+        public string Comentarios { get; set; }
 
     }
 }

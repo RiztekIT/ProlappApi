@@ -50,6 +50,25 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+            //Obtener cierta tarima por IdTarima
+        [Route("GetTarimaID/{id}")]
+        public HttpResponseMessage GetTarimaID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Tarima where IdTarima =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
         //Obtener cierto detalle tarima por IdTarima
         [Route("GetDetalleTarimaID/{id}")]
         public HttpResponseMessage GetDetalleTarimaID(int id)
@@ -68,6 +87,63 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener cierto detalle tarima por IdDetalleTarima
+        [Route("GetDetalleTarimaIDdetalle/{id}")]
+        public HttpResponseMessage GetDetalleTarimaIDdetalle(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where IdDetalleTarima =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener ultima tarima insertada
+        [Route("GetUltimaTarima")]
+        public HttpResponseMessage GetUltimaTarima()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 * from Tarima order by Tarima.IdTarima desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalle tarima por IdTarima, ClaveProducto y Lote
+        [Route("GetDetalleTarimaIdClaveLote/{id}/{clave}/{lote}")]
+        public HttpResponseMessage GetDetalleTarimaIdClaveLote(int id, string clave, string lote)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where IdTarima = " + id + " and ClaveProducto = '" + clave + "' and Lote = '" + lote + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("BorrarTarima/{id}")]
         public string Delete(int id)
@@ -102,7 +178,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarDetalleTarima" + id;
+                string query = @" exec dtBorrarDetalleTarima " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -140,7 +216,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -173,7 +249,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -239,6 +315,59 @@ namespace ProlappApi.Controllers
             }
         }
 
+        //Update TARIMA Sacos y peso Total
+        [Route("UpdateTarimaSacosPeso/{id}/{sacos}/{peso}")]
+        public string PutTarimasSacosPeso(int id, string sacos, string peso)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update Tarima set Sacos = '" + sacos + "', PesoTotal = '" + peso + "' where IdTarima = " + id + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        //Update DETALLE TARIMA IDTarima y Sacos
+        [Route("UpdateDetalleTarimaIdSacos/{idt}/{iddt}/{sacos}")]
+        public string PutDetalleTarimaIdSacos(int idt, int iddt, string sacos)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleTarima set IdTarima = " + idt + ", Sacos = '" + sacos + "' where IdDetalleTarima = " + iddt + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
 
 
 

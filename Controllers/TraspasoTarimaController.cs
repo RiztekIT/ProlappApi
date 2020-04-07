@@ -12,7 +12,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Tarima")]
+    [RoutePrefix("api/TraspasoTarima")]
     public class TraspasoTarimaController : ApiController
     {
 
@@ -65,9 +65,13 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
+                DateTime time = Tt.FechaTraspaso;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevoTraspasoTarima '" + Tt.Cantidad + "' , '" + Tt.QRorigen + "' , '" + Tt.QRdestino + @"'";
+                                exec itInsertNuevoTraspasoTarima " + Tt.IdOrigenTarima + " , " + Tt.IdDestinoTarima + " , '" +
+                                Tt.ClaveProducto + "' , '" + Tt.Producto + "' , '" + Tt.Lote + "' , '" +
+                                Tt.Sacos + "' , '" + time.ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -77,7 +81,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -92,9 +96,13 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
+                DateTime time = Tt.FechaTraspaso;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarTraspasoTarima " + Tt.IdTraspasoTarima + " , '" + Tt.Cantidad + "' , '" + Tt.QRorigen + "' , '" + Tt.QRdestino + @"'";
+                                exec etEditarTraspasoTarima " + Tt.IdTraspasoTarima + " , " + Tt.IdOrigenTarima + " , " + Tt.IdDestinoTarima + " , '" +
+                                Tt.ClaveProducto + "' , '" + Tt.Producto + "' , '" + Tt.Lote + "' , '" +
+                                Tt.Sacos + "' , '" + time.ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
