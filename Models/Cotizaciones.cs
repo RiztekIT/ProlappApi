@@ -28,5 +28,6 @@ namespace ProlappApi.Models
         public long IdDireccion { get; set; }
         public string Estatus { get; set; }
         public long TipoDeCambio { get; set; }
+        public DateTime Vigencia { get; set; }
     }
 }
