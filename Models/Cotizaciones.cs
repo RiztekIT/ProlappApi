@@ -27,5 +27,6 @@ namespace ProlappApi.Models
         public string Correo { get; set; }
         public long IdDireccion { get; set; }
         public string Estatus { get; set; }
+        public long TipoDeCambio { get; set; }
     }
 }

@@ -110,7 +110,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarCotizacion " + cotizaciones.IdCotizacion + " , " +cotizaciones.IdCliente+ " , '" +cotizaciones.Nombre+ "' , '" +cotizaciones.RFC+ "' , '" +cotizaciones.Subtotal+"' , '" +cotizaciones.Total+ "' , '" +cotizaciones.Descuento+ "' , '"
                                 +cotizaciones.SubtotalDlls+ "' , '" +cotizaciones.TotalDlls+ "' , '" +cotizaciones.DescuentoDlls+ "', '" +cotizaciones.Observaciones+ "' , '" +cotizaciones.Vendedor+ "' , '" +cotizaciones.Moneda+ "' , '" +time.ToString(format)+ "' , '" 
-                                +cotizaciones.Flete+ "' , " +cotizaciones.Folio+ " , '" +cotizaciones.Telefono+ "' , '" +cotizaciones.Correo+ "' , " +cotizaciones.IdDireccion+ " , '" + cotizaciones.Estatus + "' ";
+                                +cotizaciones.Flete+ "' , " +cotizaciones.Folio+ " , '" +cotizaciones.Telefono+ "' , '" +cotizaciones.Correo+ "' , " +cotizaciones.IdDireccion+ " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ " ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -141,7 +141,7 @@ namespace ProlappApi.Controllers
 
                 string query = @" Execute itInsertNuevaCotizacion " + cotizaciones.IdCliente + " , '" + cotizaciones.Nombre + "' , '" + cotizaciones.RFC + "' , '" + cotizaciones.Subtotal + "' , '" + cotizaciones.Total + "' , '" + cotizaciones.Descuento + "' , '"
                                 + cotizaciones.SubtotalDlls + "' , '" + cotizaciones.TotalDlls + "' , '" + cotizaciones.DescuentoDlls + "' , '" + cotizaciones.Observaciones + "' , '" + cotizaciones.Vendedor + "' , '" + cotizaciones.Moneda + "' , '" + time.ToString(format) +
-                                "' , '" + cotizaciones.Flete + "' , " + cotizaciones.Folio + " , '" + cotizaciones.Telefono + "' , '" + cotizaciones.Correo + "' , " + cotizaciones.IdDireccion + " , '" + cotizaciones.Estatus + "' "; 
+                                "' , '" + cotizaciones.Flete + "' , " + cotizaciones.Folio + " , '" + cotizaciones.Telefono + "' , '" + cotizaciones.Correo + "' , " + cotizaciones.IdDireccion + " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ "  "; 
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -312,7 +312,6 @@ namespace ProlappApi.Controllers
         {
             try
             {
-
 
                 DataTable table = new DataTable();
 
