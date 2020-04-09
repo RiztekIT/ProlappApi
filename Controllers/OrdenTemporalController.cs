@@ -162,7 +162,7 @@ namespace ProlappApi.Controllers
 
         //Obtener Orden Temporal por OrdenDescargaID
         [Route("OrdenTemporalIDOD/{id}")]
-        public HttpResponseMessage OrdenTemporalIDOD(int id)
+        public HttpResponseMessage GetOrdenTemporalIDOD(int id)
         {
             DataTable table = new DataTable();
 
