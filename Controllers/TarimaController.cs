@@ -125,6 +125,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Tarima por codigo QR
+        [Route("GetTarimaQR/{qr}")]
+        public HttpResponseMessage GetTarimaQR(string qr)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Tarima where QR = '" + qr + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Obtener detalle tarima por IdTarima, ClaveProducto y Lote
         [Route("GetDetalleTarimaIdClaveLote/{id}/{clave}/{lote}")]
         public HttpResponseMessage GetDetalleTarimaIdClaveLote(int id, string clave, string lote)
