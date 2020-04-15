@@ -179,7 +179,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
         //Obtener Orden Temporal por ID tarima
-        [Route("OrdenTemporalIDOD/{id}")]
+        [Route("OrdenTemporalIdTarima/{id}")]
         public HttpResponseMessage GetOrdenTemporalIdTarima(int id)
         {
             DataTable table = new DataTable();
