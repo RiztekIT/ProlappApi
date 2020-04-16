@@ -11,5 +11,6 @@ namespace ProlappApi.Models
         public string Sacos { get; set; }
         public string PesoTotal { get; set; }
         public string QR { get; set; }
+        public string Bodega { get; set; }
     }
 }
