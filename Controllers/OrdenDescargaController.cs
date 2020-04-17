@@ -267,6 +267,24 @@ namespace ProlappApi.Controllers
 
             }
         }
+        //Obtener Detalle orden Carga por ID, LOTE y CLAVE PRODUCTO 
+        [Route("DetalleOrdenDescarga/{id}/{lote}/{clave}")]
+        public HttpResponseMessage GetDetalleOrdenDescargaId(int id, string lote, string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
 
