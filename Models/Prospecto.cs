@@ -13,5 +13,6 @@ namespace ProlappApi.Models
         public int Telefono { get; set; }
         public string Direccion { get; set; }
         public string Empresa { get; set; }
+        public string Estatus { get; set; }
     }
 }
