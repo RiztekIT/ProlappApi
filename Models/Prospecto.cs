@@ -14,5 +14,6 @@ namespace ProlappApi.Models
         public string Direccion { get; set; }
         public string Empresa { get; set; }
         public string Estatus { get; set; }
+        public long IdCotizacion { get; set; }
     }
 }
