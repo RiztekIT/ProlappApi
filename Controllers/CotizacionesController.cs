@@ -396,7 +396,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" Exec itInsertNuevoProspecto '" +prospecto.Nombre + "' , '" +prospecto.Correo+ "' , '" +prospecto.Telefono+ "' , '" 
+            string query = @" Exec itInsertNuevoProspecto '" +prospecto.Nombre + "' , '" +prospecto.Correo+ "' , " +prospecto.Telefono+ " , '" 
                             +prospecto.Direccion+ "' , '" +prospecto.Empresa+ "' , '" +prospecto.Estatus+ "' , " +prospecto.IdCotizacion+ " ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -415,7 +415,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" Exec etEditarProspecto " +prospecto.IdProspecto+ " , '" + prospecto.Nombre + "' , '" + prospecto.Correo + "' , '" + prospecto.Telefono + "' , '"
+            string query = @" Exec etEditarProspecto " +prospecto.IdProspecto+ " , '" + prospecto.Nombre + "' , '" + prospecto.Correo + "' , " + prospecto.Telefono + " , '"
                             + prospecto.Direccion + "' , '" + prospecto.Empresa + "' , '" +prospecto.Estatus+ "' , " +prospecto.IdCotizacion+ " ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
