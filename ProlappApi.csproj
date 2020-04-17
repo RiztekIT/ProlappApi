@@ -230,6 +230,7 @@
     <Compile Include="Models\Privilegio.cs" />
     <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\Prospecto.cs" />
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\ReciboPago.cs" />
     <Compile Include="Models\Relacion.cs" />

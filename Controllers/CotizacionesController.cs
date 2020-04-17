@@ -373,6 +373,86 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("GetProspecto")]
+        public HttpResponseMessage GetProspectos()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * From Prospecto";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("InsertProspecto")]
+        public HttpResponseMessage PostProspecto(Prospecto prospecto)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" Exec itInsertNuevoProspecto '" +prospecto.Nombre + "' , '" +prospecto.Correo+ "' , " +prospecto.Telefono+ " , '" 
+                            +prospecto.Direccion+ "' , '" +prospecto.Empresa+ "' , '" +prospecto.Estatus+ "' , " +prospecto.IdCotizacion+ " ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("UpdateProspecto")]
+        public HttpResponseMessage PutProspecto(Prospecto prospecto)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" Exec etEditarProspecto " +prospecto.IdProspecto+ " , '" + prospecto.Nombre + "' , '" + prospecto.Correo + "' , " + prospecto.Telefono + " , '"
+                            + prospecto.Direccion + "' , '" + prospecto.Empresa + "' , '" +prospecto.Estatus+ "' , " +prospecto.IdCotizacion+ " ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("BorrarProspecto/{id}")]
+        public string DeleteProspecto(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" exec dtBorrarProspecto " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
 
     }
 
