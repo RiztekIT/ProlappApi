@@ -178,7 +178,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        //Obtener Orden Temporal por IDOrdencarga/descarga y codigo QR
+        //Obtener Orden Temporal por IDOrdencarga y codigo QR
         [Route("OrdenTemporalIdqr/{id}/{qr}")]
         public HttpResponseMessage GetOrdenTemporalIdqr(int id, string qr)
         {
