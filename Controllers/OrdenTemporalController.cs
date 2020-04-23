@@ -120,7 +120,7 @@ namespace ProlappApi.Controllers
                 DateTime time = ot.FechaCaducidad;
                 string format = "yyyy-MM-dd HH:mm:ss";
                 string query = @"
-                                exec itInsertNuevaOrdenTemporal " + ot.IdOrdenTemporal + " , " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
+                                exec etEditarOrdenTemporal " + ot.IdOrdenTemporal + " , " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
                                 " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
                                 "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + "' , '" + ot.Comentarios +@"'";
 
