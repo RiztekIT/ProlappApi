@@ -101,7 +101,7 @@ namespace ProlappApi.Controllers
             }
         }
 
-        //Obtener MASTER JOIN
+        //Obtener detalles de OD por ID
         [Route("MasterID/{id}")]
         public HttpResponseMessage GetMasterID(int id)
         {
@@ -284,6 +284,34 @@ namespace ProlappApi.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("UpdateSaldo/{id}/{saldo}")]
+        public string PutUpdateSaldo(int id, string saldo)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @" update DetalleOrdenDescarga set Saldo = '" + saldo + "' where IdDetalleOrdenDescarga = " + id + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
         }
 
 
