@@ -32,7 +32,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        [Route("Facturar")]
+        [Route("Contacto")]
+            public HttpResponseMessage GetContacto()
+            {
+                DataTable table = new DataTable();
+
+                string query = @"select Cliente.*, contactoClientes.* from Cliente left join ContactoClientes on Cliente.IdClientes=ContactoClientes.idcliente order by Nombre";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, table);
+            }
+            [Route("Facturar")]
         public HttpResponseMessage GetFacturar()
         {
             DataTable table = new DataTable();
