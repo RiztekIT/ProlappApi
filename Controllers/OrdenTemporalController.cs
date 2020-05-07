@@ -196,6 +196,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        [Route("OrdenTemporalIdqrOD/{id}/{qr}")]
+        public HttpResponseMessage GetOrdenTemporalIdqrOD(int id, string qr)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenTemporal where IdOrdenDescarga  =" + id + " and QR ='" + qr + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
         //Obtener Orden Temporal por ID tarima
         [Route("OrdenTemporalIdTarima/{id}")]
         public HttpResponseMessage GetOrdenTemporalIdTarima(int id)
