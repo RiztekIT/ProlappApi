@@ -106,7 +106,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" delete imagenes where tipo = " + tipo + " folio = " + folio + " nombre = " + nombre;
+                string query = @" delete from imagenes where tipo = " + tipo + " folio = " + folio + " nombre = " + nombre;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
