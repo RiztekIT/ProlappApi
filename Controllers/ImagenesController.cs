@@ -79,7 +79,34 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarImagen " + id;
+                string query = @" exec dtBorrarImagenn " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+
+        //Borrar imagen de orden carga por tipo, folio y nombre 
+        [Route("BorrarImagenOC/{tipo}/{folio}/{nombre}")]
+        public string DeleteImagenOC(string tipo, string folio, string nombre)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" delete imagenes where tipo = " + tipo + " folio = " + folio + " nombre = " + nombre;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -105,7 +132,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec itInsertNuevaImagen " + i.Folio + " , '" + i.Tipo + "' , '" + i.Imagen + "' , '" + i.Path + @"'";
+                                exec itInsertNuevaImagenn " + i.Folio + " , '" + i.Tipo + "' , '" + i.Imagen + "' , '" + i.Path + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -132,7 +159,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarImagen " + i.IdImagen + " , " + i.Folio + " , '" + i.Tipo + "' , '" + i.Imagen + "' , '" + i.Path + @"'";
+                                exec etEditarImagenn " + i.IdImagen + " , " + i.Folio + " , '" + i.Tipo + "' , '" + i.Imagen + "' , '" + i.Path + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
