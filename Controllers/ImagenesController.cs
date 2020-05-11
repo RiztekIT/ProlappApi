@@ -98,15 +98,15 @@ namespace ProlappApi.Controllers
         }
 
         //Borrar imagen de orden carga por tipo, folio y nombre 
-        [Route("BorrarImagenOC/{tipo}/{folio}/{nombre}")]
-        public string DeleteImagenOC(string tipo, string folio, string nombre)
+        [Route("BorrarImagenOC")]
+        public string PostImagenOC(Imagenes imagen)
         {
             try
             {
 
                 DataTable table = new DataTable();
 
-                string query = @" delete from imagenes where tipo = " + tipo + " folio = " + folio + " nombre = " + nombre;
+                string query = @" delete from imagenes where Tipo = " + imagen.Tipo + " Folio = " + imagen.Folio + " Imagen = " + imagen.Imagen;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
