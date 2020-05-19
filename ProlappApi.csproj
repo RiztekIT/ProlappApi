@@ -185,6 +185,8 @@
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\FolioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ImagenesController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
     <Compile Include="Controllers\OrdenCargaController.cs" />
     <Compile Include="Controllers\OrdenDescargaController.cs" />
@@ -220,6 +222,7 @@
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\Folio.cs" />
+    <Compile Include="Models\Imagen.cs" />
     <Compile Include="Models\NotaCredito.cs" />
     <Compile Include="Models\OrdenCarga.cs" />
     <Compile Include="Models\OrdenDescarga.cs" />
