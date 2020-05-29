@@ -70,6 +70,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Get Imagen por Tipo, Folio y Nombre Imagen
+        [Route("GetImagenFTN")]
+        public HttpResponseMessage PostImagenFTN(Imagenes i)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Imagenes where " + i.Folio + "= 1 and Tipo = '" + i.Tipo + "' and Imagen = '" + i.Imagen + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
 
         [Route("BorrarImagen/{id}")]
         public string Delete(int id)
@@ -118,9 +138,9 @@ namespace ProlappApi.Controllers
 
                 return "Se elimino Correctamente";
             }
-            catch (Exception)
+            catch (Exception exe)
             {
-                return "Error al Eliminar";
+                return "Error al Eliminar " + exe;
             }
         }
 
