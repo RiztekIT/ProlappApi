@@ -342,7 +342,7 @@ namespace ProlappApi.Controllers
                 DateTime time2 = fechamdf;
                 string format = "yyyy-MM-dd HH:mm:ss";
 
-                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + time1.ToString(format) + "', FechaMFG = '" + time2.ToString(format) + "' where IdDetalleOrdenDescarga = " + id + ";";
+                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + time.ToString(format) + "', FechaMFG = '" + time2.ToString(format) + "' where IdDetalleOrdenDescarga = " + id + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
