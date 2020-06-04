@@ -338,8 +338,11 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
+                DateTime time = fechacad;
+                DateTime time2 = fechamdf;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
-                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + fechacad + "', FechaMFG = '" + fechamdf + "' where IdDetalleOrdenDescarga = " + id + ";";
+                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + time1.ToString(format) + "', FechaMFG = '" + time2.ToString(format) + "' where IdDetalleOrdenDescarga = " + id + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
