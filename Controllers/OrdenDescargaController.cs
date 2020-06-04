@@ -314,7 +314,33 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("UpdateDtODIDLoteFechaCadFechaMFG/{id}/{lote}/{fechacad}/{fechacmdf}")]
+        public string PutDTTLoteFechaCadFechaMFG(int id, string lote, DateTime fechacad, DateTime fechamdf)
+        {
+            try
+            {
+                DataTable table = new DataTable();
 
+                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + fechacad + "', FechaMFG = '" + fechamdf + "' where IdDetalleOrdenDescarga = " + id + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+       
 
     }
 }
