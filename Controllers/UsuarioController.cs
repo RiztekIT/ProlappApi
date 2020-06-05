@@ -35,6 +35,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener Usuario por NombreUsuario
+        [Route("api/usuario/userinfo/{nombre}")]
+        public HttpResponseMessage GetUserInfo(string nombre)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Usuario where NombreUsuario ='" + nombre +"';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
         [Route("api/usuario/login/")]
         public string PostAut(Usuario usuario)
         {
