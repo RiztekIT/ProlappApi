@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+"'";
+            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+ "' order by Factura.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -634,8 +634,9 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             //string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id +" order by FechaDeExpedicion desc ";
-            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion desc ";
-           // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion desc ";
+            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, FechaVencimiento, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion asc ";
+            query = @"select Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls, sum(convert(float,PagoCFDI.cantidad)) as pagos, sum(convert(float,NotaCredito.Total)) as NCTotal,sum(convert(float,NotaCredito.TotalDlls)) as NCTotalDlls from Factura left join PagoCFDI on Factura.Id=PagoCFDI.IdFactura left join NotaCredito on NotaCredito.IdFactura=Factura.Id where Factura.IdCliente=" + id + " and Factura.Estatus ='Timbrada' group by Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls order by Factura.FechaDeExpedicion ";
+            // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion desc ";
 
             // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
 
@@ -656,8 +657,8 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Moneda = 'USD' and Estatus ='Timbrada' order by FechaDeExpedicion desc ";
-
+            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, FechaVencimiento, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Moneda = 'USD' and Estatus ='Timbrada' order by FechaDeExpedicion asc ";
+            query = @"select Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls, sum(convert(float,PagoCFDI.cantidad)) as pagos, sum(convert(float,NotaCredito.Total)) as NCTotal,sum(convert(float,NotaCredito.TotalDlls)) as NCTotalDlls from Factura left join PagoCFDI on Factura.Id=PagoCFDI.IdFactura left join NotaCredito on NotaCredito.IdFactura=Factura.Id where Factura.IdCliente=" + id + " and Factura.Moneda = 'USD' and Factura.Estatus ='Timbrada' group by Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls order by Factura.FechaDeExpedicion ";
             // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Moneda = 'USD' union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id + " and Moneda = 'USD' order by FechaDeExpedicion desc ";
 
 
@@ -680,8 +681,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Moneda = 'MXN' and Estatus ='Timbrada'  order by FechaDeExpedicion desc ";
-
+            string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, FechaVencimiento, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Moneda = 'MXN' and Estatus ='Timbrada'  order by FechaDeExpedicion asc ";
+            query = @"select Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls, sum(convert(float,PagoCFDI.cantidad)) as pagos, sum(convert(float,NotaCredito.Total)) as NCTotal,sum(convert(float,NotaCredito.TotalDlls)) as NCTotalDlls from Factura left join PagoCFDI on Factura.Id=PagoCFDI.IdFactura left join NotaCredito on NotaCredito.IdFactura=Factura.Id where Factura.IdCliente=" + id + " and Factura.Moneda = 'MXN' and Factura.Estatus ='Timbrada' group by Factura.Idcliente, Factura.Folio, Factura.Tipo, Factura.FechaDeExpedicion, Factura.FechaVencimiento, Factura.Total, Factura.Moneda, Factura.TipoDeCambio, Factura.TotalDlls order by Factura.FechaDeExpedicion ";
             // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
 
 
