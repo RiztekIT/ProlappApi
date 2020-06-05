@@ -332,7 +332,7 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("UpdateDtODIDLoteFechaCadFechaMFG/{id}/{lote}/{fechacad}/{fechacmdf}")]
+        [Route("UpdateDtODIDLoteFechaCadFechaMFG/{id}/{lote}/{fechacad}/{fechamdf}")]
         public string PutDTTLoteFechaCadFechaMFG(int id, string lote, DateTime fechacad, DateTime fechamdf)
         {
             try
