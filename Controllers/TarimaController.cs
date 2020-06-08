@@ -388,6 +388,25 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("GetTarimaBodega/{bodega}")]
+        public HttpResponseMessage GetTarimaBodega(string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Tarima where Bodega =" + bodega;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            { 
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
 
 
 
