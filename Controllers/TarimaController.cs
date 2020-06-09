@@ -405,6 +405,25 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+               
+        [Route("GetTarimaDttqr/{qr}")]
+        public HttpResponseMessage GetTarimaDttqr(string qr)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"exec jnTarimaDtt" + qr;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
 
