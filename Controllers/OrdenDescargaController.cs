@@ -332,5 +332,23 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("GetODOT/{id}")]
+        public HttpResponseMessage GetjnODOT(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"exec jnODOT" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
     }
 }
