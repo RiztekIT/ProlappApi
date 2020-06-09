@@ -333,7 +333,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("GetODOT/{id}")]
-        public HttpResponseMessage GetjnODOT(int id)
+        public HttpResponseMessage GetODOT(int id)
         {
             DataTable table = new DataTable();
 
