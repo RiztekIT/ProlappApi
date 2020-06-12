@@ -179,6 +179,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ClienteDireccionController.cs" />
+    <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\emailController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
@@ -210,6 +211,7 @@
     </Compile>
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
+    <Compile Include="Models\Compras.cs" />
     <Compile Include="Models\Cotizaciones.cs" />
     <Compile Include="Models\DetalleCotizacion.cs" />
     <Compile Include="Models\DetalleFactura.cs" />

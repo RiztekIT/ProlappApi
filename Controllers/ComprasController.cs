@@ -1,0 +1,258 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using ProlappApi.Models;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+namespace ProlappApi.Controllers
+{
+    [RoutePrefix("api/Compras")]
+    public class ComprasController : ApiController
+    {
+
+        public HttpResponseMessage Get()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("getComprasID/{id}")]
+        public HttpResponseMessage GetComprasID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where IdCompra ="+id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("getComprasFolio/{folio}")]
+        public HttpResponseMessage GetComprasFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Folio =" + folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("getDetalleComprasID/{id}")]
+        public HttpResponseMessage GetDetalleComprasID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCompra where IdCompra =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        [Route("DeleteCompra/{id}")]
+        public string Delete(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" exec dtBorrarCompra " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+
+        public string Post(Compras c)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"
+                                exec itInsertNuevaCompra " + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
+                                 c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
+                                 c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" +  c.PesoTotal + "','" +  c.Estatus + "'," + 
+                                 c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Agrego Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        public string Put(Compras c)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"
+                                exec etEditCompra " + c.IdCompra + "," + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
+                                 c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
+                                 c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" + c.PesoTotal + "','" + c.Estatus + "'," +
+                                 c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("AddDetalleCompra")]
+        public string PostAddDetalleCompra(DetalleCompra dc)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"
+                                exec itInsertNuevoDetalleCompra "+ dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" + 
+                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA +@"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Agrego Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("EditDetalleCompra")]
+        public string PutDetalleCompra(DetalleCompra dc)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"
+                                exec itInsertNuevoDetalleCompra " + dc.IdDetalleCompra + "," + dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" +
+                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("DeleteDetalleCompra/{id}")]
+        public string DeleteDetalleCompra(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" exec dtBorrarDetalleCompra " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+    }
+}
