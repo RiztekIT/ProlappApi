@@ -213,6 +213,7 @@
     <Compile Include="Models\ClienteDireccion.cs" />
     <Compile Include="Models\Compras.cs" />
     <Compile Include="Models\Cotizaciones.cs" />
+    <Compile Include="Models\DetalleCompra.cs" />
     <Compile Include="Models\DetalleCotizacion.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\DetalleNotaCredito.cs" />

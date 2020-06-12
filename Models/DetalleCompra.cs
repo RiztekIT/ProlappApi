@@ -7,6 +7,7 @@ namespace ProlappApi.Models
 {
     public class DetalleCompra
     {
+
         public long IdDetalleCompra { get; set; }
         public long IdCompra { get; set; }
         public string ClaveProducto { get; set; }
@@ -15,6 +16,5 @@ namespace ProlappApi.Models
         public string PrecioUnitario { get; set; }
         public string CostoTotal { get; set; }
         public string IVA { get; set; }
-
     }
 }
