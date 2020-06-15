@@ -107,6 +107,30 @@ namespace ProlappApi.Controllers
             return folio;
         }
 
+       
+        //Obtener ID ultima Compra
+        [Route("GetUltimoIdCompra")]
+        public string GetUtimoIdCompra()
+        {
+            string IdCompra;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 Compras.idCompra from Compras order by Compras.IdCompra desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                IdCompra = row["IdCompra"].ToString();
+            }
+
+            return IdCompra;
+        }
+
 
         [Route("DeleteCompra/{id}")]
         public string Delete(int id)
