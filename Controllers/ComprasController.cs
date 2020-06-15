@@ -84,6 +84,29 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Folio y sumarle 1
+        [Route("CompraFolio")]
+        public string GetFolio()
+        {
+            string folio;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select MAX ( Compras.Folio) + 1 as Folio from Compras";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                folio = row["folio"].ToString();
+            }
+
+            return folio;
+        }
+
 
         [Route("DeleteCompra/{id}")]
         public string Delete(int id)
