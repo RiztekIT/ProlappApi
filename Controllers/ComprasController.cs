@@ -201,7 +201,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditCompra " + c.IdCompra + "," + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
+                                exec etEditarCompra " + c.IdCompra + "," + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
                                  c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
                                  c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" + c.PesoTotal + "','" + c.Estatus + "'," +
                                  c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + "','" 
@@ -263,7 +263,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec itInsertNuevoDetalleCompra " + dc.IdDetalleCompra + "," + dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" +
+                                exec etEditarDetalleCompra " + dc.IdDetalleCompra + "," + dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" +
                                 dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + dc.Observaciones + "','" +
                                 dc.PrecioUnitarioDlls + "','" + dc.CostoTotalDlls + "','" + dc.IVADlls + @"'";
 
