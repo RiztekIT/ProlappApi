@@ -173,7 +173,8 @@ namespace ProlappApi.Controllers
                 string query = @"exec itInsertNuevaCompra " + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
                                  c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
                                  c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" +  c.PesoTotal + "','" +  c.Estatus + "'," + 
-                                 c.Factura + ",'" + c.Ver + "','" + time.ToString(format) + "','" + time2.ToString(format) + "','" + time3.ToString(format) + "','" + c.Comprador + @"'";
+                                 c.Factura + ",'" + c.Ver + "','" + time.ToString(format) + "','" + time2.ToString(format) + "','" + time3.ToString(format) + "','" +
+                                 c.Comprador + "','" + c.SubtotalDlls + "','" + c.TotalDlls + "','" + c.DescuentoDlls + "','" + c.ImpuestosTrasladadosDlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -203,7 +204,8 @@ namespace ProlappApi.Controllers
                                 exec etEditCompra " + c.IdCompra + "," + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
                                  c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
                                  c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" + c.PesoTotal + "','" + c.Estatus + "'," +
-                                 c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + @"'";
+                                 c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + "','" 
+                                 + c.SubtotalDlls + "','" + c.TotalDlls + "','" + c.DescuentoDlls + "','" + c.ImpuestosTrasladadosDlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -232,7 +234,8 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevoDetalleCompra "+ dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" + 
-                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + dc.Observaciones + @"'";
+                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + 
+                                dc.Observaciones + "','" + dc.PrecioUnitarioDlls + "','" + dc.CostoTotalDlls + "','" + dc.IVADlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -261,7 +264,8 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevoDetalleCompra " + dc.IdDetalleCompra + "," + dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" +
-                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + dc.Observaciones + @"'";
+                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + dc.Observaciones + "','" +
+                                dc.PrecioUnitarioDlls + "','" + dc.CostoTotalDlls + "','" + dc.IVADlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

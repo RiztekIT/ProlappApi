@@ -18,5 +18,8 @@ namespace ProlappApi.Models
         public string IVA { get; set; }
         public string Unidad { get; set; }
         public string Observaciones { get; set; }
-    }
+        public string PrecioUnitarioDlls { get; set;}
+        public string CostoTotalDlls { get; set;}
+        public string IVADlls { get; set;}
+}
 }

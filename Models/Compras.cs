@@ -29,7 +29,11 @@ namespace ProlappApi.Models
         public DateTime FechaPromesa { get; set; }
         public DateTime FechaEntrega { get; set; }
         public string Comprador { get; set; }
+        public string SubtotalDlls { get; set;}
+        public string TotalDlls { get; set;}
+        public string DescuentoDlls { get; set;}
+        public string ImpuestosTrasladadosDlls { get; set;}
 
 
-    }
+}
 }
