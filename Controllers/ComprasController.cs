@@ -199,12 +199,17 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
+                DateTime time = c.FechaElaboracion;
+                DateTime time2 = c.FechaPromesa;
+                DateTime time3 = c.FechaEntrega;
+
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
                                 exec etEditarCompra " + c.IdCompra + "," + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
                                  c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
                                  c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" + c.PesoTotal + "','" + c.Estatus + "'," +
-                                 c.Factura + ",'" + c.Ver + "','" + c.FechaElaboracion + "','" + c.FechaPromesa + "','" + c.FechaEntrega + "','" + c.Comprador + "','" 
+                                 c.Factura + ",'" + c.Ver + "','" + time.ToString(format) + "','" + time2.ToString(format) + "','" + time3.ToString(format) + "','" + c.Comprador + "','" 
                                  + c.SubtotalDlls + "','" + c.TotalDlls + "','" + c.DescuentoDlls + "','" + c.ImpuestosTrasladadosDlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
