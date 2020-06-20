@@ -131,6 +131,26 @@ namespace ProlappApi.Controllers
             return IdCompra;
         }
 
+        //Obtener sumatoria de importes de DetalleCompra por IdCompra
+        [Route("GetDCsumatoria/{id}")]
+        public HttpResponseMessage GetDCsumatoria(int id)
+        {
+            string IdCompra;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select sum(CAST(DetalleCompra.CostoTotal AS float)) as CostoTotal, sum(CAST(DetalleCompra.CostoTotalDlls AS float)) as CostoTotalDlls from DetalleCompra where IdCompra ="+id;
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("DeleteCompra/{id}")]
         public string Delete(int id)
@@ -141,6 +161,32 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @" exec dtBorrarCompra " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+        //Eliminar todos los Detalles Compra por IdCompra
+        [Route("DeleteAllDetalleCompras/{id}")]
+        public string DeleteAllDetalleCompras(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"delete DetalleCompra where IdCompra =" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
