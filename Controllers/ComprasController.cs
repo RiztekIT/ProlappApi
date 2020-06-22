@@ -314,9 +314,9 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarDetalleCompra " + dc.IdDetalleCompra + "," + dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" +
-                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + dc.Observaciones + "','" +
-                                dc.PrecioUnitarioDlls + "','" + dc.CostoTotalDlls + "','" + dc.IVADlls + @"'";
+                                update DetalleCompra SET IdCompra = "+dc.IdCompra+", ClaveProducto = '"+dc.ClaveProducto+"', Producto = '"+dc.Producto+"', Cantidad ='"+dc.Cantidad+
+                                "', PrecioUnitario ='"+dc.PrecioUnitario+"', CostoTotal = '"+dc.CostoTotal+"', IVA ='"+dc.IVA+"', Unidad='"+dc.Unidad+"',Observaciones='"+dc.Observaciones+
+                                "',PrecioUnitarioDlls='"+dc.PrecioUnitario+"',CostoTotalDlls='"+dc.CostoTotalDlls+"',IVADlls='"+dc.IVADlls+"' where IdDetalleCompra = "+dc.IdDetalleCompra+ @";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
