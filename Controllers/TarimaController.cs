@@ -424,7 +424,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("GetTarimaBodegaQR/{qr}")]
+        [Route("GetTarimaBodegaQR/{qr}/{bodega}")]
         public HttpResponseMessage GetTarimaBodegaQR(string qr, string bodega)
         {
             DataTable table = new DataTable();
