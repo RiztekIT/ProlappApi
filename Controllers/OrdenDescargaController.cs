@@ -368,5 +368,26 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Get JOIN ODOTTB
+        [Route("GetODOTTB/{id}/{bodega}")]
+        public HttpResponseMessage GetODOTTB(int id, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select ordentemporal.QR, tarima.* from OrdenDescarga left join ordentemporal on ordentemporal.idOrdenDescarga = OrdenDescarga.idOrdenDescarga 
+                                left join tarima on ordentemporal.QR = tarima.QR  where  OrdenDescarga.IdOrdenDescarga = " + id + " and tarima.Bodega = '" + bodega +
+                                "'group by OrdenTemporal.QR, tarima.IdTarima, tarima.Sacos, tarima.PesoTotal, tarima.QR, tarima.Bodega";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
     }
 }
