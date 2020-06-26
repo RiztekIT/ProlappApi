@@ -424,6 +424,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("GetTarimaBodegaQR/{qr}")]
+        public HttpResponseMessage GetTarimaBodegaQR(string qr, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select * from Tarima where tarima.QR = '"+qr+"' and tarima.Bodega = '"+bodega+"';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
     }
 }
