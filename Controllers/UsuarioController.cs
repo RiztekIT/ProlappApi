@@ -35,6 +35,48 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        //Obtener Usuario y Login 
+        [Route("api/usuario/login")]
+
+        public HttpResponseMessage Getlogin()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/usuario/login/{fecha}")]
+
+        public HttpResponseMessage Getlogin(string fecha)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where fechainiciosesion between '"+fecha+"' and DATEADD(DAY,1,'"+fecha+"')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        } 
+    
+
         //Obtener Usuario por NombreUsuario
         [Route("api/usuario/userinfo/{nombre}")]
         public HttpResponseMessage GetUserInfo(string nombre)
@@ -54,7 +96,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
         [Route("api/usuario/login/")]
-        public string PostAut(Usuario usuario)
+        public object PostAut(Usuario usuario)
         {
             DataTable table = new DataTable();
             
@@ -89,7 +131,22 @@ namespace ProlappApi.Controllers
                         signingCredentials: signingCredentials
                         );
                     var jwtTokenString = tokenhandler.WriteToken(jwtSecurityToken);
+
+                    DataTable table2 = new DataTable();
+                    var nombreusuario = table.Rows[0].Field<string>("NombreUsuario");
+                    string format = "yyyy-MM-dd HH:mm:ss";
+                    var fecha = DateTime.UtcNow;
+                    string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToString(format)+"','Dispositivo');";
+                    using (var cmd2 = new SqlCommand(query2, con))
+              
+                    using (var da2 = new SqlDataAdapter(cmd2))
+                    {
+                        cmd2.CommandType = CommandType.Text;
+                        da2.Fill(table2);
+                    }
+                        
                     return jwtTokenString;
+                   // return jwtTokenString;
                 }
                 else
                 {
