@@ -183,6 +183,7 @@
     <Compile Include="Controllers\ClienteDireccionController.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
+    <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\emailController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Controllers\ImagenesController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
     <Compile Include="Controllers\OrdenCargaController.cs" />
+    <Compile Include="Controllers\DireccionControllers.cs" />
     <Compile Include="Controllers\OrdenDescargaController.cs" />
     <Compile Include="Controllers\OrdenTemporalController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
