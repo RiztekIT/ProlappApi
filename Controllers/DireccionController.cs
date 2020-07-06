@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ProlappApi.Models;
+using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-using ProlappApi.Models;
-using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
-
 namespace ProlappApi.Controllers
-{ 
+{
     [RoutePrefix("api/Direccion")]
     public class DireccionController : ApiController
     {
@@ -32,7 +29,6 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("OrdenTemporal/{fecha}")]
         public string Post(HistoricoLeche pl)
         {
             try
@@ -65,7 +61,7 @@ namespace ProlappApi.Controllers
         }
 
         //obtener PrecioLeche de dia especifico
-        [Route("OrdenTemporal/{fecha}")]
+        [Route("Direccion/{fecha}")]
         public HttpResponseMessage Get(DateTime Fecha)
         {
             DataTable table = new DataTable();
