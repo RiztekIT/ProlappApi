@@ -237,7 +237,7 @@
     <Compile Include="Models\OrdenTemporal.cs" />
     <Compile Include="Models\PagoCFDI.cs" />
     <Compile Include="Models\Pedido.cs" />
-    <Compile Include="Models\PrecioLeche.cs" />
+    <Compile Include="Models\HistoricoLeche.cs" />
     <Compile Include="Models\Privilegio.cs" />
     <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\Producto.cs" />
