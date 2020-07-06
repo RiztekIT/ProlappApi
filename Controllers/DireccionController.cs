@@ -33,7 +33,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("OrdenTemporal/{fecha}")]
-        public string Post(PrecioLeche pl)
+        public string Post(HistoricoLeche pl)
         {
             try
             {
