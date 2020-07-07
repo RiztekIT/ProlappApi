@@ -29,19 +29,21 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        public string Post(HistoricoLeche pl)
+        public string Post(HistoricoLeche hl)
         {
             try
             {
 
                 DataTable table = new DataTable();
 
-                DateTime time = pl.FechaPrecio;
-                string format = "yyyy-MM-dd";
+
+                DateTime time = hl.FechaPrecio;
+
+                string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevaOrdenTemporal " + pl.IdPrecio + " , " + pl.PrecioLeche + " , " + time.ToString(format) +
-                                " , '" + pl.FechaPrecio + @"'";
+                                exec itInsertarHistoricoLeche " + hl.IdPrecio + " , " + hl.PrecioLeche + " , " + time.ToString(format) +
+                                " , '" + hl.FechaPrecio + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -51,7 +53,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Agrego Correctamente";
+                return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
             {
@@ -66,7 +68,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select PrecioLeche from PrecioLeche where FechaPrecio =" + Fecha + ";";
+            string query = @"select * from PrecioLeche where FechaPrecio =" + Fecha + ";";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -78,6 +80,8 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+
 
 
     }
