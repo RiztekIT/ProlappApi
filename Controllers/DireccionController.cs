@@ -39,11 +39,11 @@ namespace ProlappApi.Controllers
 
                 DateTime time = hl.FechaPrecio;
 
-                string format = "yyyy-MM-dd HH:mm:ss";
+                string format = "yyyy-MM-dd";
 
                 string query = @"
-                                exec itInsertarHistoricoLeche " + hl.IdPrecio + " , " + hl.PrecioLeche + " , " + time.ToString(format) +
-                                " , '" + hl.FechaPrecio + @"'";
+                                exec itInsertarHistoricoLeche " + hl.PrecioLeche + " , " + hl.VarianteDiaAnterior + 
+                                " , '" + time.ToString(format) + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
