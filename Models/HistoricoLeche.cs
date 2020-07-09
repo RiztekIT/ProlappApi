@@ -5,10 +5,10 @@ using System.Web;
 
 namespace ProlappApi.Models
 {
-    public class PrecioLeche
+    public class HistoricoLeche
     {
         public long IdPrecio { get; set; }
-        public string LechePrecio { get; set; }
+        public string PrecioLeche { get; set; }
         public string VarianteDiaAnterior { get; set; }
         public DateTime FechaPrecio { get; set; }
     }
