@@ -135,7 +135,7 @@ namespace ProlappApi.Controllers
                     DataTable table2 = new DataTable();
                     var nombreusuario = table.Rows[0].Field<string>("NombreUsuario");
                     string format = "yyyy-MM-dd HH:mm:ss";
-                    var fecha = DateTime.UtcNow;
+                    var fecha = DateTime.Now;
                     string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToString(format)+"','Dispositivo');";
                     using (var cmd2 = new SqlCommand(query2, con))
               

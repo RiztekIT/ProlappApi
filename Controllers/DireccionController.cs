@@ -61,14 +61,15 @@ namespace ProlappApi.Controllers
 
             }
         }
-
         //obtener PrecioLeche de dia especifico
-        [Route("Direccion/{fecha}")]
-        public HttpResponseMessage Get(DateTime Fecha)
+        [Route("{fecha}")]
+        public HttpResponseMessage Get(string fecha)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from PrecioLeche where FechaPrecio =" + Fecha + ";";
+
+
+            string query = @"select * from PrecioLeche where FechaPrecio ="+ "'" + fecha + "'"+ "; ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -80,9 +81,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
-
-
-
     }
+    
+        
 }
