@@ -222,22 +222,24 @@ namespace ProlappApi.Controllers
             }
         }
         [Route("UpdateDetalleCalendario")]
-        public string PutDetalleCalendario(DetalleCalendario c)
+        public string PutDetalleCalendario(DetalleCalendario dc)
         {
             try
             {
 
                 DataTable table = new DataTable();
-                DateTime time = c.Start;
-                DateTime time2 = c.Endd;
 
+                DateTime time = dc.Start;
+                DateTime time2 = dc.Endd;
                 string format = "yyyy-MM-dd HH:mm:ss";
 
-                string query = @" update DetalleCalendar set IdCalendario ="+c.IdCalendario+
-                    ", Folio ="+c.Folio+", Documento = '"+c.Documento+"', Descripcion = '"+c.Descripcion+
-                    "', Start = '"+time.ToString(format)+"', Endd = '"+time2.ToString(format)+"', Title = '"+c.Title+"', Color = '"+c.Color+
-                    "', AllDay ="+c.AllDay+", ResizableBeforeStart ="+c.ResizableBeforeStart+", ResizableBeforeEnd = "+c.ResizableBeforeEnd+", Draggable = " + c.Draggable +
-                    " where IdDetalleCalendario = "+c.IdDetalleCalendario +@"";
+
+                string query = @" update DetalleCalendar set IdCalendario =" + dc.IdCalendario +
+                   ", Folio =" + dc.Folio + ", Documento = '" + dc.Documento + "', Descripcion = '" + dc.Descripcion +
+                   "', Start = '" + time.ToString(format) + "', Endd = '" + time2.ToString(format) + "', Title = '" + dc.Title + "', Color = '" + dc.Color +
+                   "', AllDay =" + dc.AllDay + ", ResizableBeforeStart =" + dc.ResizableBeforeStart + ", ResizableBeforeEnd = " + dc.ResizableBeforeEnd + ", Draggable = " + dc.Draggable +
+                   " where IdDetalleCalendario = " + dc.IdDetalleCalendario + @"";
+
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -247,7 +249,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Agrego Correctamente";
+                return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
             {
@@ -255,6 +257,42 @@ namespace ProlappApi.Controllers
 
             }
         }
+
+        [Route("UpdateDetalleOrdenCarga")]
+        public string PutDetalleOrdenCarga(DetalleOrdenCarga doc)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                DateTime time = doc.FechaMFG;
+                DateTime time2 = doc.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
+                string query = @"
+                                exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
+                                "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
+                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento + "' , '" +
+                                doc.Saldo + @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+
 
         [Route("DeleteCalendario/{id}")]
         public string DeleteCalendario(int id)
@@ -281,6 +319,8 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
+
+
 
         [Route("DeleteDetalleCalendario/{id}")]
         public string DeleteDetalleCalendario(int id)
