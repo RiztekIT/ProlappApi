@@ -137,6 +137,28 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener ID ultima OD
+        [Route("GetUltimoIdOrdenDescarga")]
+        public string GetUtimoIdCompra()
+        {
+            string IdOrdenDescarga;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 OrdenDescarga.IdOrdenDescarga from OrdenDescarga order by OrdenDescarga.IdOrdenDescarga desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                IdOrdenDescarga = row["IdOrdenDescarga"].ToString();
+            }
+
+            return IdOrdenDescarga;
+        }
 
 
 
@@ -157,7 +179,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevaOrdenDescarga " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', '" + ordenDescarga.PO + "' , '" + ordenDescarga.Fletera + "' , '" +
                                 ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
                                 "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
                                 time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
@@ -170,7 +192,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -204,7 +226,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
