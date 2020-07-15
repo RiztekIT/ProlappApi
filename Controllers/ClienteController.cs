@@ -11,6 +11,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Logging;
+
+
 namespace ProlappApi.Controllers
 {
     [RoutePrefix("api/Cliente")]
@@ -258,6 +263,108 @@ namespace ProlappApi.Controllers
 
 
             }
+
+        //Obtener Usuario y Login 
+        [Route("api/cliente/login")]
+
+        public HttpResponseMessage Getlogin()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select loginclientes.*, clientelogin.* from loginclientes left join clientelogin on clientelogin.NombreUsuario=loginclientes.username";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/cliente/login/{fecha}")]
+
+        public HttpResponseMessage Getlogin(string fecha)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select loginclientes.*, clientelogin.* from loginclientes left join clientelogin on clientelogin.RFC = loginclientes.RFC where fechainiciosesion between '" + fecha + "' and DATEADD(DAY,1,'" + fecha + "')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("api/cliente/login/")]
+        public object PostAut(ClienteLogin clientelogin)
+        {
+            DataTable table = new DataTable();
+
+
+            string query = @"select * from dbo.ClienteLogin where RFC ='" + clientelogin.RFC + "' and Contraseña='" + clientelogin.Contraseña + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                if (table.Rows.Count > 0)
+                {
+                    //var secretKey = ConfigurationManager.AppSettings["JWT_SECRET_KEY"];
+                    var secretKey = "RiztekTKey123456";
+                    var audienceToken = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
+                    var issuerToken = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
+                    var expireTime = ConfigurationManager.AppSettings["JWT_EXPIRE_MINUTES"];
+                    var securityKey = new SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(secretKey));
+                    var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "Ivan2019") });
+                    IdentityModelEventSource.ShowPII = true;
+
+                    var tokenhandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                    var jwtSecurityToken = tokenhandler.CreateJwtSecurityToken(
+                        audience: audienceToken,
+                        issuer: issuerToken,
+                        subject: claimsIdentity,
+                        notBefore: DateTime.UtcNow,
+                        expires: DateTime.UtcNow.AddMinutes(1),
+                        signingCredentials: signingCredentials
+                        );
+                    var jwtTokenString = tokenhandler.WriteToken(jwtSecurityToken);
+
+                    DataTable table2 = new DataTable();
+                    var RFC = table.Rows[0].Field<string>("RFC");
+                    string format = "yyyy-MM-dd HH:mm:ss";
+                    var fecha = DateTime.Now;
+                    string query2 = @"insert into loginclientes values('" + RFC + "','" + jwtTokenString + "','" + fecha.ToString(format) + "','Dispositivo');";
+                    using (var cmd2 = new SqlCommand(query2, con))
+
+                    using (var da2 = new SqlDataAdapter(cmd2))
+                    {
+                        cmd2.CommandType = CommandType.Text;
+                        da2.Fill(table2);
+                    }
+
+                    return jwtTokenString;
+                    // return jwtTokenString;
+                }
+                else
+                {
+                    return "Error";
+                }
+            }
+
+        }
+
 
 
 
