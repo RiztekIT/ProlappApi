@@ -213,7 +213,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.OrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
+                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
                                 "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
