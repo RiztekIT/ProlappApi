@@ -310,7 +310,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @"select * from dbo.ClienteLogin where RFC ='" + clientelogin.RFC + "' and Contraseña='" + clientelogin.Contraseña + "'";
+            string query = @"select * from dbo.ClienteLogin where RFC ='" + clientelogin.RFC + "' and Contra='" + clientelogin.Contra + "'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

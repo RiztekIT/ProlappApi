@@ -10,7 +10,7 @@ namespace ProlappApi.Models
     
         public long ID { get; set; }
         public string RFC { get; set; }
-        public string Contraseña { get; set; }
+        public string Contra { get; set; }
 
     }
 }
