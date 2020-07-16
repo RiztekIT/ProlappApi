@@ -265,13 +265,13 @@ namespace ProlappApi.Controllers
             }
 
         //Obtener Usuario y Login 
-        [Route("api/cliente/login")]
+        [Route("login")]
 
         public HttpResponseMessage Getlogin()
         {
             DataTable table = new DataTable();
 
-            string query = @"select loginclientes.*, clientelogin.* from loginclientes left join clientelogin on clientelogin.NombreUsuario=loginclientes.username";
+            string query = @"select loginclientes.*, clientelogin.* from loginclientes left join clientelogin on clientelogin.RFC=loginclientes.RFC";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -285,7 +285,7 @@ namespace ProlappApi.Controllers
         }
 
         //Obtener Usuario y Login por fechas 
-        [Route("api/cliente/login/{fecha}")]
+        [Route("{fecha}")]
 
         public HttpResponseMessage Getlogin(string fecha)
         {
@@ -304,7 +304,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("api/cliente/login/")]
+        [Route("login")]
         public object PostAut(ClienteLogin clientelogin)
         {
             DataTable table = new DataTable();
