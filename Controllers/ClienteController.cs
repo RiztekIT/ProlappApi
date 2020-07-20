@@ -264,6 +264,9 @@ namespace ProlappApi.Controllers
 
             }
 
+
+        ////////////////////////////////////////////////////////////////////////LOGIN DE CLIENTE /////////////////////////////////////////////////////////////////////////////////////
+
         //Obtener Usuario y Login 
         [Route("login")]
 
@@ -364,6 +367,55 @@ namespace ProlappApi.Controllers
             }
 
         }
+
+
+        //////////////////////////////////////////////////////////////////////// FIN LOGIN DE CLIENTE /////////////////////////////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////////////////LOGIN CLIENTE MODULOS /////////////////////////////////////////////////////////////////////////////////////
+        [Route("factura/{id}")]
+        public HttpResponseMessage GetClienteFactura(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from factura left join cliente on factura.idCliente = cliente.idClientes where cliente.idClientes =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("ordencompra/{id}")]
+        public HttpResponseMessage GetClienteOrdenCompra(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from pedidos left join cliente on pedidos.idCliente = cliente.idClientes where cliente.idClientes =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////// FIN CLIENTE MODULOS /////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 
 
