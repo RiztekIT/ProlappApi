@@ -368,6 +368,26 @@ namespace ProlappApi.Controllers
 
         }
 
+        [Route("rfc/{RFC}")]
+
+        public HttpResponseMessage GetloginRFC(string RFC)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from Cliente where RFC =  '" + RFC + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        
+
 
         //////////////////////////////////////////////////////////////////////// FIN LOGIN DE CLIENTE /////////////////////////////////////////////////////////////////////////////////////
 
@@ -378,7 +398,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from factura left join cliente on factura.idCliente = cliente.idClientes where cliente.idClientes =" + id;
+            string query = @"select * from factura left join cliente on factura.idCliente = cliente.idClientes where cliente.idClientes =" + id + "and factura.estatus = 'timbrada'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -396,7 +416,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from pedidos left join cliente on pedidos.idCliente = cliente.idClientes where cliente.idClientes =" + id;
+            string query = @"select * from pedidos left join cliente on pedidos.idCliente = cliente.idClientes where cliente.idClientes =" + id+ "and pedidos.Estatus = 'cerrada'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
