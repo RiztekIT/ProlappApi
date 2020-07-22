@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+ "' order by Factura.folio asc";
+            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+ "' and (Factura.Estatus='Timbrada' or Factura.Estatus='Pagada') order by Factura.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -445,14 +445,16 @@ namespace ProlappApi.Controllers
 
 
                 DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevaDetalleFacturaId " + factura.IdFactura + " , '"
-                                + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
-                                + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '" + factura.PrecioUnitarioDlls + "' , '" 
-                                + factura.Cantidad + "' , '" + factura.Importe + "' , '" + factura.ImporteDlls + "' , '" 
-                                + factura.Observaciones + "' , '" + factura.TextoExtra + "' , '"
-                                + factura.ImporteIVA + "' , '" + factura.ImporteIVADlls + @"'
-                                ";
+               // string query = @"
+                //                Execute itInsertNuevaDetalleFacturaId " + factura.IdFactura + " , '"
+                  //              + factura.ClaveProducto + "' , '" + factura.Producto + "' , '" + factura.Unidad + "' , '" 
+                    //            + factura.ClaveSat + "' , '" + factura.PrecioUnitario + "' , '" + factura.PrecioUnitarioDlls + "' , '" 
+                      //          + factura.Cantidad + "' , '" + factura.Importe + "' , '" + factura.ImporteDlls + "' , '" 
+                        //        + factura.Observaciones + "' , '" + factura.TextoExtra + "' , '"
+                          //      + factura.ImporteIVA + "' , '" + factura.ImporteIVADlls + @"'
+                            //    ";
+
+                string query = @"insert into DetalleFactura values ("+ factura.IdFactura+",'"+ factura.ClaveProducto+ "','"+ factura.Producto+ "','"+ factura.Unidad+ "','"+ factura.ClaveSat+ "','"+ factura.PrecioUnitario+ "','"+ factura.Cantidad+ "','"+ factura.Importe+ "','"+ factura.Observaciones+ "','"+ factura.TextoExtra+ "','"+ factura.PrecioUnitarioDlls+ "','"+ factura.ImporteDlls+ "','"+ factura.ImporteIVA+ "','"+ factura.ImporteIVADlls+ "');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -488,6 +490,8 @@ namespace ProlappApi.Controllers
                                 + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + "' , '"
                                 + detalleFactura.ImporteIVA + "' , '" + detalleFactura.ImporteIVADlls + @"'
                                 ";
+
+                query = @"update DetalleFactura set ClaveProducto = '" + detalleFactura.ClaveProducto + "', Producto = '" + detalleFactura.Producto + "', Unidad = '" + detalleFactura.Unidad + "', ClaveSAT = '" + detalleFactura.ClaveSat + "', PrecioUnitario = '" + detalleFactura.PrecioUnitario + "', PrecioUnitarioDlls = '" + detalleFactura.PrecioUnitarioDlls + "', Cantidad = '" + detalleFactura.Cantidad + "', Importe = '" + detalleFactura.Importe + "', ImporteDlls = '" + detalleFactura.ImporteDlls + "', Observaciones = '" + detalleFactura.Observaciones + "', TextoExtra = '" + detalleFactura.TextoExtra + "',ImporteIVA = '" + detalleFactura.ImporteIVA + "' where IdDetalle=" + detalleFactura.IdDetalle + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
