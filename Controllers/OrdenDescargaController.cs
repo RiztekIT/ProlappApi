@@ -137,6 +137,28 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //Obtener ID ultima OD
+        [Route("GetUltimoIdOrdenDescarga")]
+        public string GetUtimoIdCompra()
+        {
+            string IdOrdenDescarga;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 OrdenDescarga.IdOrdenDescarga from OrdenDescarga order by OrdenDescarga.IdOrdenDescarga desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                IdOrdenDescarga = row["IdOrdenDescarga"].ToString();
+            }
+
+            return IdOrdenDescarga;
+        }
 
 
 
@@ -157,7 +179,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevaOrdenDescarga " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', '" + ordenDescarga.PO + "' , '" + ordenDescarga.Fletera + "' , '" +
                                 ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
                                 "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
                                 time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
@@ -170,7 +192,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -191,7 +213,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
+                                exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
                                 "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
@@ -204,7 +226,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                return "Se Agrego Correctamente";
             }
             catch (Exception exe)
             {
@@ -332,36 +354,62 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("UpdateDtODIDLoteFechaCadFechaMFG/{id}/{lote}/{fechacad}/{fechacmdf}")]
-        public string PutDTTLoteFechaCadFechaMFG(int id, string lote, DateTime fechacad, DateTime fechamdf)
+        [Route("GetODOT/{id}")]
+        public HttpResponseMessage GetODOT(int id)
         {
-            try
+            DataTable table = new DataTable();
+
+            string query = @" exec jnODOT " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
             {
-                DataTable table = new DataTable();
-                DateTime time = fechacad;
-                DateTime time2 = fechamdf;
-                string format = "yyyy-MM-dd HH:mm:ss";
-
-                string query = @"update DetalleOrdenDescarga set Lote = '" + lote + "' ,FechaCaducidad = '" + time.ToString(format) + "', FechaMFG = '" + time2.ToString(format) + "' where IdDetalleOrdenDescarga = " + id + ";";
-
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                using (var cmd = new SqlCommand(query, con))
-                using (var da = new SqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    da.Fill(table);
-                }
-
-                return "Se Actualizo Correctamente";
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
             }
-            catch (Exception exe)
-            {
-                return "Se produjo un error" + exe;
 
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-       
+        [Route("GetODOTQR/{id}")]
+        public HttpResponseMessage GetODOTQR(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" exec jnODOTQR " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Get JOIN ODOTTB
+        [Route("GetODOTTB/{id}/{bodega}")]
+        public HttpResponseMessage GetODOTTB(int id, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select ordentemporal.QR, tarima.* from OrdenDescarga left join ordentemporal on ordentemporal.idOrdenDescarga = OrdenDescarga.idOrdenDescarga 
+                                left join tarima on ordentemporal.QR = tarima.QR  where  OrdenDescarga.IdOrdenDescarga = " + id + " and tarima.Bodega = '" + bodega +
+                                "'group by OrdenTemporal.QR, tarima.IdTarima, tarima.Sacos, tarima.PesoTotal, tarima.QR, tarima.Bodega";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
     }
 }

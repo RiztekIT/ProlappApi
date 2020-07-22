@@ -388,8 +388,59 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("GetTarimaBodega/{bodega}")]
+        public HttpResponseMessage GetTarimaBodega(string bodega)
+        {
+            DataTable table = new DataTable();
 
+            string query = @"select * from Tarima where Bodega =" + bodega;
 
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            { 
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+               
+        [Route("GetTarimaDttqr/{qr}")]
+        public HttpResponseMessage GetTarimaDttqr(string qr)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" exec jnTarimaDtt " + " '" + qr + "' ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetTarimaBodegaQR/{qr}/{bodega}")]
+        public HttpResponseMessage GetTarimaBodegaQR(string qr, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" select * from Tarima where tarima.QR = '"+qr+"' and tarima.Bodega = '"+bodega+"';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
     }

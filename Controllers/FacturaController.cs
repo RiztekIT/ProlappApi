@@ -493,7 +493,12 @@ namespace ProlappApi.Controllers
 
                 query = @"update DetalleFactura set ClaveProducto = '" + detalleFactura.ClaveProducto + "', Producto = '" + detalleFactura.Producto + "', Unidad = '" + detalleFactura.Unidad + "', ClaveSAT = '" + detalleFactura.ClaveSat + "', PrecioUnitario = '" + detalleFactura.PrecioUnitario + "', PrecioUnitarioDlls = '" + detalleFactura.PrecioUnitarioDlls + "', Cantidad = '" + detalleFactura.Cantidad + "', Importe = '" + detalleFactura.Importe + "', ImporteDlls = '" + detalleFactura.ImporteDlls + "', Observaciones = '" + detalleFactura.Observaciones + "', TextoExtra = '" + detalleFactura.TextoExtra + "',ImporteIVA = '" + detalleFactura.ImporteIVA + "' where IdDetalle=" + detalleFactura.IdDetalle + ";";
 
+
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+
+                
+
+
                 using (var cmd = new SqlCommand(query, con))
                 using (var da = new SqlDataAdapter(cmd))
                 {
