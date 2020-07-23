@@ -353,6 +353,28 @@ namespace ProlappApi.Controllers
 
             }
         }
+        //Obtener Folio y sumarle 1
+        [Route("OrdenDescargaFolio")]
+        public string GetFolio()
+        {
+            string folio;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select MAX ( OrdenDescarga.Folio) + 1 as Folio from OrdenDescarga";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                folio = row["folio"].ToString();
+            }
+
+            return folio;
+        }
 
         [Route("GetODOT/{id}")]
         public HttpResponseMessage GetODOT(int id)
