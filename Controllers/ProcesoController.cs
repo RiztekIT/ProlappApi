@@ -112,7 +112,7 @@ namespace ProlappApi.Controllers
         [Route("ProcesoIdProceso/{id}")]
         public HttpResponseMessage GetProcesoIdProceso(int id)
         {
-            DataTable table = new DataTable();
+            DataTable table = new DataTable();  
 
             string query = @"select * from Procesos where IdProcesos ="+ id;
 
