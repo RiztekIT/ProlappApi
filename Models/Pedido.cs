@@ -30,6 +30,7 @@ namespace ProlappApi.Models
         public string TotalDlls { get; set; }
         public string Flete { get; set; }
         public long IdDireccion { get; set; }
+        public DateTime FechaDeExpedicion { get; set; }
 
 
     }
