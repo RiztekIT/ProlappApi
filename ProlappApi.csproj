@@ -184,6 +184,7 @@
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
+    <Compile Include="Controllers\DocumentosController.cs" />
     <Compile Include="Controllers\emailController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Controllers\ReportesVentasController.cs" />
     <Compile Include="Controllers\SaldosController.cs" />
     <Compile Include="Controllers\TarimaController.cs" />
+    <Compile Include="Controllers\TraficoController.cs" />
     <Compile Include="Controllers\TraspasoTarimaController.cs" />
     <Compile Include="Controllers\UnidadMedidaController.cs" />
     <Compile Include="Controllers\UploadFilesController.cs" />
@@ -228,9 +230,11 @@
     <Compile Include="Models\DetalleOrdenDescarga.cs" />
     <Compile Include="Models\DetallePedido.cs" />
     <Compile Include="Models\DetalleTarima.cs" />
+    <Compile Include="Models\Documento.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\Fleteras.cs" />
     <Compile Include="Models\Folio.cs" />
     <Compile Include="Models\Imagen.cs" />
     <Compile Include="Models\NotaCredito.cs" />
