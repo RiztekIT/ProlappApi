@@ -21,6 +21,7 @@ namespace ProlappApi.Models
         public string Observaciones { get; set; }
         public string TipoCambio { get; set; }
         public string CondicionesPago { get; set; }
+        public string SacosTotales { get; set; }
         public string PesoTotal { get; set; }
         public string Estatus { get; set; }
         public long Factura { get; set; }

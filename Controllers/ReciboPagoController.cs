@@ -121,12 +121,12 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @" Select Factura.Folio,PagoCFDI.IdReciboPago, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
+            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.Total) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
                                 and Factura.Folio="+ folio + @"
-                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id, PagoCFDI.IdReciboPago
+                                group by PagoCFDI.IdFactura, Factura.Total, Factura.Folio, Factura.Id
                                 Having ((CONVERT(float, Factura.Total)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >=0";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -146,12 +146,12 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
 
-            string query = @" Select Factura.Folio,PagoCFDI.IdReciboPago, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.TotalDlls) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.TotalDlls as Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
+            string query = @" Select Factura.Folio, SUM(CONVERT(float, PagoCFDI.Cantidad)) as Quantity, (CONVERT(float, Factura.TotalDlls) - SUM(CONVERT(float, PagoCFDI.Cantidad))) as Saldo, Factura.TotalDlls as Total, Factura.Id, MAX(PagoCFDI.NoParcialidad) as NoParcialidad
                                 from PagoCFDI left join Factura ON Factura.Id = PagoCFDI.IdFactura
                                 where PagoCFDI.IdFactura IN ( select Factura.Id from Factura 
                                 where Factura.Estatus = 'Timbrada' and Factura.IdCliente = " + id + @")
                                 and Factura.Folio=" + folio + @"
-                                group by PagoCFDI.IdFactura, Factura.TotalDlls, Factura.Folio, Factura.Id, PagoCFDI.IdReciboPago
+                                group by PagoCFDI.IdFactura, Factura.TotalDlls, Factura.Folio, Factura.Id
                                 Having ((CONVERT(float, Factura.TotalDlls)) - (  SUM(CONVERT(float, PagoCFDI.Cantidad))  )) >=0";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -485,6 +485,33 @@ namespace ProlappApi.Controllers
 
 
                 return "PagoCFDI Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        [Route("CancelarPagoCFDI")]
+        public string PutCancelarPagoCFDI(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+                string query = @"update PagoCFDI set saldo=convert(float,Cantidad)+convert(float,saldo), cantidad=0 where IdReciboPago="+id+"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "PagoCFDI Cancelado";
             }
             catch (Exception exe)
             {

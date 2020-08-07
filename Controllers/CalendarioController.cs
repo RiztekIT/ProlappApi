@@ -135,6 +135,42 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("getCalendarioProceso/{usuario}/{modulo}/{proceso}")]
+        public HttpResponseMessage GetCalendarioProceso(string usuario, string modulo, string proceso)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Calendar left join Procesos on Calendar.Modulo = Procesos.Area where Calendar.NombreUsuario = '"+usuario+"' and Calendar.Modulo = '"+modulo+"' and Procesos.NombreProceso = '"+proceso+"';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("getCalendarioUsuarioId/{id}")]
+        public HttpResponseMessage GetCalendarioUsuarioId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Usuario where IdUsuario = "+ id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         public string Post(Calendario c)
         {
             try
