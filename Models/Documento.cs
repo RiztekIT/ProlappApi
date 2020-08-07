@@ -10,6 +10,7 @@ namespace ProlappApi.Models
         public long IdDocumento { get; set; }
         public long Folio { get; set; }
         public string Tipo { get; set; }
+        public string ClaveProducto { get; set; }
         public string NombreDocumento { get; set; }
         public string Path { get; set; }
         public string Observaciones { get; set; }
