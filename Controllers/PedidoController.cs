@@ -57,7 +57,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Pedidos.*, Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes order by IdPedido;";
+            string query = @"Select Pedidos.*, Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes order by FechaDeExpedicion desc ;";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -155,6 +155,7 @@ namespace ProlappApi.Controllers
                 //Las variables de fecha, son igualadas a un valor Datatime
                 DateTime time2 = pedido.FechaVencimiento;
                 DateTime time3 = pedido.FechaDeEntrega;
+                DateTime time4 = pedido.FechaDeExpedicion;
                 //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
                 string format = "yyyy-MM-dd HH:mm:ss";
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
@@ -166,9 +167,8 @@ namespace ProlappApi.Controllers
                                 + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
-                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "', '" 
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion +  @"
-                                ";
+                                + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "', '"
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToString(format) + "';";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
