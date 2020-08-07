@@ -17,8 +17,9 @@ namespace ProlappApi.Controllers
 {
     public class TraficoController : ApiController
     {
+
         //Obtener Usuario y Login 
-        [Route("trafico/fletera")]
+        [Route("api/trafico/fletera")]
 
         public HttpResponseMessage Getlogin()
         {
