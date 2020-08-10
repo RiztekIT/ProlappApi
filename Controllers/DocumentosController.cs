@@ -107,12 +107,12 @@ namespace ProlappApi.Controllers
 
 
         //get Documento tipo y folio
-        [Route("GetDocumentoFolioTipo/{folio}/{tipo}")]
-        public HttpResponseMessage GetDocumentoFolioTipo(int folio, string tipo)
+        [Route("GetDocumentoFolioTipoModulo/{folio}/{tipo}/{modulo}")]
+        public HttpResponseMessage GetDocumentoFolioTipoModulo(int folio, string tipo, string modulo)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Documentos where Folio = "+folio+" and Tipo = '"+tipo+"'";
+            string query = @"select * from Documentos where Folio = "+folio+" and Tipo = '"+tipo+"' and Modulo = '"+modulo+"'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -247,8 +247,8 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                INSERT INTO Documentos (Folio, Tipo, ClaveProducto, NombreDocumento, Path, Observaciones, Vigencia) VALUES 
-                                ("+d.Folio+", '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToString(format)+ @"');";
+                                INSERT INTO Documentos (Folio, Modulo, Tipo, ClaveProducto, NombreDocumento, Path, Observaciones, Vigencia) VALUES 
+                                ("+d.Folio+", '"+d.Modulo+"', '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToString(format)+ @"');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -278,7 +278,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                UPDATE Documentos SET Folio = "+d.Folio+", Tipo = '"+d.Tipo+"', ClaveProducto ='" + d.ClaveProducto + "', NombreDocumento = '"+d.NombreDocumento+"'," +
+                                UPDATE Documentos SET Folio = "+d.Folio+",Modulo = '"+d.Modulo+"', Tipo = '"+d.Tipo+"', ClaveProducto ='" + d.ClaveProducto + "', NombreDocumento = '"+d.NombreDocumento+"'," +
                                 " Path = '"+d.Path+"', Observaciones = '"+d.Observaciones+"', Vigencia = '"+time.ToString(format)+"' where IdDocumento = "+d.IdDocumento+ @";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
