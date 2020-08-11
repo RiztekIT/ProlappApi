@@ -126,12 +126,13 @@ namespace ProlappApi.Controllers
         }
 
         //get Join DetalleOrdenDescarga con Documento
-        [Route("GetJoinDodD/{id}")]
-        public HttpResponseMessage GetJoinDodD(int id)
+        [Route("GetJoinDodD/{id}/{clave}")]
+        public HttpResponseMessage GetJoinDodD(int id, string clave)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleOrdenDescarga left join Documentos on DetalleOrdenDescarga.ClaveProducto = Documentos.ClaveProducto where DetalleOrdenDescarga.IdOrdenDescarga ="+id;
+            string query = @"select * from DetalleOrdenDescarga left join Documentos on DetalleOrdenDescarga.IdDetalleOrdenDescarga = Documentos.IdDetalle where DetalleOrdenDescarga.IdOrdenDescarga = "+id
+                +" and Documentos.Modulo = 'Importacion' and Documentos.Tipo = 'OrdenDescarga' and Documentos.ClaveProducto = '"+clave+"'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -162,14 +163,51 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
-        //get Join DetalleCompras con Documento
-        [Route("GetJoinDcD/{id}")]
-        public HttpResponseMessage GetJoinDcD(int id)
+        //get DetalleOrdenDescargaId
+        [Route("GetDetalleODId/{id}")]
+        public HttpResponseMessage GetDetalleODId(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleCompra left join Documentos on DetalleCompra.ClaveProducto = Documentos.ClaveProducto where DetalleCompra.IdCompra ="+id;
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga ="+id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //get DetalleCompraId
+        [Route("GetDetalleCompraId/{id}")]
+        public HttpResponseMessage GetDetalleCompraId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCompra where IdCompra =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //get Join DetalleCompras con Documento
+        [Route("GetJoinDcD/{id}/{clave}")]
+        public HttpResponseMessage GetJoinDcD(int id, string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleCompra left join Documentos on DetalleCompra.IdDetalleCompra = Documentos.IdDetalle where DetalleCompra.IdCompra ="+ id 
+                +" and Documentos.Modulo = 'Importacion' and Documentos.Tipo = 'Compras' and Documentos.ClaveProducto = '"+clave+"'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -247,8 +285,8 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                INSERT INTO Documentos (Folio, Modulo, Tipo, ClaveProducto, NombreDocumento, Path, Observaciones, Vigencia) VALUES 
-                                ("+d.Folio+", '"+d.Modulo+"', '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToString(format)+ @"');";
+                                INSERT INTO Documentos (Folio, IdDetalle, Modulo, Tipo, ClaveProducto, NombreDocumento, Path, Observaciones, Vigencia) VALUES 
+                                ("+d.Folio+", "+d.IdDetalle+", '"+d.Modulo+"', '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToString(format)+ @"');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -278,7 +316,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                UPDATE Documentos SET Folio = "+d.Folio+",Modulo = '"+d.Modulo+"', Tipo = '"+d.Tipo+"', ClaveProducto ='" + d.ClaveProducto + "', NombreDocumento = '"+d.NombreDocumento+"'," +
+                                UPDATE Documentos SET Folio = "+d.Folio+", IdDetalle ="+d.IdDetalle+", Modulo = '"+d.Modulo+"', Tipo = '"+d.Tipo+"', ClaveProducto ='" + d.ClaveProducto + "', NombreDocumento = '"+d.NombreDocumento+"'," +
                                 " Path = '"+d.Path+"', Observaciones = '"+d.Observaciones+"', Vigencia = '"+time.ToString(format)+"' where IdDocumento = "+d.IdDocumento+ @";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
