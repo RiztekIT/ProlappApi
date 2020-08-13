@@ -216,6 +216,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Calendario.cs" />
+    <Compile Include="Models\MovimientoProducto.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
     <Compile Include="Models\ClienteLogin.cs" />

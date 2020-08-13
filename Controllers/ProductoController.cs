@@ -12,6 +12,7 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
+    [RoutePrefix("api/Producto")]
     public class ProductoController : ApiController
     {
 
@@ -137,5 +138,33 @@ namespace ProlappApi.Controllers
 
             }
         }
-    }
+        [Route("Movimiento")]
+        public string PostMovimiento(MovimientoProducto movimiento)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+
+                string query = @"insert into MovimientosProductos values ('"+movimiento.ClaveProducto+ "','" + movimiento.Producto + "','" + movimiento.Marca + "','" + movimiento.Origen + "','" + movimiento.Presentacion + "','" + movimiento.Tipo + "'," + movimiento.Cantidad + ")";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Movimiento Agregado";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+            }
+
+            }
 }
