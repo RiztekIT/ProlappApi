@@ -238,6 +238,8 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+
+
         [Route("BorrarDocumento/{id}")]
         public string Delete(int id)
         {
@@ -261,6 +263,112 @@ namespace ProlappApi.Controllers
             catch (Exception)
             {
                 return "Error al Eliminar";
+            }
+        }
+        //Borrar Documento por Folio, Modulo, Tipo, Nombre Documento y IdDetalle
+        [Route("BorrarDocumentoFMTDID")]
+        public string PostDocumentoFMTDID(Documento doc)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"delete Documentos where Folio = "+doc.Folio+" and Modulo = '"+doc.Modulo+"' and Tipo='"+doc.Tipo+"' and NombreDocumento = '"+doc.NombreDocumento+"' and IdDetalle = "+doc.IdDetalle;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Error al Eliminar";
+            }
+        }
+
+        //Get Documento por Folio, Modulo, Tipo, Nombre Documento y IdDetalle
+        [Route("GetDocumentoFMTDID")]
+        public HttpResponseMessage PostDocumentoFMTDNID(Documento doc)
+        {
+           
+
+                DataTable table = new DataTable();
+
+                string query = @"select * from Documentos where Folio = " + doc.Folio + " and Modulo = '" + doc.Modulo + "' and Tipo='" + doc.Tipo + "' and NombreDocumento = '" + doc.NombreDocumento + "' and IdDetalle = " + doc.IdDetalle;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, table);
+            
+
+            
+        }
+
+        //Get updateUsda
+        [Route("updateUsda/{usda}/{id}")]
+        public string PutUsda(string usda, int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleOrdenDescarga set USDA = '"+usda+"' where IdDetalleOrdenDescarga = "+id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        //Get pedimento
+        [Route("updatePedimento/{pedimento}/{id}")]
+        public string PutPedimento(string pedimento, int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleOrdenDescarga set Pedimento = '" + pedimento + "' where IdDetalleOrdenDescarga = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
             }
         }
 
