@@ -35,6 +35,42 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("{id}")]
+        public HttpResponseMessage GetFacturaid(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from facturaflete where IDFacturaFlete = " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("MasterID/{id}")]
+        public HttpResponseMessage GetMasterID(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         public string Post(FacturaFlete facturaflete)
         {
             try
