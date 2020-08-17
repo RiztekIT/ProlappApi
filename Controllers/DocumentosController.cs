@@ -122,6 +122,24 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        //get GetCompraFolio
+        [Route("GetCompraFolio/{folio}")]
+        public HttpResponseMessage GetCompraFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Folio =" + folio + " and Estatus ='Terminada'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
         //get Documento tipo y folio
