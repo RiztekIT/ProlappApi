@@ -253,7 +253,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                exec etEditarOrdenDescarga " + ordenDescarga.IdOrdenDescarga + " , " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', '" + ordenDescarga.PO + "' , '" + ordenDescarga.Fletera + "' , '" +
                                 ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
                                 "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
                                 time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
