@@ -9,6 +9,7 @@ namespace ProlappApi.Models
     {
         public long IdIncidencia { get; set; }
         public long Folio { get; set; }
+        public long FolioProcedencia { get; set; }
         public string TipoIncidencia { get; set; }
         public string Procedencia { get; set; }
         public long IdDetalle { get; set; }

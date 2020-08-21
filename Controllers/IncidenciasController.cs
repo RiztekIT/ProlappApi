@@ -101,6 +101,29 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener Folio y sumarle 1
+        [Route("GetNewFolio")]
+        public string GetNewFolio()
+        {
+            string folio;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select MAX ( Incidencias.Folio) + 1 as Folio from Incidencias";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                folio = row["folio"].ToString();
+            }
+
+            return folio;
+        }
+
         public string Post(Incidencias i)
         {
             try
@@ -114,8 +137,8 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                Insert into Incidencias (Folio, TipoIncidencia, Procedencia, IdDetalle, Cantidad, Estatus, FechaElaboracion, FechaFinalizacion, Observaciones) 
-                                        values ("+i.Folio+",'"+i.TipoIncidencia+"', '"+i.Procedencia+"', "+i.IdDetalle+", '"+i.Cantidad+"', '"+i.Estatus+ "', '"+time.ToString(format)+"','"+ time2.ToString(format) + "','"+i.Observaciones+@"');";
+                                Insert into Incidencias (Folio, FolioProcedencia, TipoIncidencia, Procedencia, IdDetalle, Cantidad, Estatus, FechaElaboracion, FechaFinalizacion, Observaciones) 
+                                        values ("+i.Folio+", "+i.FolioProcedencia+", '"+i.TipoIncidencia+"', '"+i.Procedencia+"', "+i.IdDetalle+", '"+i.Cantidad+"', '"+i.Estatus+ "', '"+time.ToString(format)+"','"+ time2.ToString(format) + "','"+i.Observaciones+@"');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -147,7 +170,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                               update Incidencias set Folio = " + i.Folio + ", TipoIncidencia = '" + i.TipoIncidencia + "', Procedencia= '" + i.Procedencia + "', IdDetalle =  " + i.IdDetalle +
+                               update Incidencias set Folio = " + i.Folio + ", FolioProcedencia =" + i.FolioProcedencia+ ", TipoIncidencia = '" + i.TipoIncidencia + "', Procedencia= '" + i.Procedencia + "', IdDetalle =  " + i.IdDetalle +
                                ", Cantidad =  '" + i.Cantidad + "', Estatus = '" + i.Estatus + "', FechaElaboracion = '" + time.ToString(format) + "', FechaFinalizacion = '" + time2.ToString(format) + "', Observaciones = '" + i.Observaciones + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -164,6 +187,33 @@ namespace ProlappApi.Controllers
             {
                 return "Se produjo un error" + exe;
 
+            }
+        }
+
+        //Borrar Incidencia por ID
+        [Route("BorrarIncidenciaId/{id}")]
+        public string DeleteIndicenciaId(int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @" delete from Incidencias where IdIncidencia ="+id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se elimino Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Error al Eliminar " + exe;
             }
         }
 
