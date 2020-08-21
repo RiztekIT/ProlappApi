@@ -101,6 +101,75 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("GetOrdenCargaFolio/{folio}")]
+        public HttpResponseMessage GetOrdenCargaFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenCarga where Folio ="+folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetOrdenDescargaFolio/{folio}")]
+        public HttpResponseMessage GetOrdenDescargaFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenDescarga where Folio =" + folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetListOrdenesCargaId/{id}")]
+        public HttpResponseMessage GetListOrdenesCargaId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga ="+id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetListOrdenesDescargaId/{id}")]
+        public HttpResponseMessage GetListOrdenesDescargaId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         //Obtener Folio y sumarle 1
         [Route("GetNewFolio")]
         public string GetNewFolio()
