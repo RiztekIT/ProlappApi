@@ -169,6 +169,40 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("GetDetalleDescargaIdDetalle/{id}/{iddetalle}")]
+        public HttpResponseMessage GetDetalleDescargaIdDetalle(int id, int iddetalle)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga = "+id+" and IdDetalleOrdenDescarga = "+iddetalle;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetDetalleCargaIdDetalle/{id}/{iddetalle}")]
+        public HttpResponseMessage GetDetalleCargaIdDetalle(int id, int iddetalle)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga = " + id + " and IdDetalleOrdenCarga = " + iddetalle;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         //Obtener Folio y sumarle 1
         [Route("GetNewFolio")]
