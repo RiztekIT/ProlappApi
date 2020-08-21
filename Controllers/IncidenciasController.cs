@@ -274,7 +274,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                update Incidencias set Folio = " + i.Folio + ", FolioProcedencia =" + i.FolioProcedencia+ ", TipoIncidencia = '" + i.TipoIncidencia + "', Procedencia= '" + i.Procedencia + "', IdDetalle =  " + i.IdDetalle +
-                               ", Cantidad =  '" + i.Cantidad + "', Estatus = '" + i.Estatus + "', FechaElaboracion = '" + time.ToString(format) + "', FechaFinalizacion = '" + time2.ToString(format) + "', Observaciones = '" + i.Observaciones + @"'";
+                               ", Cantidad =  '" + i.Cantidad + "', Estatus = '" + i.Estatus + "', FechaElaboracion = '" + time.ToString(format) + "', FechaFinalizacion = '" + time2.ToString(format) + "', Observaciones = '" + i.Observaciones + "' where IdIncidencia = "+ i.IdIncidencia + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
