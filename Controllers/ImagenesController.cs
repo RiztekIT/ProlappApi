@@ -76,7 +76,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Imagenes where " + i.Folio + "= 1 and Tipo = '" + i.Tipo + "' and Imagen = '" + i.Imagen + "'";
+            string query = @"select * from Imagenes where Folio = "+ i.Folio +" and Tipo = '" + i.Tipo + "' and Imagen = '" + i.Imagen + "'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

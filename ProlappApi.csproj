@@ -192,6 +192,7 @@
     <Compile Include="Controllers\FolioController.cs" />
     <Compile Include="Controllers\ForwardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncidenciasController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ImagenesController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Models\Folio.cs" />
     <Compile Include="Models\Forwards.cs" />
     <Compile Include="Models\Imagen.cs" />
+    <Compile Include="Models\Incidencias.cs" />
     <Compile Include="Models\NotaCredito.cs" />
     <Compile Include="Models\OrdenCarga.cs" />
     <Compile Include="Models\OrdenDescarga.cs" />
