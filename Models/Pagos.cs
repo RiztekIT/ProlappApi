@@ -16,7 +16,7 @@ namespace ProlappApi.Models
         public string CuentaOrigen { get; set; }
         public string CuentaDestino { get; set; }
         public DateTime FechaPago { get; set; }
-        public string Observaciones { get; set; }s
+        public string Observaciones { get; set; }
 
     }
 }
