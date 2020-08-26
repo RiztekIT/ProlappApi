@@ -189,7 +189,7 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Agrego Correctamente";
+                return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
             {
