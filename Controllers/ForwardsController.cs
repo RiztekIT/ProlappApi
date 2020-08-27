@@ -91,9 +91,9 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevaForward '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , " +
-                                forward.CantidadDlls + " , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
-                                forward.GarantiaPagada + "' , '" + forward.CantidadPendiente + "' , '" + forward.Destino + "' , '" + forward.Promedio + "' , '" + forward.Estatus + @"'";
+                                exec itInsertNuevaForward '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" +
+                                forward.CantidadDlls + "' , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
+                                forward.GarantiaPagada + "' , '" + forward.CantidadPendiente + "' , '" + forward.Destino + "' , '" + forward.Promedio + "' , '" + forward.Estatus + @"';";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -126,8 +126,8 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                               exec etEditarOrdenDescarga " + forward.IdForward + " , "+ time.ToString(format) + " , '" + time2.ToString(format) + "' , " +
-                                forward.CantidadDlls + " , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
+                               exec etEditarOrdenDescarga " + forward.IdForward + " , '"+ time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" +
+                                forward.CantidadDlls + "' , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
                                 forward.GarantiaPagada + "' , '" + forward.CantidadPendiente + "' , '" + forward.Destino + "' , '" + forward.Promedio + "' , '" + forward.Estatus + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
