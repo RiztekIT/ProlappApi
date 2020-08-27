@@ -147,8 +147,8 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("UltimoForward")]
-        public HttpResponseMessage UltimoForward()
+        [Route("GetUltimoForward")]
+        public HttpResponseMessage getUltimoForward()
         {
             DataTable table = new DataTable();
 
@@ -164,10 +164,6 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
-
-
-
 
 
 
