@@ -59,7 +59,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" delete from OrdenCarga where IdOrdenCarga = " + id;
+                string query = @" delete from Forwards where IdForward = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
