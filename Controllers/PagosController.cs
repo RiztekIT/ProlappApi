@@ -338,5 +338,59 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("GetCompraFolio/{folio}")]
+        public HttpResponseMessage GetCompraFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Folio = " + folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetFleteId/{id}")]
+        public HttpResponseMessage GetFleteId(int id)   
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete where IDFacturaFlete =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetPedidoFolio/{folio}")]
+        public HttpResponseMessage GetPedidoFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Pedidos where Folio =" + folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }   
+
+
+
     }
 }
