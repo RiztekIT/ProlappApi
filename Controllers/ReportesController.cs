@@ -266,7 +266,7 @@ namespace ProlappApi.Controllers
 
 
         [Route("CotizacionesFechas/{fechaini}/{fechafinal}")]
-        public HttpResponseMessage CotizacionesFechas(string fechaini, string fechafinal)
+        public HttpResponseMessage GetCotizacionesFechas(string fechaini, string fechafinal)
         {
             DataTable table = new DataTable();
 
@@ -284,7 +284,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteCotizaciones/{id}")]
-        public HttpResponseMessage ReporteCotizaciones(int id)
+        public HttpResponseMessage GetReporteCotizaciones(int id)
         {
             DataTable table = new DataTable();
 
@@ -303,7 +303,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteCotizacionesU/{id}")]
-        public HttpResponseMessage ReporteCotizacionesU(int id)
+        public HttpResponseMessage GetReporteCotizacionesU(int id)
         {
             DataTable table = new DataTable();
 
@@ -322,7 +322,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteCotizacionesM/{id}")]
-        public HttpResponseMessage ReporteCotizacionesM(int id)
+        public HttpResponseMessage GetReporteCotizacionesM(int id)
         {
             DataTable table = new DataTable();
 
@@ -421,7 +421,7 @@ namespace ProlappApi.Controllers
 
 
         [Route("ComprasFechas/{fechaini}/{fechafinal}")]
-        public HttpResponseMessage ComprasFechas(string fechaini, string fechafinal)
+        public HttpResponseMessage GetComprasFechas(string fechaini, string fechafinal)
         {
             DataTable table = new DataTable();
 
@@ -439,7 +439,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteCompras/{id}")]
-        public HttpResponseMessage ReporteCompras(int id)
+        public HttpResponseMessage GetReporteCompras(int id)
         {
             DataTable table = new DataTable();
 
@@ -458,7 +458,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteComprasT/{id}")]
-        public HttpResponseMessage ReporteComprasT(int id)
+        public HttpResponseMessage GetReporteComprasT(int id)
         {
             DataTable table = new DataTable();
 
@@ -477,7 +477,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("ReporteComprasStatus/{id}/{status}")]
-        public HttpResponseMessage ReporteComprasstatus(int id,string status)
+        public HttpResponseMessage GetReporteComprasstatus(int id,string status)
         {
             DataTable table = new DataTable();
 
