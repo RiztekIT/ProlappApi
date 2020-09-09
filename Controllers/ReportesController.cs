@@ -420,12 +420,12 @@ namespace ProlappApi.Controllers
 
 
 
-        [Route("ComprasFechas/{fechaini}/{fechafinal}")]
-        public HttpResponseMessage GetComprasFechas(string fechaini, string fechafinal)
+        [Route("ComprasFechas/{fechaini}/{fechafinal}/{id}")]
+        public HttpResponseMessage GetComprasFechas(string fechaini, string fechafinal, int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Cotizaciones.Estatus='Cerrada' or Cotizaciones.Estatus='Guardada') order by Cotizaciones.folio asc";
+            string query = @"Select compras.* ,Proveedores.* from compras LEFT JOIN Proveedores ON compras.IdProveedor = Proveedores.IdProveedor where FechaElaboracion between '"+fechaini+"' and '"+fechafinal+"' and compras.IdProveedor = "+id+" (compras.Estatus='Cerrada' or compras.Estatus='Transito') order by compras.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -443,7 +443,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select IdProveedor, Folio,FechaElaboracion , FechaEntrega, Total, SacosTotales, PesoTotal, Moneda, TotalDlls, TipoCambio from Compras where IdProveedor=" + id + " order by FechaElaboracion asc";
+            string query = @"select * from Compras where IdProveedor=" + id + " order by FechaElaboracion asc";
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
