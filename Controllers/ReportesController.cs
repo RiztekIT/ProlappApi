@@ -437,6 +437,23 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("ComprasFechas/{fechaini}/{fechafinal}/{id}/{estatus}")]
+        public HttpResponseMessage GetComprasFechasEstatus(string fechaini, string fechafinal, int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select compras.* ,Proveedores.* from compras LEFT JOIN Proveedores ON compras.IdProveedor = Proveedores.IdProveedor where FechaElaboracion between '" + fechaini + "' and '" + fechafinal + "' and compras.IdProveedor = " + id + " and compras.Estatus = '"+estatus+"' order by compras.folio asc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
         [Route("ReporteCompras/{id}")]
         public HttpResponseMessage GetReporteCompras(int id)
