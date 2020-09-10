@@ -425,7 +425,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select compras.* ,Proveedores.* from compras LEFT JOIN Proveedores ON compras.IdProveedor = Proveedores.IdProveedor where FechaElaboracion between '"+fechaini+"' and '"+fechafinal+"' and compras.IdProveedor = "+id+" (compras.Estatus='Cerrada' or compras.Estatus='Transito') order by compras.folio asc";
+            string query = @"Select compras.* ,Proveedores.* from compras LEFT JOIN Proveedores ON compras.IdProveedor = Proveedores.IdProveedor where FechaElaboracion between '"+fechaini+"' and '"+fechafinal+"' and compras.IdProveedor = "+id+" order by compras.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
