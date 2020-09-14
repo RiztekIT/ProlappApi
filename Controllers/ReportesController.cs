@@ -263,14 +263,32 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        
 
-
-        [Route("CotizacionesFechas/{fechaini}/{fechafinal}")]
-        public HttpResponseMessage GetCotizacionesFechas(string fechaini, string fechafinal)
+        [Route("CotizacionesFechasClienteEstatus/{fechaini}/{fechafinal}/{id}/{estatus}")]
+        public HttpResponseMessage GetCotizacionesFechasClienteEstatus(string fechaini, string fechafinal, int id, string estatus)
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Cotizaciones.Estatus='Cerrada' or Cotizaciones.Estatus='Guardada') order by Cotizaciones.folio asc";
+            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and IdCliente = "+id+" and estatus = '"+ estatus+"' order by Cotizaciones.folio asc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("CotizacionesFechasCliente/{fechaini}/{fechafinal}/{id}")]
+        public HttpResponseMessage GetCotizacionesFechasCliente(string fechaini, string fechafinal, int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and IdCliente = " + id + "  order by Cotizaciones.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -288,7 +306,25 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select Idcliente, Folio,FechaDeExpedicion , Vigencia, Total, Moneda, TotalDlls,TipoDeCambio from Cotizaciones where IdCliente= " + id + " and Estatus ='Cerrada' order by FechaDeExpedicion asc";
+            string query = @"select * from Cotizaciones where IdCliente= " + id + "  order by FechaDeExpedicion asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("ReporteCotizacionesClienteEstatus/{id}/{estatus}")]
+        public HttpResponseMessage GetReporteCotizacionesClienteEstatus(int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Cotizaciones where IdCliente= " + id + " and Estatus = '"+estatus+"' order by FechaDeExpedicion asc";
 
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
