@@ -301,7 +301,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("CotizacionesJoinCliente{id}")]
+        [Route("CotizacionesJoinCliente/{id}")]
         public HttpResponseMessage GetCotizacionesJoinCliente( int id)
         {
             DataTable table = new DataTable();
