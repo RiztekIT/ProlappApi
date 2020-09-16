@@ -97,7 +97,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Pedidos.* ,Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Pedidos.IdCliente ="+id+" order by Pedidos.folio asc";
+            string query = @"Select Pedidos.* ,Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes where Pedidos.FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Pedidos.IdCliente ="+id+" order by Pedidos.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -115,7 +115,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Pedidos.* ,Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Pedidos.IdCliente =" + id + " and Pedidos.Estatus ='"+estatus+"' order by Pedidos.folio asc";
+            string query = @"Select Pedidos.* ,Cliente.* from Pedidos LEFT JOIN Cliente ON Pedidos.IdCliente = Cliente.IdClientes where Pedidos.FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Pedidos.IdCliente =" + id + " and Pedidos.Estatus ='"+estatus+"' order by Pedidos.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -306,7 +306,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where IdCliente = " + id + " order by Cotizaciones.folio asc";
+            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where Cotizaciones.IdCliente = " + id + " order by Cotizaciones.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -325,7 +325,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and IdCliente = "+id+" and estatus = '"+ estatus+"' order by Cotizaciones.folio asc";
+            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where Cotizaciones.FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Cotizaciones.IdCliente = " + id+ " and Cotizaciones.estatus = '" + estatus+"' order by Cotizaciones.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -343,7 +343,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and IdCliente = " + id + "  order by Cotizaciones.folio asc";
+            string query = @"Select Cotizaciones.* ,Cliente.* from Cotizaciones LEFT JOIN Cliente ON Cotizaciones.IdCliente = Cliente.IdClientes where Cotizaciones.FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and Cotizaciones.IdCliente = " + id + "  order by Cotizaciones.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
