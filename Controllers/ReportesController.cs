@@ -606,6 +606,170 @@ namespace ProlappApi.Controllers
 
         // ======================================================================== REPORTES COMPRAS =================================================================================
 
+        // ======================================================================== REPORTES ORDEN CARGA =================================================================================
+
+        [Route("GetReporteOrdenCargaCliente/{id}")]
+        public HttpResponseMessage GetReporteOrdenCargaCliente(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenCarga.* ,Cliente.* from OrdenCarga LEFT JOIN Cliente ON OrdenCarga.IdCliente = Cliente.IdClientes where OrdenCarga.IdCliente = " + id + " order by OrdenCarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdenCargaClienteEstatus/{id}/{estatus}")]
+        public HttpResponseMessage GetReporteOrdenCargaClienteEstatus(int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenCarga.* ,Cliente.* from OrdenCarga LEFT JOIN Cliente ON OrdenCarga.IdCliente = Cliente.IdClientes where OrdenCarga.IdCliente = " + id + " and OrdenCarga.Estatus = '"+estatus+"' order by OrdenCarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdenCargaFechaCliente/{fechaini}/{fechafinal}/{id}")]
+        public HttpResponseMessage GetReporteOrdenCargaFechaCliente(string fechaini, string fechafinal, int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenCarga.* ,Cliente.* from OrdenCarga LEFT JOIN Cliente ON OrdenCarga.IdCliente = Cliente.IdClientes where OrdenCarga.FechaExpedicion between '"+fechaini+"' and '"+fechafinal+"' and OrdenCarga.IdCliente = "+id+" order by OrdenCarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdenCargaFechaClienteEstatus/{fechaini}/{fechafinal}/{id}/{estatus}")]
+        public HttpResponseMessage GetReporteOrdenCargaFechaClienteEstatus(string fechaini, string fechafinal, int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenCarga.* ,Cliente.* from OrdenCarga LEFT JOIN Cliente ON OrdenCarga.IdCliente = Cliente.IdClientes where OrdenCarga.FechaExpedicion between '" + fechaini + "' and '" + fechafinal + "' and OrdenCarga.IdCliente = " + id + " and OrdenCarga.Estatus = '"+estatus+"' order by OrdenCarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        // ======================================================================== REPORTES ORDEN CARGA =================================================================================
+
+
+
+
+
+        // ======================================================================== REPORTES ORDEN DESCARGA =================================================================================
+
+        [Route("GetReporteOrdenDescargaCliente/{id}")]
+        public HttpResponseMessage GetReporteOrdenDescargaCliente(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenDescarga.* ,Proveedores.* from OrdenDescarga LEFT JOIN Proveedores ON OrdenDescarga.IdProveedor = Proveedores.IdProveedor where OrdenDescarga.IdProveedor = " + id + " order by OrdenDescarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdeDescargaClienteEstatus/{id}/{estatus}")]
+        public HttpResponseMessage GetReporteOrdeDescargaClienteEstatus(int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenDescarga.* ,Proveedores.* from OrdenDescarga LEFT JOIN Proveedores ON OrdenDescarga.IdProveedor = Proveedores.IdProveedor where OrdenDescarga.IdProveedor = " + id + " and OrdenDescarga.Estatus = '" + estatus + "' order by OrdenDescarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdenDescargaFechaCliente/{fechaini}/{fechafinal}/{id}")]
+        public HttpResponseMessage GetReporteOrdenDescargaFechaCliente(string fechaini, string fechafinal, int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenDescarga.* ,Proveedores.* from OrdenDescarga LEFT JOIN Proveedores ON OrdenDescarga.IdProveedor = Proveedores.IdProveedor where OrdenDescarga.FechaExpedicion between '"+fechaini+"' and '"+fechafinal+"' and OrdenDescarga.IdProveedor = "+id+" order by OrdenDescarga.folio asc";
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetReporteOrdenDescargaFechaClienteEstatus/{fechaini}/{fechafinal}/{id}/{estatus}")]
+        public HttpResponseMessage GetReporteOrdenDescargaFechaClienteEstatus(string fechaini, string fechafinal, int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select OrdenDescarga.* ,Proveedores.* from OrdenDescarga LEFT JOIN Proveedores ON OrdenDescarga.IdProveedor = Proveedores.IdProveedor where OrdenDescarga.FechaExpedicion between '" + fechaini + "' and '" + fechafinal + "' and OrdenDescarga.IdProveedor = " + id + " and OrdenDescarga.Estatus = '"+estatus+"' order by OrdenDescarga.folio asc";    
+
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        // ======================================================================== REPORTES ORDEN DESCARGA =================================================================================
+
 
 
 
