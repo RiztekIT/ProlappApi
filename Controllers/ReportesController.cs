@@ -692,7 +692,7 @@ namespace ProlappApi.Controllers
 
         // ======================================================================== REPORTES ORDEN DESCARGA =================================================================================
 
-        [Route("GetReporteOrdenDescargaCliente/{id}")]
+        [Route("GetReporteOrdenDescargaProveedor/{id}")]
         public HttpResponseMessage GetReporteOrdenDescargaCliente(int id)
         {
             DataTable table = new DataTable();
@@ -711,7 +711,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("GetReporteOrdeDescargaClienteEstatus/{id}/{estatus}")]
+        [Route("GetReporteOrdeDescargaProveedorEstatus/{id}/{estatus}")]
         public HttpResponseMessage GetReporteOrdeDescargaClienteEstatus(int id, string estatus)
         {
             DataTable table = new DataTable();
@@ -730,7 +730,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("GetReporteOrdenDescargaFechaCliente/{fechaini}/{fechafinal}/{id}")]
+        [Route("GetReporteOrdenDescargaFechaProveedor/{fechaini}/{fechafinal}/{id}")]
         public HttpResponseMessage GetReporteOrdenDescargaFechaCliente(string fechaini, string fechafinal, int id)
         {
             DataTable table = new DataTable();
@@ -749,7 +749,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("GetReporteOrdenDescargaFechaClienteEstatus/{fechaini}/{fechafinal}/{id}/{estatus}")]
+        [Route("GetReporteOrdenDescargaFechaProveedorEstatus/{fechaini}/{fechafinal}/{id}/{estatus}")]
         public HttpResponseMessage GetReporteOrdenDescargaFechaClienteEstatus(string fechaini, string fechafinal, int id, string estatus)
         {
             DataTable table = new DataTable();
