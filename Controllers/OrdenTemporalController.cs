@@ -52,6 +52,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("tracking/{fechaini}/{fechafinal}")]
+        public HttpResponseMessage GetTracking(string fechaini, string fechafinal)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Pedidos.*,OrdenCarga.* from Pedidos left join OrdenCarga on OrdenCarga.IdPedido=Pedidos.IdPedido where FechaExpedicion between '" + fechaini + "' and '" + fechafinal + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("BorrarOrdenTemporal/{id}")]
         public string Delete(int id)
         {
@@ -221,6 +239,24 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from OrdenTemporal where IdTarima  =" + id + ";";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("OrdenTemporalIdTarimaOC/{id}/{oc}")]
+        public HttpResponseMessage GetOrdenTemporalIdTarimaOC(int id, int oc)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenTemporal where IdTarima  =" + id + " and IdOrdenCarga ="+oc+";";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

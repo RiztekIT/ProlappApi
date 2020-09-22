@@ -57,8 +57,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            // string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
-            string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and ClaveProducto = '" + clave + "';";
+             string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+            //string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and ClaveProducto = '" + clave + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -390,6 +390,24 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + exe;
 
             }
+        }
+
+        [Route("ordenCargaTemporal/{id}")]
+        public HttpResponseMessage getCargaTemporalOC(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select DetalleOrdenCarga.*, OrdenTemporal.* from DetalleOrdenCarga left join OrdenTemporal on DetalleOrdenCarga.ClaveProducto=OrdenTemporal.ClaveProducto and DetalleOrdenCarga.Lote=OrdenTemporal.Lote  where DetalleOrdenCarga.IdOrdenCarga="+id+" and OrdenTemporal.IdOrdenCarga=" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
 

@@ -165,6 +165,80 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error";
             }
             }
+        [Route("NombreProducto")]
+        public HttpResponseMessage GetNombreProducto(string clave)
+        {
+            DataTable table = new DataTable();
 
+            string query = @"select * from Producto where '"+clave+"' like ClaveProducto+'%';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
             }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("NombreMarca")]
+        public HttpResponseMessage GetNombreMarca(string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select NombreMarca from MarcasProductos where '"+clave+"' like '%'+ClaveMarca+'%' group by NombreMarca";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("NombreOrigen")]
+        public HttpResponseMessage GetNombreOrigen(string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select NombreOrigen from OrigenProductos where '"+clave+"' like '%'+ClaveOrigen";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("NombrePresentacion")]
+        public HttpResponseMessage GetNombrePresentacion(string producto)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PresentacionProductos where '"+producto+"' like '%'+Presentacion ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        
+
+
+    }
 }

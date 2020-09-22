@@ -98,7 +98,33 @@ namespace ProlappApi.Controllers
 
             }
         }
+        [Route("Actualizar")]
+        public string PostActualizar(FacturaFlete facturaflete)
+        {
+            try
+            {
 
+                DataTable table = new DataTable();
+
+                string query = @"update FacturaFlete set Fletera='" + facturaflete.Fletera + "' , Factura='" + facturaflete.Factura + "', IDPedido=" + facturaflete.IDPedido + " , IDOrdenCarga=" + facturaflete.IDOrdenCarga + " , Subtotal= '" +
+                                facturaflete.Subtotal + "' , IVA= '" + facturaflete.IVA + "' , Total='" + facturaflete.Total + "' , Estatus='" + facturaflete.Estatus + "' where IDFacturaFlete="+facturaflete.IDFacturaFlete+";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
 
 
 

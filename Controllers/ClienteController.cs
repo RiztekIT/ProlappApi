@@ -219,11 +219,6 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + exe;
 
 
-
-
-
-
-
             }
         }
         [Route("UID")]
