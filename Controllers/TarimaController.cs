@@ -106,6 +106,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("GetTarimaProductoAllBodegas/{producto}")]
+        public HttpResponseMessage GetTarimaProductoAllBodegas(string producto)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select tarima.*,DetalleTarima.* from DetalleTarima left join Tarima on Tarima.IdTarima=DetalleTarima.IdTarima where DetalleTarima.Producto like '" + producto + "' ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("GetTarimaProductoD")]
         public HttpResponseMessage GetTarimaProductoD(string producto, string lote)
         {
