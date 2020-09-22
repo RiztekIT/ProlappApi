@@ -443,5 +443,24 @@ namespace ProlappApi.Controllers
         }
 
 
+        [Route("GetProductoClaveProducto/{clave}")]
+        public HttpResponseMessage GetProductoClaveProducto(string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from dbo.Producto where Estatus='Activo' and ClaveProducto ='" + clave + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
     }
 }
