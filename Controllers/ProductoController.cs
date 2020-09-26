@@ -34,7 +34,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
+        
 
         public string Post(Producto producto)
         {
