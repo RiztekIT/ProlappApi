@@ -46,9 +46,8 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute itInsertNuevoProducto '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
                                 "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
-                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' , "  + producto.IVA + " , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + "' , " + producto.Categoria + @"'
-                                ";
+                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' , '"  + producto.IVA + "' , '" + producto.CodigoBarras +
+                                "' , '" + producto.ClaveSAT + "' , '" + producto.Categoria + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
