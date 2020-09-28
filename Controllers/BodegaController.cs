@@ -50,6 +50,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("DeleteBodega/{id}")]
         public string Delete(int id)
         {
             try

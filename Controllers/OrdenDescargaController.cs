@@ -68,7 +68,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("BorrarOrdenCarga/{id}")]
+        [Route("BorrarOrdenDescarga/{id}")]
         public string Delete(int id)
         {
             try
@@ -76,7 +76,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarOrdenDescarga " + id;
+                string query = @" delete from  OrdenDescarga where IdOrdenDescarga=" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -101,7 +101,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarDetalleOrdenDescarga" + id;
+                string query = @" delete from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
