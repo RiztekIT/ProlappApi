@@ -37,7 +37,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select * from bodega where IdBodega =" + id;
+            string query = @"Select * from bodegas where IdBodega =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -49,39 +49,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-
-        public string Delete(int id)
-        {
-            try
-            {
-
-
-                DataTable table = new DataTable();
-
-
-                string query = @"
-                              Delete from Bodegas where IdBodega = " + id;
-
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                using (var cmd = new SqlCommand(query, con))
-                using (var da = new SqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    da.Fill(table);
-                }
-
-
-
-                return "Se Elimino Correctamente";
-            }
-            catch (Exception ex)
-            {
-                return "Se produjo un error" + ex;
-            }
-        }
-
-
-
+               
         public string Post(Bodegas Bodega)
         {
             try
@@ -89,8 +57,8 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                insert into Bodega(IdBodega,Nombre,Direccion,Origen) 
-                                    Values("+ Bodega.IdBodega + " , '"+ Bodega.Nombre + "' , '" 
+                                insert into Bodegas (Nombre,Direccion,Origen) 
+                                    Values('"+ Bodega.Nombre + "' , '" 
                                     + Bodega.Direccion + "' , '"+ Bodega.Origen + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
