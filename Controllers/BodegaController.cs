@@ -37,7 +37,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select * from bodega where IdBodega =" + id;
+            string query = @"Select * from bodegas where IdBodega =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -90,8 +90,8 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                insert into Bodega(IdBodega,Nombre,Direccion,Origen) 
-                                    Values("+ Bodega.IdBodega + " , '"+ Bodega.Nombre + "' , '" 
+                                insert into Bodegas (Nombre,Direccion,Origen) 
+                                    Values('"+ Bodega.Nombre + "' , '" 
                                     + Bodega.Direccion + "' , '"+ Bodega.Origen + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
