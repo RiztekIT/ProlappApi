@@ -7,7 +7,7 @@ namespace ProlappApi.Models
 {
     public class Evento
     {
-        public long IdEvento { get; set; }
+        public long IdEventos { get; set; }
         public long IdUsuario { get; set; }
         public string Movimiento { get; set; }
         public DateTime Fecha { get; set; }
