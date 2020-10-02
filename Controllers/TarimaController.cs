@@ -579,5 +579,24 @@ namespace ProlappApi.Controllers
         }
 
 
+        [Route("GetCompraTarima/{id}")]
+        public HttpResponseMessage GetCompraTarima(string id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select compras.*,detallecompra.* from compras left join DetalleCompra on compras.IdCompra=DetalleCompra.IdCompra where compras.ver in (select IdOrdenDescarga from OrdenTemporal where idTarima = "+id+ " and IdOrdenDescarga<>0)";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
     }
 }

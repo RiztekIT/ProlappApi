@@ -493,8 +493,123 @@ values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
             }
         }
 
+        [Route("ValidarOC/{token}")]
+        public HttpResponseMessage GetValidarOC(string token)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select pedidos.*, validarordencompra.* from pedidos left join validarordencompra on pedidos.IdPedido = validarordencompra.idordencompra where validarordencompra.token = '" + token + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("OrdenCarga/{id}")]
+        public HttpResponseMessage GetOC(string id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"update OrdenCarga set estatus='Creada' where idPedido= " + id + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("ValidarOC")]
+        public string PostValidarOC(ValidarOC validaroc)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time2 = validaroc.fechaenvio;
+                DateTime time3 = validaroc.fechavalidacion;
+                
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+                string query = @"insert into validarordencompra values("+validaroc.idordencompra+",'"+ validaroc .folioordencompra+ "','"+ time2.ToString(format) + "','"+ validaroc.estatus+ "','"+ time3.ToString(format) + "','"+ validaroc.token+ "')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Validador Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        [Route("ValidarOC")]
+        public string PutValidarOC(ValidarOC validaroc)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time2 = validaroc.fechaenvio;
+                DateTime time3 = validaroc.fechavalidacion;
+
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+                string query = @"update validarordencompra set idordencompra = " + validaroc.idordencompra + ", folioordencompra='" + validaroc.folioordencompra + "', fechaenvio='" + time2.ToString(format) + "', estatus='" + validaroc.estatus + "',fechavalidacion='" + time3.ToString(format) + "',token='" + validaroc.token + "')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Pedido Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+
+
+
 
 
     }
+
+
+
+
+
 
 }

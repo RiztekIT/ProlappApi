@@ -128,7 +128,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras where Folio =" + folio + " and Estatus ='Terminada'";
+            string query = @"select * from Compras where Folio =" + folio + " and (Estatus ='Terminada' or Estatus ='Transito')";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
