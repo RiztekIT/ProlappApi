@@ -229,7 +229,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
+                                exec etEditarOrdenCarga " + ordencarga.IdOrdenCarga + " , " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
                                 ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
                                 ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
                                 "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
@@ -327,6 +327,34 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "' where IdDetalleOrdenCarga = "+ id + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("ChoferDetalle/{Id}/{Chofer}")]
+        public string PutChoferDetalle(int Id, string Chofer)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @" exec etEditarChoferDetalleCarga " + Id + " , '" + Chofer + "'; ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

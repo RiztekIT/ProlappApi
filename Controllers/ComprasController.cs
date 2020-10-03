@@ -217,7 +217,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"exec itInsertNuevaCompra " + c.Folio + ",'" + c.PO + "'," + c.IdProveedor + ",'" + c.Proveedor + "','" + c.Subtotal + "','" +
                                  c.Total + "','" + c.Descuento + "','" + c.ImpuestosRetenidos + "','" + c.ImpuestosTrasladados + "','" + c.Moneda + "','" +
-                                 c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" +  c.PesoTotal + "','" +  c.Estatus + "'," + 
+                                 c.Observaciones + "','" + c.TipoCambio + "','" + c.CondicionesPago + "','" + c.SacosTotales + "','" + c.PesoTotal + "','" +  c.Estatus + "'," + 
                                  c.Factura + ",'" + c.Ver + "','" + time.ToString(format) + "','" + time2.ToString(format) + "','" + time3.ToString(format) + "','" +
                                  c.Comprador + "','" + c.SubtotalDlls + "','" + c.TotalDlls + "','" + c.DescuentoDlls + "','" + c.ImpuestosTrasladadosDlls + @"'";
 
@@ -253,7 +253,7 @@ namespace ProlappApi.Controllers
                 string query = @" 
                         update Compras SET Folio =" + c.Folio + ", PO = '"+c.PO+"',  IdProveedor = "+c.IdProveedor+", Proveedor ='"+c.Proveedor+"', Subtotal = '"+c.Subtotal+"', Total = '"+c.Total+
                     "', Descuento = '"+c.Descuento+"', ImpuestosRetenidos = '"+c.ImpuestosRetenidos+"', ImpuestosTrasladados = '"+c.ImpuestosTrasladados+"', Moneda = '"+c.Moneda+
-                    "', Observaciones ='"+c.Observaciones+"', TipoCambio = '"+c.TipoCambio+"', CondicionesPago = '"+c.CondicionesPago + "', PesoTotal = '" + c.PesoTotal +
+                    "', Observaciones ='"+c.Observaciones+"', TipoCambio = '"+c.TipoCambio+"', CondicionesPago = '"+c.CondicionesPago + "', SacosTotales = '" +c.SacosTotales + "', PesoTotal = '" + c.PesoTotal +
                     "', Estatus = '" + c.Estatus + "', Factura = " + c.Factura + ", Ver = '" + c.Ver + "', FechaElaboracion = '" + time.ToString(format) + "', FechaPromesa = '" + time2.ToString(format) +
                     "', FechaEntrega = '" + time3.ToString(format) + "', Comprador = '" + c.Comprador + "', SubtotalDlls = '" + c.SubtotalDlls + "', TotalDlls = '" + c.TotalDlls +
                     "', DescuentoDlls ='" + c.DescuentoDlls + "', ImpuestosTrasladadosDlls = '" + c.ImpuestosTrasladadosDlls + "' where IdCompra = " + c.IdCompra + @";";
@@ -285,7 +285,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevoDetalleCompra "+ dc.IdCompra + ",'" + dc.ClaveProducto + "','" + dc.Producto + "','" + 
-                                dc.Cantidad + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + 
+                                dc.Cantidad + "','" + dc.PesoxSaco + "','" + dc.PrecioUnitario + "','" + dc.CostoTotal + "','" + dc.IVA + "','" + dc.Unidad + "','" + 
                                 dc.Observaciones + "','" + dc.PrecioUnitarioDlls + "','" + dc.CostoTotalDlls + "','" + dc.IVADlls + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -314,7 +314,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                update DetalleCompra SET IdCompra = "+dc.IdCompra+", ClaveProducto = '"+dc.ClaveProducto+"', Producto = '"+dc.Producto+"', Cantidad ='"+dc.Cantidad+
+                                update DetalleCompra SET IdCompra = "+dc.IdCompra+", ClaveProducto = '"+dc.ClaveProducto+"', Producto = '"+dc.Producto+"', Cantidad ='"+dc.Cantidad+ "', PesoxSaco ='" + dc.PesoxSaco +
                                 "', PrecioUnitario ='"+dc.PrecioUnitario+"', CostoTotal = '"+dc.CostoTotal+"', IVA ='"+dc.IVA+"', Unidad='"+dc.Unidad+"',Observaciones='"+dc.Observaciones+
                                 "',PrecioUnitarioDlls='"+dc.PrecioUnitario+"',CostoTotalDlls='"+dc.CostoTotalDlls+"',IVADlls='"+dc.IVADlls+"' where IdDetalleCompra = "+dc.IdDetalleCompra+ @";";
 

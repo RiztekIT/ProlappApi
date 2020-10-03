@@ -12,17 +12,14 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    public class ProductoController : ApiController
+    [RoutePrefix("api/Eventos")]
+    public class EventosController : ApiController
     {
-
-
-
-
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from dbo.Producto where Estatus='Activo'";
+            string query = @"select * from Eventos";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -34,39 +31,26 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        
 
-        public string Post(Producto producto)
+        [Route("EventoID/{id}")]
+        public HttpResponseMessage GetEventoId(int id)
         {
-            try
+            DataTable table = new DataTable();
+
+            string query = @"Select * from Eventos where IdEventos =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
             {
-
-
-                DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevoProducto '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
-                                "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
-                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' , '"  + producto.IVA + "' , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + "' , '" + producto.Categoria + @"'";
-
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                using (var cmd = new SqlCommand(query, con))
-                using (var da = new SqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    da.Fill(table);
-                }
-
-
-
-                return "Producto Agregado";
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
             }
-            catch (Exception exe)
-            {
-                return "Se produjo un error" + exe;
-            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("DeleteEvento/{id}")]
         public string Delete(int id)
         {
             try
@@ -77,7 +61,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              exec dtBorrarProducto " + id;
+                               Delete from eventos where Ideventos = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -91,26 +75,27 @@ namespace ProlappApi.Controllers
 
                 return "Se Elimino Correctamente";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "Se produjo un error";
+                return "Se produjo un error" + ex;
             }
         }
 
-        public string Put(Producto producto)
+
+        public string Post(Evento evento)
         {
             try
             {
+                DateTime time = evento.Fecha;
+                string format = "yyyy-MM-dd HH:mm:ss";
 
 
                 DataTable table = new DataTable();
-
                 string query = @"
-                                exec etEditarProducto " + producto.IdProducto + " , '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
-                                "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
-                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' , " + producto.IVA + " , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + "'," + producto.Categoria + @"'
-                                ";
+
+                                insert into Eventos (IdUsuario, Movimiento, Fecha, Autorizacion) 
+                                    Values(" + evento.IdUsuario + " , '" + evento.Movimiento + "' , '"
+                                    + time.ToString(format) + "' , '" + evento.Autorizacion + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -122,19 +107,54 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Se Actualizo Correctamente";
+                return "Evento Agregada";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        public string Put(Evento evento)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                DateTime time = evento.Fecha;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
+                string query = @"update Eventos set 
+
+                                IdUsuario = " + evento.IdUsuario + @",
+                               Movimiento = '" + evento.Movimiento + @"',
+                               Fecha = '" + time.ToString(format) + @"',
+                               Autorizacion = '" + evento.Autorizacion + "' " +
+                               "    where  IdEventos = " + evento.IdEventos + @"";
+
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Actualizacion Exitosa";
             }
             catch (Exception exe)
             {
                 return "Se produjo un error" + exe;
 
 
-
-
-
-
-
             }
         }
+
+
     }
 }

@@ -109,6 +109,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("ProcesoIdProceso/{id}")]
+        public HttpResponseMessage GetProcesoIdProceso(int id)
+        {
+            DataTable table = new DataTable();  
+
+            string query = @"select * from Procesos where IdProcesos ="+ id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("PermisoDelete/{id}/{id1}")]
         public string Delete(int id, int id1)
         {

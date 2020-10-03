@@ -233,5 +233,23 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("trackingCliente/{fechaini}/{fechafinal}/{idcliente}")]
+        public HttpResponseMessage GetTrackingCliente(string fechaini, string fechafinal,int idcliente)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Pedidos.*,OrdenCarga.* from Pedidos left join OrdenCarga on OrdenCarga.IdPedido=Pedidos.IdPedido where FechaExpedicion between '" + fechaini + "' and '" + fechafinal + "' and pedidos.idcliente = '" + idcliente + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
     }
 }

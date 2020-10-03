@@ -178,24 +178,34 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AddsProductosController.cs" />
+    <Compile Include="Controllers\BodegaController.cs" />
     <Compile Include="Controllers\CalendarioController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ClienteDireccionController.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\CotizacionesController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
+    <Compile Include="Controllers\DocumentosController.cs" />
     <Compile Include="Controllers\emailController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\Factura2Controller.cs" />
+=======
+    <Compile Include="Controllers\EventosController.cs" />
+>>>>>>> 7a4b6d52426179d467465ff48f40790886f17a9d
     <Compile Include="Controllers\FacturaController.cs" />
+    <Compile Include="Controllers\FacturaFleteController.cs" />
     <Compile Include="Controllers\FolioController.cs" />
+    <Compile Include="Controllers\ForwardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncidenciasController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ImagenesController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
     <Compile Include="Controllers\OrdenCargaController.cs" />
     <Compile Include="Controllers\OrdenDescargaController.cs" />
     <Compile Include="Controllers\OrdenTemporalController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
     <Compile Include="Controllers\ProcesoController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -203,8 +213,11 @@
     <Compile Include="Controllers\ReciboPago2Controller.cs" />
     <Compile Include="Controllers\ReciboPagoController.cs" />
     <Compile Include="Controllers\RelacionController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\ReportesVentasController.cs" />
     <Compile Include="Controllers\SaldosController.cs" />
     <Compile Include="Controllers\TarimaController.cs" />
+    <Compile Include="Controllers\TraficoController.cs" />
     <Compile Include="Controllers\TraspasoTarimaController.cs" />
     <Compile Include="Controllers\UnidadMedidaController.cs" />
     <Compile Include="Controllers\UploadFilesController.cs" />
@@ -214,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bodegas.cs" />
     <Compile Include="Models\Calendario.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
@@ -229,16 +243,22 @@
     <Compile Include="Models\DetalleOrdenDescarga.cs" />
     <Compile Include="Models\DetallePedido.cs" />
     <Compile Include="Models\DetalleTarima.cs" />
+    <Compile Include="Models\Documento.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\FacturaFlete.cs" />
+    <Compile Include="Models\Fleteras.cs" />
     <Compile Include="Models\Folio.cs" />
+    <Compile Include="Models\Forwards.cs" />
     <Compile Include="Models\Imagen.cs" />
+    <Compile Include="Models\Incidencias.cs" />
     <Compile Include="Models\NotaCredito.cs" />
     <Compile Include="Models\OrdenCarga.cs" />
     <Compile Include="Models\OrdenDescarga.cs" />
     <Compile Include="Models\OrdenTemporal.cs" />
     <Compile Include="Models\PagoCFDI.cs" />
+    <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\HistoricoLeche.cs" />
     <Compile Include="Models\Privilegio.cs" />
@@ -413,8 +433,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+<<<<<<< HEAD
     <Folder Include="Views\Factura2\" />
     <Folder Include="Views\ReciboPago2\" />
+=======
+    <Folder Include="Views\ReportesVentas\" />
+>>>>>>> 7a4b6d52426179d467465ff48f40790886f17a9d
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -353,6 +353,28 @@ namespace ProlappApi.Controllers
 
             }
         }
+        //Obtener Folio y sumarle 1
+        [Route("OrdenDescargaFolio")]
+        public string GetFolio()
+        {
+            string folio;
+            DataRow row;
+            DataTable table = new DataTable();
+
+            string query = @"select MAX ( OrdenDescarga.Folio) + 1 as Folio from OrdenDescarga";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+                row = table.Rows[0];
+                folio = row["folio"].ToString();
+            }
+
+            return folio;
+        }
 
         [Route("GetODOT/{id}")]
         public HttpResponseMessage GetODOT(int id)
@@ -399,6 +421,24 @@ namespace ProlappApi.Controllers
             string query = @" select ordentemporal.QR, tarima.* from OrdenDescarga left join ordentemporal on ordentemporal.idOrdenDescarga = OrdenDescarga.idOrdenDescarga 
                                 left join tarima on ordentemporal.QR = tarima.QR  where  OrdenDescarga.IdOrdenDescarga = " + id + " and tarima.Bodega = '" + bodega +
                                 "'group by OrdenTemporal.QR, tarima.IdTarima, tarima.Sacos, tarima.PesoTotal, tarima.QR, tarima.Bodega";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetQROD/{id}")]
+        public HttpResponseMessage GetQROD(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @" exec jnQROD " + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
