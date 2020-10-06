@@ -27,6 +27,7 @@ namespace ProlappApi.Models
         public string NoSelloSAT { get; set; }
         public string RFCPAC { get; set; }
         public string Estatus { get; set; }
+        public string folio { get; set; }
 
     }
 }
