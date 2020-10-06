@@ -116,8 +116,6 @@ namespace ProlappApi.Controllers
         {
             try
             {
-
-
                 DataTable table = new DataTable();
 
                 string query = @"update Bodegas set 
@@ -126,7 +124,6 @@ namespace ProlappApi.Controllers
                                Direccion = '" + Bodega.Direccion + @"',
                                Origen = '" + Bodega.Origen + "' where  IdBodega = " + Bodega.IdBodega + @"";
 
-
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
                 using (var da = new SqlDataAdapter(cmd))
@@ -134,8 +131,6 @@ namespace ProlappApi.Controllers
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
                 }
-
-
 
                 return "Actualizacion Exitosa";
             }
