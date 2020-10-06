@@ -460,6 +460,40 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+        [Route("GetSumatoriaAllBodegas")]
+        public HttpResponseMessage GetSumatoriaAllBodegas()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select SUM(PARSE(Sacos as INT)) as Sacos from Tarima";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("GetSumatoriaBodega/{bodega}")]
+        public HttpResponseMessage GetSumatoriaBodega(string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select SUM(PARSE(Sacos as INT)) as Sacos from Tarima where Bodega = '"+bodega+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
 
 
     }
