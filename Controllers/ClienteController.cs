@@ -158,6 +158,7 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("DeleteCliente/{id}")]
         public string Delete(int id)
         {
             try
@@ -168,7 +169,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              exec dtBorrarCliente " + id;
+                              Delete from Cliente where IdClientes = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
