@@ -90,9 +90,8 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevaOrdenTemporal " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
-                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
-                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + "' , '" + ot.Comentarios + @"'";
+                                insert into OrdenTemporal (IdDetalleTarima, IdOrdenCarga, IdOrdenDescarga, QR, ClaveProducto, Lote, Sacos, Producto, PesoTotal, FechaCaducidad, Comentarios)
+                                    VALUES ("+ot.IdDetalleTarima+", "+ot.IdOrdenCarga+", "+ot.IdOrdenDescarga+", '"+ot.QR+"', '"+ot.ClaveProducto+"', '"+ot.Lote+"', '"+ot.Sacos+"', '"+ot.Producto+"', '"+ot.PesoTotal+"', '"+time.ToString(format)+"', '"+ot.Comentarios + @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -120,9 +119,8 @@ namespace ProlappApi.Controllers
                 DateTime time = ot.FechaCaducidad;
                 string format = "yyyy-MM-dd HH:mm:ss";
                 string query = @"
-                                exec etEditarOrdenTemporal " + ot.IdOrdenTemporal + " , " + ot.IdTarima + " , " + ot.IdOrdenCarga + " , " + ot.IdOrdenDescarga +
-                                " , '" + ot.QR + "' , '" + ot.ClaveProducto + "' , '" + ot.Lote + "' , '" + ot.Sacos +
-                                "' , '" + ot.Producto + "' , '" + ot.PesoTotal + "' , '" + time.ToString(format) + "' , '" + ot.Comentarios +@"'";
+                            update OrdenTemporal SET IdOrdenCarga = "+ot.IdOrdenCarga+", IdOrdenDescarga = "+ot.IdOrdenDescarga+", QR = '"+ot.QR+"', ClaveProducto = '"+ot.ClaveProducto+"', Lote = '"+ot.Lote+"', Sacos = '"+ot.Sacos+"', Producto = '"+ot.Producto+
+                            "', PesoTotal = '"+ot.PesoTotal+"', FechaCaducidad = '"+time.ToString(format)+"', Comentarios = '"+ot.Comentarios+"' where IdOrdenTemporal = "+ot.IdOrdenTemporal +@";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
