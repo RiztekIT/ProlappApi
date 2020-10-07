@@ -217,13 +217,31 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        //Obtener detalle tarima por IdTarima, ClaveProducto y Lote
-        [Route("GetDetalleTarimaIdClaveLote/{id}/{clave}/{lote}")]
-        public HttpResponseMessage GetDetalleTarimaIdClaveLote(int id, string clave, string lote)
+        //Obtener detalle tarima por Bodega ClaveProducto y Lote
+        [Route("GetDetalleTarimaBodegaClaveLote/{bodega}/{clave}/{lote}")]
+        public HttpResponseMessage GetDetalleTarimaBodegaClaveLote(string bodega, string clave, string lote)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleTarima where IdTarima = " + id + " and ClaveProducto = '" + clave + "' and Lote = '" + lote + "';";
+            string query = @"select * from DetalleTarima where Bodega = '" + bodega + "' and ClaveProducto = '" + clave + "' and Lote = '" + lote + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //Obtener detalle tarima por ClaveProducto y Lote
+        [Route("GetDetalleTarimaClaveLote/{clave}/{lote}")]
+        public HttpResponseMessage GetDetalleTarimaClaveLote(string clave, string lote)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where ClaveProducto = '" + clave + "' and Lote = '" + lote + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -328,10 +346,9 @@ namespace ProlappApi.Controllers
                 DateTime time2 = dt.FechaCaducidad;
                 string format = "yyyy-MM-dd HH:mm:ss";
 
-                string query = @"
-                                exec itInsertNuevoDetalleTarima " + dt.IdTarima + " , '" + dt.ClaveProducto + "' , '" + dt.Producto + "' , '" + dt.Sacos +
-                                "' , '" + dt.PesoxSaco + "' , '" + dt.Lote + "' , " + dt.IdProveedor + " , '" + dt.Proveedor + "' , '" + dt.PO
-                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dt.Shipper + "' , '" + dt.USDA + "' , '" + dt.Pedimento + @"'";
+                string query = @"insert into DetalleTarima (ClaveProducto, Producto, SacosTotales, PesoxSaco, Lote, PesoTotal, SacosxTarima, TarimasTotales, Bodega, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento, Estatus) VALUES ('" +
+                                     dt.ClaveProducto + "', '" + dt.Producto + "', '" + dt.SacosTotales + "', '" + dt.PesoxSaco + "', '" + dt.Lote + "', '" + dt.PesoTotal + "', '" + dt.SacosxTarima + "', '" + dt.TarimasTotales + "', '" + dt.Bodega +
+                                        "', " + dt.IdProveedor + ", '" + dt.Proveedor + "', '" + dt.PO + "', '" + time.ToString(format) + "', '" + time2.ToString(format) + "', '" + dt.Shipper + "', '" + dt.USDA + "', '" + dt.Pedimento + "', '" + dt.Estatus + @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -383,12 +400,16 @@ namespace ProlappApi.Controllers
         {
             try
             {
+                DateTime time = dt.FechaMFG;
+                DateTime time2 = dt.FechaCaducidad;
+                string format = "yyyy-MM-dd HH:mm:ss";
+
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarDetalleTarima " + dt.IdDetalleTarima + " , " + dt.IdTarima + " , '" + dt.ClaveProducto + "' , '" + dt.Producto + "' , '" + dt.Sacos +
-                                "' , '" + dt.PesoxSaco + "' , '" + dt.Lote + "' , " + dt.IdProveedor + " , '" + dt.Proveedor + "' , '" + dt.PO
-                                + "' , '" + dt.FechaMFG + "' , '" + dt.FechaCaducidad + "' , '" + dt.Shipper + "' , '" + dt.USDA + "' , '" + dt.Pedimento + @"";
+                             update DetalleTarima set ClaveProducto = '"+dt.ClaveProducto+"', Producto = '"+dt.Producto+"', SacosTotales = '"+dt.SacosTotales+"', PesoxSaco = '"+dt.PesoxSaco+"', Lote = '"+dt.Lote+"', PesoTotal = '"+dt.PesoTotal+"', SacosxTarima = '"+dt.SacosxTarima+
+                                "', TarimasTotales = '"+dt.TarimasTotales+"', Bodega = '"+dt.Bodega+"', IdProveedor = "+dt.IdProveedor+", Proveedor = '"+dt.Proveedor+"', PO = '"+dt.PO+"', FechaMFG = '"+time.ToString(format)+"', FechaCaducidad = '"+time2.ToString(format)+
+                                    "', Shipper = '"+dt.Shipper+"', USDA = '"+dt.USDA+"', Pedimento = '"+dt.Pedimento+"', Estatus = '"+dt.Estatus+"' where IdDetalleTarima = "+dt.IdDetalleTarima+ @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -435,14 +456,14 @@ namespace ProlappApi.Controllers
         }
 
         //Update DETALLE TARIMA IDTarima y Sacos
-        [Route("UpdateDetalleTarimaIdSacos/{idt}/{iddt}/{sacos}")]
-        public string PutDetalleTarimaIdSacos(int idt, int iddt, string sacos)
+        [Route("UpdateDetalleTarimaIdSacos/{iddt}/{sacos}")]
+        public string PutDetalleTarimaIdSacos(int iddt, string sacos)
         {
             try
             {
                 DataTable table = new DataTable();
 
-                string query = @"update DetalleTarima set IdTarima = " + idt + ", Sacos = '" + sacos + "' where IdDetalleTarima = " + iddt + ";";
+                string query = @"update DetalleTarima set Sacos = '" + sacos + "' where IdDetalleTarima = " + iddt + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

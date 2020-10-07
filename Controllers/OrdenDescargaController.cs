@@ -214,7 +214,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
-                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.NumeroFactura
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
 
@@ -287,7 +287,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec etEditarDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
-                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.NumeroFactura
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
 

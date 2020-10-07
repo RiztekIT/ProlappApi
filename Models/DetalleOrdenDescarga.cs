@@ -17,7 +17,7 @@ namespace ProlappApi.Models
         public string Lote { get; set; }
         public int IdProveedor { get; set; }
         public string Proveedor { get; set; }
-        public string PO { get; set; }
+        public string NumeroFactura { get; set; }
         public DateTime FechaMFG { get; set; }
         public DateTime FechaCaducidad { get; set; }
         public string Shipper { get; set; }
