@@ -188,6 +188,7 @@
     <Compile Include="Controllers\DocumentosController.cs" />
     <Compile Include="Controllers\emailController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\Factura2Controller.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\FacturaFleteController.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Controllers\ProcesoController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
+    <Compile Include="Controllers\ReciboPago2Controller.cs" />
     <Compile Include="Controllers\ReciboPagoController.cs" />
     <Compile Include="Controllers\RelacionController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
@@ -428,6 +430,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Factura2\" />
+    <Folder Include="Views\ReciboPago2\" />
     <Folder Include="Views\ReportesVentas\" />
   </ItemGroup>
   <ItemGroup>

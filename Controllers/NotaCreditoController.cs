@@ -40,7 +40,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select * from NotaCredito where IdFactura =" + id;
+            string query = @"Select * from NotaCredito where IdFactura =" + id + " and Estatus = 'Timbrada' and Serie='407292'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
