@@ -51,7 +51,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-            //Obtener cierta tarima por IdTarima
+        //Obtener cierta tarima por IdTarima
         [Route("GetTarimaID/{id}")]
         public HttpResponseMessage GetTarimaID(int id)
         {
@@ -240,7 +240,7 @@ namespace ProlappApi.Controllers
             try
             {
 
-                DataTable table = new DataTable();       
+                DataTable table = new DataTable();
 
                 string query = @"
                                 exec itInsertNuevaTarima '" + t.Sacos + "' , '" + t.PesoTotal + "' , '" + t.QR + "' , '" + t.Bodega + @"'";
@@ -334,9 +334,9 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                             update DetalleTarima set ClaveProducto = '"+dt.ClaveProducto+"', Producto = '"+dt.Producto+"', SacosTotales = '"+dt.SacosTotales+"', PesoxSaco = '"+dt.PesoxSaco+"', Lote = '"+dt.Lote+"', PesoTotal = '"+dt.PesoTotal+"', SacosxTarima = '"+dt.SacosxTarima+
-                                "', TarimasTotales = '"+dt.TarimasTotales+"', Bodega = '"+dt.Bodega+"', IdProveedor = "+dt.IdProveedor+", Proveedor = '"+dt.Proveedor+"', PO = '"+dt.PO+"', FechaMFG = '"+time.ToString(format)+"', FechaCaducidad = '"+time2.ToString(format)+
-                                    "', Shipper = '"+dt.Shipper+"', USDA = '"+dt.USDA+"', Pedimento = '"+dt.Pedimento+"', Estatus = '"+dt.Estatus+"' where IdDetalleTarima = "+dt.IdDetalleTarima+ @"";
+                             update DetalleTarima set ClaveProducto = '" + dt.ClaveProducto + "', Producto = '" + dt.Producto + "', SacosTotales = '" + dt.SacosTotales + "', PesoxSaco = '" + dt.PesoxSaco + "', Lote = '" + dt.Lote + "', PesoTotal = '" + dt.PesoTotal + "', SacosxTarima = '" + dt.SacosxTarima +
+                                "', TarimasTotales = '" + dt.TarimasTotales + "', Bodega = '" + dt.Bodega + "', IdProveedor = " + dt.IdProveedor + ", Proveedor = '" + dt.Proveedor + "', PO = '" + dt.PO + "', FechaMFG = '" + time.ToString(format) + "', FechaCaducidad = '" + time2.ToString(format) +
+                                    "', Shipper = '" + dt.Shipper + "', USDA = '" + dt.USDA + "', Pedimento = '" + dt.Pedimento + "', Estatus = '" + dt.Estatus + "' where IdDetalleTarima = " + dt.IdDetalleTarima + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -419,14 +419,14 @@ namespace ProlappApi.Controllers
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
             using (var da = new SqlDataAdapter(cmd))
-            { 
+            {
                 cmd.CommandType = CommandType.Text;
                 da.Fill(table);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-               
+
         [Route("GetTarimaDttqr/{qr}")]
         public HttpResponseMessage GetTarimaDttqr(string qr)
         {
@@ -450,7 +450,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @" select * from Tarima where tarima.QR = '"+qr+"' and tarima.Bodega = '"+bodega+"';";
+            string query = @" select * from Tarima where tarima.QR = '" + qr + "' and tarima.Bodega = '" + bodega + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -503,7 +503,26 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select SUM(PARSE(Sacos as INT)) as Sacos from Tarima where Bodega = '"+bodega+"'";
+            string query = @"select SUM(PARSE(Sacos as INT)) as Sacos from Tarima where Bodega = '" + bodega + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        // ACTUALIZACION DE ALMACEN 
+        [Route("GetProductoInformacionBodega/{ClaveProducto}/{Lote}/{bodega}")]
+        public HttpResponseMessage GetProductoInformacionBodega(string ClaveProducto, string Lote, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where ClaveProducto = '" + ClaveProducto + "' and lote  = '" + Lote + "' and Bodega = '" + bodega + "'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -517,5 +536,94 @@ namespace ProlappApi.Controllers
         }
 
 
+        //Update DETALLE TARIMA Sacos, Peso total, Tarimas totales y Bodega
+        [Route("UpdateDetalleTarimaSacosPesoTarimasBodega")]
+        public string PutDetalleTarimaSacosPesoTarimasBodega(DetalleTarima dt)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleTarima set SacosTotales = '" + dt.SacosTotales + "', PesoTotal = '"+dt.PesoTotal+"', TarimasTotales = '"+dt.TarimasTotales+"', Bodega = '"+dt.Bodega+"' where IdDetalleTarima = " + dt.IdDetalleTarima + ";";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+
+        //Obtener ultim detalle tarima insertada
+        [Route("GetUltimoDetalleTarima")]
+        public HttpResponseMessage GetUltimoDetalleTarima()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select TOP 1 * from DetalleTarima order by DetalleTarima.IdDetalleTarima desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalle Tarima por Bodega
+        [Route("GetDetalleTarimaBodega/{bodega}")]
+        public HttpResponseMessage GetDetalleTarimaBodega(string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where Bodega = '"+bodega+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalle Tarima por Bodega
+        [Route("UpdateDetalleTarimaBodega/{id}/{bodega}")]
+        public HttpResponseMessage GetUpdateDetalleTarimaBodega(int id, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"update detalleTarima set bodega = '"+bodega+"' where IdDetalleTarima = " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
+
+        //FIN 
     }
 }
