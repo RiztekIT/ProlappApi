@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select tarima.*,DetalleTarima.* from DetalleTarima left join Tarima on Tarima.IdTarima=DetalleTarima.IdTarima";
+            string query = @"select DetalleTarima.* from DetalleTarima";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -93,7 +93,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select tarima.*,DetalleTarima.* from DetalleTarima left join Tarima on Tarima.IdTarima=DetalleTarima.IdTarima where DetalleTarima.Producto like '"+producto+ "%' and Tarima.Bodega='"+bodega+"' ";
+            //string query = @"select tarima.*,DetalleTarima.* from DetalleTarima left join Tarima on Tarima.IdTarima=DetalleTarima.IdTarima where DetalleTarima.Producto like '"+producto+ "%' and Tarima.Bodega='"+bodega+"' ";
+            string query = @"select * from DetalleTarima where DetalleTarima.Producto like '" + producto + "%' and DetalleTarima.Bodega='" + bodega + "' ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -111,7 +112,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select tarima.*,DetalleTarima.* from DetalleTarima left join Tarima on Tarima.IdTarima=DetalleTarima.IdTarima where DetalleTarima.Producto like '" + producto + "' ";
+            string query = @"select * from DetalleTarima where DetalleTarima.Producto like '" + producto + "' ";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -129,7 +130,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select DetalleOrdenCarga.Sacos from OrdenCarga left join DetalleOrdenCarga on OrdenCarga.IdOrdenCarga=DetalleOrdenCarga.IdOrdenCarga where DetalleOrdenCarga.Producto = '"+producto+"' and lote='"+lote+"' and (OrdenCarga.Estatus='Creada' or OrdenCarga.Estatus='Preparada' )";
+            string query = @"select DetalleOrdenCarga.Sacos from OrdenCarga left join DetalleOrdenCarga on OrdenCarga.IdOrdenCarga=DetalleOrdenCarga.IdOrdenCarga where DetalleOrdenCarga.Producto = '"+producto+"' and lote='"+lote+"' and (OrdenCarga.Estatus='Creada')";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -740,8 +741,6 @@ namespace ProlappApi.Controllers
 
 
 
-
-<<<<<<< HEAD
         [Route("GetCompraTarima/{id}")]
         public HttpResponseMessage GetCompraTarima(string id)
         {
@@ -760,9 +759,5 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-
-=======
-        //FIN 
->>>>>>> 00b3fe304badb3d7d370799bcab5bbd7688e7858
     }
 }
