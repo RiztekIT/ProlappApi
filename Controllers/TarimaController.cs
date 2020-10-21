@@ -721,6 +721,25 @@ namespace ProlappApi.Controllers
         }
 
         //Obtener detalle Tarima por Bodega
+        [Route("GetDetalleTarimaClaveLoteBodega/{Clave}/{Lote}/{bodega}")]
+        public HttpResponseMessage GetDetalleTarimaClaveLoteBodega(string Clave, string Lote, string bodega)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleTarima where ClaveProducto = '"+Clave+"' and Lote = '"+Lote+"' and Bodega = '" + bodega + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener detalle Tarima por Bodega
         [Route("UpdateDetalleTarimaBodega/{id}/{bodega}")]
         public HttpResponseMessage GetUpdateDetalleTarimaBodega(int id, string bodega)
         {
