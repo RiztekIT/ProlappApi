@@ -451,5 +451,22 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+            [Route("GetODDOD/{id}")]
+        public HttpResponseMessage GetODDOD(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from OrdenDescarga left join DetalleOrdenDescarga on OrdenDescarga.IdOrdenDescarga = DetalleOrdenDescarga.IdOrdenDescarga where ordendescarga.IdOrdenDescarga =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
     }
 }
