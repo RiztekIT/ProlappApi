@@ -360,5 +360,65 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
+
+        ////////////////////////////////////////////////////////// compras historial
+
+
+            
+            [Route("GetComprasFecha/{Fecha}/{Fecha1}")]
+        public HttpResponseMessage GetComprasFecha(string Fecha, string Fecha1)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras where FechaElaboracion between '"+Fecha+"' and '"+Fecha1+"' and(Estatus = 'Terminada' or estatus = 'Creada' or estatus = 'Transito') and ver LIKE '%[0-9]%'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        
+
+            [Route("GetComprasHistorial")]
+        public HttpResponseMessage GetComprasHistorial()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras where ver LIKE '%[0-9]%'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetComprasODDOD/{id}")]
+        public HttpResponseMessage GetComprasODDOD(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga  where compras.ver =" + id;
+            
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
     }
 }
