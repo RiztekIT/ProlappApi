@@ -451,7 +451,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-            [Route("GetODDOD/{id}")]
+        [Route("GetODDOD/{id}")]
         public HttpResponseMessage GetODDOD(int id)
         {
             DataTable table = new DataTable();
