@@ -370,7 +370,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select* from compras where FechaElaboracion between '"+Fecha+"' and '"+Fecha1+"' and(Estatus = 'Terminada' or estatus = 'Creada' or estatus = 'Transito') and ver LIKE '%[0-9]%'";
+            string query = @"select* from compras where FechaElaboracion between '"+Fecha+"' and '"+Fecha1+"' and(Estatus = 'Terminada' or estatus = 'Creada' or estatus = 'Transito') and ver LIKE '%[0-9]%' order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -390,7 +390,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select* from compras where ver LIKE '%[0-9]%'";
+            string query = @"select* from compras where ver LIKE '%[0-9]%' order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -408,7 +408,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select* from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga  where compras.ver =" + id;
+            string query = @"select* from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga  where compras.ver =" + id + "order by compras.Folio desc";
             
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -427,7 +427,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"
-                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.IdProveedor = "+ id +" and ver LIKE '%[0-9]%' order by Compras.Ver" ;
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.IdProveedor = "+ id +" and ver LIKE '%[0-9]%' order by Compras.Folio desc" ;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -446,7 +446,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"
-                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.Estatus = '"+ estatus + "' and ver LIKE '%[0-9]%'  order by Compras.Ver";
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.Estatus = '"+ estatus + "' and ver LIKE '%[0-9]%'  order by Compras.folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
