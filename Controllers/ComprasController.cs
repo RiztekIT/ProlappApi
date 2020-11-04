@@ -464,7 +464,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"
-                          Select* from Compras order by Folio desc";
+                          Select* from Compras where ver LIKE '%[0-9]%'   order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
