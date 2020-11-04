@@ -420,5 +420,43 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        [Route("GetComprasODDIdProveedor/{id}")]
+        public HttpResponseMessage GetComprasODDIdProveedor(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.IdProveedor = "+ id +" and ver LIKE '%[0-9]%' order by Compras.Ver" ;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetComprasODDEstatus/{estatus}")]
+        public HttpResponseMessage GetComprasODDEstatus(string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.Estatus = '"+ estatus + "' and ver LIKE '%[0-9]%'  order by Compras.Ver";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
     }
 }
