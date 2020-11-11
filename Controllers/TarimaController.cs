@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select DetalleTarima.* from DetalleTarima";
+            string query = @"select DetalleTarima.*,OrdenTemporal.* from DetalleTarima left join OrdenTemporal on DetalleTarima.IdDetalleTarima=OrdenTemporal.IdDetalleTarima";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -568,7 +568,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select Tarima.* from Tarima left join OrdenTemporal on Tarima.IdTarima=OrdenTemporal.IdTarima where OrdenTemporal.IdOrdenCarga="+id+"";
+            string query = @"select detalleTarima.* from detalleTarima left join OrdenTemporal on detalleTarima.IddetalleTarima=OrdenTemporal.IddetalleTarima where OrdenTemporal.IdOrdenCarga=" + id+"";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -785,7 +785,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras left join DetalleTarima on Compras.PO = DetalleTarima.PO where IdDetalleTarima ="+id;
+            string query = @"select * from Compras left join DetalleTarima on Compras.PO = DetalleTarima.PO and Compras.IdProveedor= DetalleTarima.Proveedor where IdDetalleTarima =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

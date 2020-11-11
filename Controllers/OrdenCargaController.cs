@@ -20,6 +20,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from dbo.OrdenCarga where Estatus<>'Sin Validar' order by Folio desc";
+            query = @"select * from dbo.OrdenCarga order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
