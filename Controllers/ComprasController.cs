@@ -150,6 +150,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //Obtener compra por estatus
+        [Route("GetCompraEstatus/{estatus}")]
+        public HttpResponseMessage GetCompraEstatus(string estatus)
+        {
+
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Estatus = '"+estatus+"'";
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("DeleteCompra/{id}")]
         public string Delete(int id)
