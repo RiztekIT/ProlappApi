@@ -240,9 +240,11 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevoDetalleCotizacion " +dp.IdCotizacion+ " , '" +dp.ClaveProducto+ "' , '" +dp.Producto+ "' , '" +dp.Unidad+ "' , '" +dp.PrecioUnitario+ "' , '" +dp.PrecioUnitarioDlls+ "' , '" 
-                                + dp.Cantidad + "' , '" + dp.Importe + "' , '" + dp.ImporteDlls + "' , '" + dp.Observaciones + "'";
+
+                string query = @"Insert Into DetalleCotizaciones(IdCotizacion,ClaveProducto,Producto,Unidad,PrecioUnitario,PrecioUnitarioDlls, Cantidad, Importe, ImporteDlls, Observaciones)
+values ( " + dp.IdCotizacion + " , '" + dp.ClaveProducto + "' , '" + dp.Producto + "' , '" + dp.Unidad + "' , '" + dp.PrecioUnitario + "' , '" + dp.PrecioUnitarioDlls + "' , '"
+                                + dp.Cantidad + "' , '" + dp.Importe + "' , '" + dp.ImporteDlls + "' , '" + dp.Observaciones + "')";
+              
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

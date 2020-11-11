@@ -226,6 +226,7 @@
     </Compile>
     <Compile Include="Models\Bodegas.cs" />
     <Compile Include="Models\Calendario.cs" />
+    <Compile Include="Models\MovimientoProducto.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
     <Compile Include="Models\ClienteLogin.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\TraspasoTarima.cs" />
     <Compile Include="Models\UnidadMedida.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\ValidarOC.cs" />
     <Compile Include="Models\Vendedor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
