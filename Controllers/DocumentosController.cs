@@ -92,7 +92,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenDescarga where Estatus = 'Descargada'";
+            string query = @"select * from OrdenDescarga order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -110,7 +110,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenDescarga where Folio =" + folio +" and Estatus ='Descargada'";
+            string query = @"select * from OrdenDescarga where Folio =" + folio +"";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -128,7 +128,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras where Folio =" + folio + " and Estatus ='Terminada'";
+            string query = @"select * from Compras where Folio =" + folio + " and (Estatus ='Terminada' or Estatus ='Transito')";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -187,7 +187,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras where Estatus = 'Terminada'";
+            string query = @"select * from Compras order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -244,6 +244,25 @@ namespace ProlappApi.Controllers
 
             string query = @"select * from DetalleCompra left join Documentos on DetalleCompra.IdDetalleCompra = Documentos.IdDetalle where DetalleCompra.IdCompra ="+ id 
                 +" and Documentos.Modulo = 'Importacion' and Documentos.Tipo = 'Compras' and Documentos.ClaveProducto = '"+clave+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //get documento por tipo y modulo
+        [Route("GetDocumentoTipoModulo/{tipo}/{modulo}")]
+        public HttpResponseMessage GetDocumentoTipoModulo(int folio, string tipo, string modulo)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos where Tipo = '" + tipo + "' and Modulo = '" + modulo + "'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -353,6 +372,35 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("updateUsdaDetalle/{usda}/{id}")]
+        public string PutUsdaDetalle(string usda, int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleTarima set USDA = '" + usda + "' where IdDetalleTarima = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
                 return "Se Actualizo Correctamente";
             }
             catch (Exception exe)
@@ -372,6 +420,33 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"update DetalleOrdenDescarga set Pedimento = '" + pedimento + "' where IdDetalleOrdenDescarga = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+            }
+        }
+
+        [Route("updatePedimentoDetalle/{pedimento}/{id}")]
+        public string PutPedimentoDetalle(string pedimento, int id)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+
+                string query = @"update DetalleTarima set Pedimento = '" + pedimento + "' where IdDetalleTarima = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

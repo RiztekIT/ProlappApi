@@ -19,7 +19,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from dbo.OrdenDescarga";
+            string query = @"select * from OrdenDescarga order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -68,7 +68,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("BorrarOrdenCarga/{id}")]
+        [Route("BorrarOrdenDescarga/{id}")]
         public string Delete(int id)
         {
             try
@@ -76,7 +76,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarOrdenDescarga " + id;
+                string query = @" delete from  OrdenDescarga where IdOrdenDescarga=" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -101,7 +101,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarDetalleOrdenDescarga" + id;
+                string query = @" delete from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -253,7 +253,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                exec etEditarOrdenDescarga " + ordenDescarga.IdOrdenDescarga + " , " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', '" + ordenDescarga.PO + "' , '" + ordenDescarga.Fletera + "' , '" +
                                 ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
                                 "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
                                 time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";

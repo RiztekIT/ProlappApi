@@ -19,7 +19,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras";
+            string query = @"select * from Compras order by FechaElaboracion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -139,6 +139,25 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select sum(CAST(DetalleCompra.CostoTotal AS float)) as CostoTotal, sum(CAST(DetalleCompra.CostoTotalDlls AS float)) as CostoTotalDlls from DetalleCompra where IdCompra ="+id;
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener compra por estatus
+        [Route("GetCompraEstatus/{estatus}")]
+        public HttpResponseMessage GetCompraEstatus(string estatus)
+        {
+
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Estatus = '"+estatus+"'";
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
             using (var da = new SqlDataAdapter(cmd))
