@@ -256,6 +256,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        //get documento por tipo y modulo
+        [Route("GetDocumentoTipoModulo/{tipo}/{modulo}")]
+        public HttpResponseMessage GetDocumentoTipoModulo(int folio, string tipo, string modulo)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos where Tipo = '" + tipo + "' and Modulo = '" + modulo + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
 
         [Route("BorrarDocumento/{id}")]
