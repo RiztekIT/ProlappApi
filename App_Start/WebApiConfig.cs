@@ -9,6 +9,9 @@ namespace ProlappApi
 {
     public static class WebApiConfig
     {
+
+       
+
         public static void Register(HttpConfiguration config)
         {
             // Configuración y servicios de API web
@@ -28,6 +31,10 @@ namespace ProlappApi
 
 
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
+            
+
+            
 
           //  config.EnableCors(new EnableCorsAttribute("http://192.168.1.67:4200", "*", "*"));
 

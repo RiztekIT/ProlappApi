@@ -8,12 +8,17 @@ using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using Microsoft.AspNet.SignalR;
+using ProlappApi.Hubs;
 
 namespace ProlappApi.Controllers
 {
+
+    
     [RoutePrefix("api/Cotizacion")]
     public class CotizacionesController : ApiController
     {
+        private readonly IHubContext<AlertasHub> hub;
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
@@ -28,6 +33,9 @@ namespace ProlappApi.Controllers
                 da.Fill(table);
             }
 
+
+
+            AlertasHub.NuevaNotificacion("Cotizacion");
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
@@ -136,6 +144,7 @@ namespace ProlappApi.Controllers
             {
 
 
+
                 DataTable table = new DataTable();
                 DateTime time = cotizaciones.FechaDeExpedicion;
                 DateTime time2 = cotizaciones.Vigencia;
@@ -154,7 +163,7 @@ namespace ProlappApi.Controllers
                 }
 
 
-
+                
                 return "Cotizacion Agregada";
             }
             catch (Exception exe)
