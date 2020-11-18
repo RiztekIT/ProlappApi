@@ -215,6 +215,7 @@
     <Compile Include="Controllers\SaldosController.cs" />
     <Compile Include="Controllers\TarimaController.cs" />
     <Compile Include="Controllers\TraficoController.cs" />
+    <Compile Include="Controllers\TraspasoMercanciaController.cs" />
     <Compile Include="Controllers\TraspasoTarimaController.cs" />
     <Compile Include="Controllers\UnidadMedidaController.cs" />
     <Compile Include="Controllers\UploadFilesController.cs" />
@@ -226,6 +227,7 @@
     </Compile>
     <Compile Include="Models\Bodegas.cs" />
     <Compile Include="Models\Calendario.cs" />
+    <Compile Include="Models\DetalleTraspasoMercancia.cs" />
     <Compile Include="Models\MovimientoProducto.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
@@ -268,6 +270,7 @@
     <Compile Include="Models\Relacion.cs" />
     <Compile Include="Models\Saldos.cs" />
     <Compile Include="Models\Tarima.cs" />
+    <Compile Include="Models\TraspasoMercancia.cs" />
     <Compile Include="Models\TraspasoTarima.cs" />
     <Compile Include="Models\UnidadMedida.cs" />
     <Compile Include="Models\Usuario.cs" />
