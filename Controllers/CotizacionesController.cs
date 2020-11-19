@@ -19,9 +19,11 @@ namespace ProlappApi.Controllers
     public class CotizacionesController : ApiController
     {
         private readonly IHubContext<AlertasHub> hub;
+        
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
+            
 
             string query = @"exec stSelectTablaCotizaciones";
 
@@ -34,8 +36,8 @@ namespace ProlappApi.Controllers
             }
 
 
-
-            AlertasHub.NuevaNotificacion("Cotizacion");
+            
+            
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 

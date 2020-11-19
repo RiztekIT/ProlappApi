@@ -581,6 +581,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("DetalleTarimaOT/{id}")]
+        public HttpResponseMessage GetDetalleTarimaOT(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select DetalleTarima.*,OrdenTemporal.* from DetalleTarima left join OrdenTemporal on DetalleTarima.IdDetalleTarima=OrdenTemporal.IdDetalleTarima where DetalleTarima.IdDetalleTarima=" + id + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         [Route("GetProductoClaveProducto/{clave}")]
         public HttpResponseMessage GetProductoClaveProducto(string clave)

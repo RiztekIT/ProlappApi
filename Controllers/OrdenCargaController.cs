@@ -57,8 +57,18 @@ namespace ProlappApi.Controllers
         public HttpResponseMessage GetDetalleOrdenCargaId(int id, string lote, string clave)
         {
             DataTable table = new DataTable();
+            string query;
 
-             string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+            if (lote == "0")
+            {
+                query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and ClaveProducto = '" + clave + "';";
+            }
+            else
+            {
+                query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+            }
+
+             
             //string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and ClaveProducto = '" + clave + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -337,8 +347,8 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("UpdateSaldo/{id}/{saldo}")]
-        public string PutUpdateSaldo(int id, string saldo)
+        [Route("UpdateSaldo/{id}/{saldo}/{lote}")]
+        public string PutUpdateSaldo(int id, string saldo, string lote)
         {
             try
             {
@@ -346,7 +356,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "' where IdDetalleOrdenCarga = "+ id + ";";
+                string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "', Lote='"+lote +"' where IdDetalleOrdenCarga = "+ id + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
