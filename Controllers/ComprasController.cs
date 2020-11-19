@@ -477,6 +477,8 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+        /*
         [Route("GetComprasOrderFolio")]
         public HttpResponseMessage GetComprasOrderFolio()
         {
@@ -496,7 +498,25 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("getComprasODHFolio/{folio}")]
+        public HttpResponseMessage getComprasODHFolio(int folio)
+        {
+            DataTable table = new DataTable();
 
-        
+            string query = @"select * from Compras where Folio =" + folio+ " and ver LIKE '%[0-9]%' order by Compras.Folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        */
+
     }
 }
