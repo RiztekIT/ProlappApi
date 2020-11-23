@@ -12,6 +12,10 @@ using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
+    public class Querys
+    {
+        public string consulta { get; set; }
+    }
     [RoutePrefix("api/TraspasoMercancia")]
     public class TraspasoMercanciaController : ApiController
     {
@@ -126,12 +130,12 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error" + ex;
             }
         }
-        [Route("GetDetalleTraspasoMercancia")]
-        public HttpResponseMessage GetDetalleTraspasoMercancia()
+        [Route("GetDetalleTraspasoMercancia/{id}")]
+        public HttpResponseMessage GetDetalleTraspasoMercancia(int id)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from DetalleTraspasoMercancia";
+            string query = @"select * from DetalleTraspasoMercancia where IdTraspasoMercancia="+id+"";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -227,6 +231,26 @@ namespace ProlappApi.Controllers
             {
                 return "Se produjo un error" + ex;
             }
+        }
+
+
+        [Route("general")]
+        public HttpResponseMessage PostGeneral(Querys consulta)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"" + consulta.consulta + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+            //return consulta;
         }
 
     }
