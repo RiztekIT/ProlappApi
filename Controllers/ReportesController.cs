@@ -901,13 +901,17 @@ namespace ProlappApi.Controllers
 
         // ======================================================================== REPORTES IMPORTACION =================================================================================
 
+        //  ----- ---- ------ NUEVO TRAPASO MERCANCIA
+
+        //  ----- ---- ------ NUEVO TRAPASO MERCANCIA
+
         //obtener traspasos por Bodega Origen-Destino
         [Route("GetTraspasoBodegas/{origen}/{destino}")]
         public HttpResponseMessage GetTraspasoBodegas(string origen, string destino)
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenCarga where Cliente = 'Traspaso' and Origen = '"+origen+"' and Destino = '"+destino+"' order by FechaExpedicion desc";
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' order by FechaExpedicion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -926,7 +930,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenCarga where Cliente = 'Traspaso' and Origen = '"+origen+"' and Destino = '"+destino+"' and FechaExpedicion between '"+fecha1+"' and '"+fecha2+"' order by FechaExpedicion  desc";
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and FechaExpedicion between '"+fecha1+"' and '"+fecha2+"'  order by FechaExpedicion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -945,7 +949,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenCarga where Cliente = 'Traspaso' and Origen = '" + origen + "' and Destino = '" + destino + "' and Estatus = '"+ estatus +"' order by FechaExpedicion desc";
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and Estatus = '"+estatus+"'  order by FechaExpedicion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -964,7 +968,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from OrdenCarga where Cliente = 'Traspaso' and Origen = '" + origen + "' and Destino = '" + destino + "' and FechaExpedicion between '" + fecha1 + "' and '" + fecha2 + "' and Estatus = '"+ estatus +"' order by FechaExpedicion  desc";
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and FechaExpedicion between '"+fecha1+"' and '"+fecha2+"' and Estatus = '"+estatus+"' order by FechaExpedicion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -1001,7 +1005,7 @@ namespace ProlappApi.Controllers
 
         //obtener TIPO Y MODULO documentos
         [Route("GetDocumentoTipoModuloFolio")]
-        public HttpResponseMessage GetDocumentoTipoModulo()
+        public HttpResponseMessage GetDocumentoTipoModuloFolio()
         {
             DataTable table = new DataTable();
 
@@ -1020,7 +1024,7 @@ namespace ProlappApi.Controllers
 
         //obtener por fecha de vigencia
         [Route("GetDocumentoFechas/{fecha1}/{fecha2}")]
-        public HttpResponseMessage GetDocumentoTipoModulo(string fecha1, string fecha2)
+        public HttpResponseMessage GetDocumentoFechas(string fecha1, string fecha2)
         {
             DataTable table = new DataTable();
 

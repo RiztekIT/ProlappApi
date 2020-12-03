@@ -257,8 +257,8 @@ namespace ProlappApi.Controllers
         }
 
         //get documento por tipo y modulo
-        [Route("GetDocumentoTipoModulo/{tipo}/{modulo}")]
-        public HttpResponseMessage GetDocumentoTipoModulo(int folio, string tipo, string modulo)
+        [Route("GetDocumentosTipoModulo/{tipo}/{modulo}")]
+        public HttpResponseMessage GetDocumentosTipoModulo(string tipo, string modulo)
         {
             DataTable table = new DataTable();
 

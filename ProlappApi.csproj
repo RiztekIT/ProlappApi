@@ -224,6 +224,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ImagenesController.cs" />
     <Compile Include="Controllers\NotaCreditoController.cs" />
+    <Compile Include="Controllers\NotificacionesController.cs" />
     <Compile Include="Controllers\OrdenCargaController.cs" />
     <Compile Include="Controllers\OrdenDescargaController.cs" />
     <Compile Include="Controllers\OrdenTemporalController.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="Models\Bodegas.cs" />
     <Compile Include="Models\Calendario.cs" />
+    <Compile Include="Models\DetalleNotificacion.cs" />
     <Compile Include="Models\DetalleTraspasoMercancia.cs" />
     <Compile Include="Models\MovimientoProducto.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Models\Imagen.cs" />
     <Compile Include="Models\Incidencias.cs" />
     <Compile Include="Models\NotaCredito.cs" />
+    <Compile Include="Models\Notificaciones.cs" />
     <Compile Include="Models\OrdenCarga.cs" />
     <Compile Include="Models\OrdenDescarga.cs" />
     <Compile Include="Models\OrdenTemporal.cs" />
