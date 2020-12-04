@@ -38,7 +38,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             //string query = @"select * from submenu where idmenu="+id;
-            string query = @"select * from submenu where submenu.titulo in (select procesos.NombreProceso from privilegios left join procesos on privilegios.idprocesos=procesos.idprocesos where idusuario="+iduser+") and idmenu="+idmenu+ " order by orden";
+            string query = @"select * from submenu where submenu.titulo in (select procesos.Modulo from privilegios left join procesos on privilegios.idprocesos=procesos.idprocesos where idusuario="+iduser+") and idmenu="+idmenu+ " order by orden";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
