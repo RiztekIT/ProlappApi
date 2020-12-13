@@ -257,6 +257,7 @@
     <Compile Include="Models\Calendario.cs" />
     <Compile Include="Models\DetalleNotificacion.cs" />
     <Compile Include="Models\DetalleTraspasoMercancia.cs" />
+    <Compile Include="Models\MarcasProductos.cs" />
     <Compile Include="Models\MovimientoProducto.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ClienteDireccion.cs" />
