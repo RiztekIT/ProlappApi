@@ -263,7 +263,7 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
-                string query = @"insert into MarcasProductos values(" + marcasProductos.IdMarca + ",'" + marcasProductos.NombreMarca + "','" + marcasProductos.ProductoMarca + "','" + marcasProductos.ClaveMarca + "')";
+                string query = @"insert into MarcasProductos values('" + marcasProductos.NombreMarca + "','" + marcasProductos.ProductoMarca + "','" + marcasProductos.ClaveMarca + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -275,7 +275,7 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Productos Agregado";
+                return "Marca Agregada";
             }
             catch (Exception exe)
             {
