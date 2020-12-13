@@ -112,7 +112,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              exec dtBorrarProducto " + id;
+                              delete from fleteras where idfletera =" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
