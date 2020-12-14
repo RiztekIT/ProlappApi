@@ -74,7 +74,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Pagos where TipoDocumento = '" + tipo + "';";
+            string query = @"select * from Pagos where TipoDocumento = '" + tipo + "' order by FechaPago desc;";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
