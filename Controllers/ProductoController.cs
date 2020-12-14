@@ -236,7 +236,83 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        
+        // inicio marcas productos
+
+        [Route("GetMarcasProductos")]
+        public HttpResponseMessage GetMarcasProductos()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from MarcasProductos";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("MarcasProductos")]
+        public string PostMarcasProductos(MarcasProductos marcasProductos)
+        {
+            try
+            {
+
+                DataTable table = new DataTable();
+                string query = @"insert into MarcasProductos values('" + marcasProductos.NombreMarca + "','" + marcasProductos.ProductoMarca + "','" + marcasProductos.ClaveMarca + "')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Marca Agregada";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        [Route("MarcasProductos")]
+        public string DeleteMarcasProductos(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              Delete from MarcasProductos where idMarca = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["TalleresZarco"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
 
 
     }
