@@ -56,7 +56,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Notificaciones where IdUsuarioDestino = " + id;
+            string query = @"select * from DetalleNotificacion where IdUsuarioDestino = " + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
