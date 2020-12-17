@@ -299,7 +299,26 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select* from notificaciones left join DetalleNotificacion on notificaciones.IdNotificacion = DetalleNotificacion.IdNotificacion where detallenotificacion.IdUsuarioDestino =  " + id;
+            string query = @"select* from notificaciones left join DetalleNotificacion on notificaciones.IdNotificacion = DetalleNotificacion.IdNotificacion where detallenotificacion.IdUsuarioDestino =  " + id + "  order by notificaciones.FechaEnvio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+                            
+        [Route("GetMensajesLogIdDestinoIdUsuario/{id}/{id1}")]
+        public HttpResponseMessage GetMensajesLogIdDestinoIdUsuario(int id,int id1)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from notificaciones left join DetalleNotificacion on notificaciones.IdNotificacion = DetalleNotificacion.IdNotificacion where detallenotificacion.IdUsuarioDestino =  " + id + " and Notificaciones.IdUsuario ="+ id1 +"  order by notificaciones.FechaEnvio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -316,6 +335,5 @@ namespace ProlappApi.Controllers
 
 
 
-        
     }
 }
