@@ -123,10 +123,10 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        public string Post(Notificaciones n)
+        public HttpResponseMessage Post(Notificaciones n)
         {
-            try
-            {
+           
+            
 
                 DateTime time = n.FechaEnvio;
 
@@ -134,7 +134,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"insert into Notificaciones (Folio, IdUsuario, Usuario, Mensaje, ModuloOrigen, FechaEnvio) VALUES("+n.Folio+","+n.IdUsuario+", '"+n.Usuario+"', '"+n.Mensaje+"', '"+n.ModuloOrigen+"', '"+time.ToString(format)+"')";
+                string query = @"insert into Notificaciones (Folio, IdUsuario, Usuario, Mensaje, ModuloOrigen, FechaEnvio) OUTPUT inserted.* VALUES((select MAX(folio)+1 from notificaciones)," + n.IdUsuario+", '"+n.Usuario+"', '"+n.Mensaje+"', '"+n.ModuloOrigen+"', '"+time.ToString(format)+"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -144,13 +144,8 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Agrego Correctamente";
-            }
-            catch (Exception exe)
-            {
-                return "Se produjo un error" + exe;
-
-            }
+                return Request.CreateResponse(HttpStatusCode.OK, table);
+          
         }
 
         public string Put(Notificaciones n)
