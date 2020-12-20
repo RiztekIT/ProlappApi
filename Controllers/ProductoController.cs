@@ -182,6 +182,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("ProductosMarcas")]
+        public HttpResponseMessage GetProductosMarcas()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select producto.*,marcasproductos.* from producto left join marcasproductos on producto.Nombre=marcasproductos.ProductoMarca where producto.Estatus='Activo';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("NombreMarca")]
         public HttpResponseMessage GetNombreMarca(string clave)
         {
@@ -314,6 +332,40 @@ namespace ProlappApi.Controllers
             }
         }
 
+        public string Put(MarcasProductos marcasProductos)
+        {
+            try
+            {
 
+
+                DataTable table = new DataTable();
+
+                string query = @"update MarcasProductos set NombreMarca = '" + marcasProductos.NombreMarca + "',ProductoMarca = '" + marcasProductos.ProductoMarca + "',ClaveMarca = '" + marcasProductos.ClaveMarca + "' where IdMarca=" + marcasProductos.IdMarca + "";
+
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Actualizo Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+
+
+
+
+
+
+
+            }
+        }
     }
 }
