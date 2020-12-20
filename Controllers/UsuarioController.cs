@@ -56,14 +56,14 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        //Obtener Usuario y Login por fechas 
-        [Route("api/usuario/login/{fecha}")]
+        //Obtener Usuario logeado en x semana
+        [Route("api/usuario/loginSemana/{fecha1}/{fecha2}")]
 
-        public HttpResponseMessage Getlogin(string fecha)
+        public HttpResponseMessage GetloginSemana(string fecha1, string fecha2)
         {
             DataTable table = new DataTable();
 
-            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where fechainiciosesion between '"+fecha+"' and DATEADD(DAY,1,'"+fecha+"')";
+            string query = @" select username from login where fechainiciosesion between '"+fecha1+"' and DATEADD(DAY,1,'"+fecha2+"') group by username";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -74,8 +74,68 @@ namespace ProlappApi.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
-        } 
-    
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/usuario/loginFechas/{fecha1}/{fecha2}")]
+
+        public HttpResponseMessage GetloginFechas(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where fechainiciosesion between '"+fecha1+"' and DATEADD(DAY,1,'"+fecha2+"')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/usuario/loginFechasId/{fecha1}/{fecha2}/{id}")]
+
+        public HttpResponseMessage GetloginFechasId(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where where usuario.IdUsuario = 1 and fechainiciosesion between '" + fecha1 + "' and DATEADD(DAY,1,'" + fecha2 + "')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario USERNAME y Login por fechas 
+        [Route("api/usuario/loginFechasUser/{fecha1}/{fecha2}/{user}")]
+
+        public HttpResponseMessage GetloginFechasUser(string fecha1, string fecha2, string user)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username  where fechainiciosesion between '" + fecha1 + "' and DATEADD(DAY,1,'" + fecha2 + "')  and login.username = '"+user+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         //Obtener Usuario por NombreUsuario
         [Route("api/usuario/userinfo/{nombre}")]
