@@ -137,6 +137,35 @@ namespace ProlappApi.Controllers
         }
 
 
+        //Obtener EarlistDate por Fechas y username
+        [Route("api/usuario/loginEarliestDatesUser/{diaLimite}/{diaInicio}/{diaFin}/{mesInicio}/{mesFin}/{yearInicio}/{yearFin}/{user}")]
+
+        public HttpResponseMessage GetloginEarliestDatesUser(int diaLimite, int diaInicio, int diaFin, int mesInicio, int mesFin, int yearInicio, int yearFin, string user)
+        {
+            DataTable table = new DataTable();
+
+            //  string query = @"DECLARE @output TABLE (fecha DATETIME, device varchar(500)) declare @fechaInicio int = "+diaInicio+" declare @fechaFinal int = "+diaFin+
+            //    " while @fechaInicio <= @fechaFinal begin insert into @output(fecha, device) select  TOP 1 MIN(login.fechainiciosesion) as fecha, login.dispositivo from login where login.fechainiciosesion between '"+mesInicio+
+            //   "/'+ CAST(@fechaInicio as varchar(10)) +'/"+yearInicio+"' and DATEADD(DAY, 1, '"+mesFin+"/'+ CAST(@fechaInicio as varchar(10)) +'/"+yearFin+"') and login.username = '"+user+"' group by login.dispositivo set @fechaInicio = @fechaInicio + 1; end; SELECT * FROM @output";
+            string query = "DECLARE @output TABLE (fecha DATETIME, device varchar(500)) declare @diaLimite int = "+diaLimite+" declare @fechaInicio int = "+diaInicio+" declare @fechaFinal int = "+diaFin+" declare @contador int = 0 " +
+                "declare @mesInicio varchar(5) = "+mesInicio+" declare @mesFinal varchar(5) = "+mesFin+" declare @yearInicio varchar(5) = "+yearInicio+" declare @yearFinal varchar(5) = "+yearFin+
+                " while @contador <= 6 begin insert into @output(fecha, device) select TOP 1 MIN(login.fechainiciosesion) as fecha, login.dispositivo from login where login.fechainiciosesion between +" +
+                "@mesInicio + '/' + CAST(@fechaInicio as varchar(10)) + '/' + @yearInicio  and DATEADD(DAY, 1,   +@mesInicio + '/' + CAST(@fechaInicio as varchar(10)) + '/' + @yearInicio) and login.username = '"+user+"'" +
+                " group by login.dispositivo set @fechaInicio = @fechaInicio + 1; if (@fechaInicio > @diaLimite) begin set @fechaInicio = 1 set @mesInicio = @mesFinal end set @contador = @contador + 1; end; " +
+                "if (@mesInicio = 12 and @fechaInicio = 31) begin set @yearInicio = @yearFinal end SELECT* FROM @output";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
         //Obtener Usuario por NombreUsuario
         [Route("api/usuario/userinfo/{nombre}")]
         public HttpResponseMessage GetUserInfo(string nombre)
