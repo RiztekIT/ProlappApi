@@ -391,7 +391,7 @@ values ( " + dp.IdCotizacion + " , '" + dp.ClaveProducto + "' , '" + dp.Producto
         {
             DataTable table = new DataTable();
 
-            string query = @"select * From Prospecto";
+            string query = @"select * From Prospecto order by IdProspecto desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
