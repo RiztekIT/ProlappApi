@@ -382,7 +382,7 @@ namespace ProlappApi.Controllers
         }
 
         [Route("UpdateSaldo/{id}/{saldo}}")]
-        public string PutUpdateSaldo(int id, string saldo, string lote)
+        public string PutUpdateSaldo(int id, string saldo)
         {
             try
             {
