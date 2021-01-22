@@ -381,7 +381,7 @@ namespace ProlappApi.Controllers
             }
         }
 
-        [Route("UpdateSaldo/{id}/{saldo}/{lote}")]
+        [Route("UpdateSaldo/{id}/{saldo}}")]
         public string PutUpdateSaldo(int id, string saldo, string lote)
         {
             try
@@ -390,7 +390,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "', Lote='"+lote +"' where IdDetalleOrdenCarga = "+ id + ";";
+                string query = @" update DetalleOrdenCarga set Saldo = '" + saldo + "' where IdDetalleOrdenCarga = "+ id + ";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
