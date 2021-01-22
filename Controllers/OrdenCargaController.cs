@@ -51,7 +51,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        
+
         //Obtener Detalle orden Carga por ID, LOTE y CLAVE PRODUCTO 
         [Route("DetalleOrdenCarga/{id}/{lote}/{clave}")]
         public HttpResponseMessage GetDetalleOrdenCargaId(int id, string lote, string clave)
@@ -68,7 +68,7 @@ namespace ProlappApi.Controllers
                 query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
             }
 
-             
+
             //string query = @"select * from DetalleOrdenCarga where IdOrdenCarga  =" + id + " and ClaveProducto = '" + clave + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -189,8 +189,8 @@ namespace ProlappApi.Controllers
                                 exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
                                 ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
                                 ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" + 
-                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario +  @"'";
+                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -208,6 +208,39 @@ namespace ProlappApi.Controllers
 
             }
         }
+
+        [Route("AddOrdenCarga")]
+        public HttpResponseMessage PostOC(OrdenCarga ordencarga)
+        {
+           
+
+                DataTable table = new DataTable();
+
+
+                DateTime time = ordencarga.FechaEnvio;
+                DateTime time2 = ordencarga.FechaInicioCarga;
+                DateTime time3 = ordencarga.FechaFinalCarga;
+                DateTime time4 = ordencarga.FechaExpedicion;
+
+                string format = "yyyy-MM-dd HH:mm:ss";
+
+                string query = @"
+                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
+                                ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
+                                ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
+                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, table);
+            }
 
 
         [Route("AddDetalleOrdenCarga")]
