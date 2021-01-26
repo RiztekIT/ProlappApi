@@ -459,5 +459,131 @@ namespace ProlappApi.Controllers
 
 
 
+
+
+
+        // Orden Carga Info- son campos adjuntos a Orden Carga que contienen informacion relevante
+        //Obtener Orden Carga Info por IdOrdenCargaInfo
+        [Route("OrdenCargaInfoId/{id}")]
+        public HttpResponseMessage GetOrdenCargaInfoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from OrdenCargaInfo where IdOrdenCargaInfo  =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Orden Carga Info por IdOrdenCarga
+        [Route("OrdenCargaInfoIdOC/{id}")]
+    public HttpResponseMessage GetOrdenCargaInfoIdOC(int id)
+    {
+        DataTable table = new DataTable();
+
+        string query = @"select * from OrdenCargaInfo where IdOrdenCarga  =" + id;
+
+        using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+        using (var cmd = new SqlCommand(query, con))
+        using (var da = new SqlDataAdapter(cmd))
+        {
+            cmd.CommandType = CommandType.Text;
+            da.Fill(table);
+        }
+
+        return Request.CreateResponse(HttpStatusCode.OK, table);
     }
+    [Route("AddOrdenCargaInfo")]
+    public string PostOrdenCargaInfo(OrdenCargaInfo o)
+    {
+        try
+        {
+            DataTable table = new DataTable();
+
+
+
+            string query = @"
+                            insert into OrdenCargaInfo (IdOrdenCarga, SelloCaja, Campo1, Campo2, Campo3) values ("+o.IdOrdenCarga+", '"+o.SelloCaja+"', '"+o.Campo1+"', '"+o.Campo2+"', '"+o.Campo3+"')" +  @"";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return "Se Agrego Correctamente";
+        }
+        catch (Exception exe)
+        {
+            return "Se produjo un error" + exe;
+
+        }
+    }
+        [Route("UpdateOrdenCargaInfo")]
+        public string PutOrdenCargaInfo(OrdenCargaInfo o)
+    {
+        try
+        {
+
+
+            DataTable table = new DataTable();
+
+  
+
+  
+
+            string query = @"
+                             update OrdenCargaInfo set IdOrdenCarga = "+o.IdOrdenCarga+", SelloCaja = '"+o.SelloCaja+"', Campo1 = '"+o.Campo1+"', Campo2 = '"+o.Campo2+"', Campo3 = '"+o.Campo3+"' where IdOrdenCargaInfo = "+o.IdOrdenCargaInfo+"  " + @"";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return "Se Actualizo Correctamente";
+        }
+        catch (Exception exe)
+        {
+            return "Se produjo un error" + exe;
+
+        }
+    }
+    [Route("DeleteOrdenCargaInfo/{id}")]
+    public string DeleteOrdenCargaInfo(int id)
+    {
+        try
+        {
+
+            DataTable table = new DataTable();
+
+            string query = @" delete OrdenCargaInfo where IdOrdenCargaInfo =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return "Se elimino Correctamente";
+        }
+        catch (Exception)
+        {
+            return "Error al Eliminar";
+        }
+    }
+}
 }
