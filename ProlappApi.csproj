@@ -286,6 +286,7 @@
     <Compile Include="Models\NotaCredito.cs" />
     <Compile Include="Models\Notificaciones.cs" />
     <Compile Include="Models\OrdenCarga.cs" />
+    <Compile Include="Models\OrdenCargaInfo.cs" />
     <Compile Include="Models\OrdenDescarga.cs" />
     <Compile Include="Models\OrdenTemporal.cs" />
     <Compile Include="Models\PagoCFDI.cs" />
