@@ -294,6 +294,7 @@
     <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\HistoricoLeche.cs" />
+    <Compile Include="Models\PedidoInfo.cs" />
     <Compile Include="Models\Privilegio.cs" />
     <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\Producto.cs" />
