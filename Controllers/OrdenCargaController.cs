@@ -327,9 +327,9 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
-                                "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
-                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento + "' , '" + 
+                                update DetalleOrdenCarga set IdOrdenCarga =" + doc.IdOrdenCarga + " , ClaveProducto = '" + doc.ClaveProducto + "' , Producto ='" + doc.Producto + "' , Sacos ='" + doc.Sacos +
+                                "' , PesoxSaco ='" + doc.PesoxSaco + "' , Lote='" + doc.Lote + "' , IdProveedor=" + doc.IdProveedor + " , Proveedor='" + doc.Proveedor + "' , PO='" + doc.PO
+                                + "' , FechaMFG='" + time.ToString(format) + "' , FechaCaducidad='" + time2.ToString(format) + "' , Shipper='" + doc.Shipper + "' , USDA='" + doc.USDA + "' , Pedimento='" + doc.Pedimento + "' , Saldo='" + 
                                 doc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
