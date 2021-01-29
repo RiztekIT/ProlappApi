@@ -330,7 +330,7 @@ namespace ProlappApi.Controllers
                                 update DetalleOrdenCarga set IdOrdenCarga =" + doc.IdOrdenCarga + " , ClaveProducto = '" + doc.ClaveProducto + "' , Producto ='" + doc.Producto + "' , Sacos ='" + doc.Sacos +
                                 "' , PesoxSaco ='" + doc.PesoxSaco + "' , Lote='" + doc.Lote + "' , IdProveedor=" + doc.IdProveedor + " , Proveedor='" + doc.Proveedor + "' , PO='" + doc.PO
                                 + "' , FechaMFG='" + time.ToString(format) + "' , FechaCaducidad='" + time2.ToString(format) + "' , Shipper='" + doc.Shipper + "' , USDA='" + doc.USDA + "' , Pedimento='" + doc.Pedimento + "' , Saldo='" + 
-                                doc.Saldo + @"'";
+                                doc.Saldo + "' where IdDetalleOrdenCarga ="+ doc.IdDetalleOrdenCarga +@"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
