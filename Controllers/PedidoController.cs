@@ -683,7 +683,7 @@ values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
 
                 DataTable table = new DataTable();
                
-                string query = @"update PedidosInfo set IdPedido = "+pi.IdPedido+", SeleccionManual = '"+pi.IdPedidoInfo+"', Campo1 = '"+pi.Campo1+"', Campo2 = '"+pi.Campo2+"', Campo3 = '"+pi.Campo3+"' where IdPedido ="+pi.IdPedido + @"";
+                string query = @"update PedidosInfo set IdPedido = "+pi.IdPedido+", SeleccionManual = '"+pi.SeleccionManual+"', Campo1 = '"+pi.Campo1+"', Campo2 = '"+pi.Campo2+"', Campo3 = '"+pi.Campo3+"' where IdPedido ="+pi.IdPedido + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
