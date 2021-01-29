@@ -601,7 +601,139 @@ values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
         }
 
 
+        // ******* PEDIDO INFO ***** //
 
+        //Informacion Adicional a Pedido info.
+
+        //GET PEDIDO INFO
+        [Route("GetPedidoInfoId/{id}")]
+        public HttpResponseMessage GetPedidoInfoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PedidosInfo where IdPedidoInfo = " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetPedidoInfoIdPedido/{id}")]
+        public HttpResponseMessage GetPedidoInfoIdPedido(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PedidosInfo where IdPedido = " + id ;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //POST PEDIDO INFO
+        [Route("AddPedidoInfo")]
+        public string PostPedidoInfo(PedidoInfo pi)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @"insert into PedidosInfo (IdPedido, SeleccionManual, Campo1, Campo2, Campo3) values("+pi.IdPedido+",'"+pi.SeleccionManual+"','"+pi.Campo1+"','"+pi.Campo2+"','"+pi.Campo3+"')" + @"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Agregado Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        //PUT PEDIDO INFO
+
+        [Route("EditPedidoInfo")]
+        public string PutPedidoInfo(PedidoInfo pi)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+               
+                string query = @"update PedidosInfo set IdPedido = "+pi.IdPedido+", SeleccionManual = '"+pi.IdPedidoInfo+"', Campo1 = '"+pi.Campo1+"', Campo2 = '"+pi.Campo2+"', Campo3 = '"+pi.Campo3+"' where IdPedido ="+pi.IdPedido + @"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Actualizado Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+        //DELETE PEDIDO INFO
+
+        // ******* PEDIDO INFO ***** //
+        [Route("DeletePedidoInfo/{id}")]
+        public string DeletePedidoInfo(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"delete PedidosInfo where IdPedido = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
 
 
 
