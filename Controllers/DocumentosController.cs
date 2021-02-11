@@ -311,7 +311,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"delete Documentos where Folio = "+doc.Folio+" and Modulo = '"+doc.Modulo+"' and Tipo='"+doc.Tipo+"' and NombreDocumento = '"+doc.NombreDocumento+"' and IdDetalle = "+doc.IdDetalle;
+                string query = @"delete Documentos where Folio = " + doc.Folio + " and Modulo = '" + doc.Modulo + "' and Tipo='" + doc.Tipo + "' and NombreDocumento = '" + doc.NombreDocumento + "' and Observaciones = '" + doc.IdDetalle + "' and ClaveProducto = '" + doc.ClaveProducto + "'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
