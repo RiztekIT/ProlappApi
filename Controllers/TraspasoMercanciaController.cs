@@ -24,7 +24,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from TraspasoMercancia";
+            string query = @"select * from TraspasoMercancia order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
