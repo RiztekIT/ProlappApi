@@ -109,10 +109,9 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarProducto " + producto.IdProducto + " , '" + producto.Nombre + "' , '" + producto.PrecioVenta + "' , '" + producto.PrecioCosto + "' , '" + producto.Cantidad +
                                 "' , '" + producto.ClaveProducto + "' , '" + producto.Stock + "' , '" + producto.DescripcionProducto + "' , '"
-                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' , " + producto.IVA + " , '" + producto.CodigoBarras +
-                                "' , '" + producto.ClaveSAT + "'," + producto.Categoria + @"'
-                                ";
-
+                                + producto.Estatus + "' , '" + producto.UnidadMedida + "' ,'" + producto.IVA + "' , '" + producto.CodigoBarras +
+                                "' , '" + producto.ClaveSAT + "'," + producto.Categoria + "'";
+                query = "update Producto set Nombre = '" + producto.Nombre + "', PrecioVenta = '" + producto.PrecioVenta + "', PrecioCosto = '" + producto.PrecioCosto + "', Cantidad = '" + producto.Cantidad + "', ClaveProducto = '" + producto.ClaveProducto + "', Stock = '" + producto.Stock + "', DescripcionProducto = '" + producto.DescripcionProducto + "', Estatus ='" + producto.Estatus + "',UnidadMedida = '" + producto.UnidadMedida + "', IVA = '" + producto.IVA + "', CodigoBarras = '" + producto.CodigoBarras + "', ClaveSAT = '" + producto.ClaveSAT + "',Categoria = '" + producto.Categoria + "' Where IdProducto = '" + producto.IdProducto + "';";
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
                 using (var da = new SqlDataAdapter(cmd))
@@ -331,8 +330,8 @@ namespace ProlappApi.Controllers
                 return "Se produjo un error";
             }
         }
-
-        public string Put(MarcasProductos marcasProductos)
+        [Route("MarcasProductos")]
+        public string PutMarcas(MarcasProductos marcasProductos)
         {
             try
             {
