@@ -75,7 +75,8 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select DetalleTarima.*,OrdenTemporal.* from DetalleTarima left join OrdenTemporal on DetalleTarima.IdDetalleTarima=OrdenTemporal.IdDetalleTarima";
+            //string query = @"select DetalleTarima.*,OrdenTemporal.* from DetalleTarima left join OrdenTemporal on DetalleTarima.IdDetalleTarima=OrdenTemporal.IdDetalleTarima";
+            string query = @"select * from DetalleTarima";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
