@@ -254,11 +254,16 @@ namespace ProlappApi.Controllers
                 DateTime time2 = doc.FechaCaducidad;
                 string format = "yyyy-MM-dd HH:mm:ss";
 
-                string query = @"
-                                exec itInsertNuevoDetalleOrdenCarga " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
-                                "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
-                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
-                                "' , '" + doc.Saldo + @"'";
+                ///   string query = @"
+                //                 exec itInsertNuevoDetalleOrdenCarga " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
+                //               "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
+                //             + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
+                //           "' , '" + doc.Saldo + @"'";
+                string query = @"insert into DetalleOrdenCarga (IdOrdenCarga, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento, Saldo)
+                                    values (" + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
+                              "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
+                            + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
+                          "' , '" + doc.Saldo + @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
