@@ -331,8 +331,10 @@ values ( " + dp.IdCotizacion + " , '" + dp.ClaveProducto + "' , '" + dp.Producto
                 DataTable table = new DataTable();
 
 
-                string query = @"
-                              exec dtBorrarDetalleCotizacion " + id;
+                // string query = @"
+                ///             exec dtBorrarDetalleCotizacion " + id;
+                ///             
+                string query = "delete DetalleCotizaciones where IdDetalleCotizacion = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
