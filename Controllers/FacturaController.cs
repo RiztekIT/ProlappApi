@@ -16,7 +16,7 @@ namespace ProlappApi.Controllers
     public class FacturaController : ApiController
     {
 
-
+        
         //Select de tabla factura
         public HttpResponseMessage Get()
         {
@@ -57,7 +57,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where id =" + id;
+            string query = @"Select Factura.* ,Cliente2.* from Factura LEFT JOIN Cliente2 ON Factura.IdCliente = Cliente2.IdClientes where id =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+ "' and (Factura.Estatus='Timbrada' or Factura.Estatus='Pagada') order by Factura.folio asc";
+            string query = @"Select Factura.* ,Cliente2.* from Factura LEFT JOIN Cliente2 ON Factura.IdCliente = Cliente2.IdClientes where FechaDeExpedicion between '"+fechaini+"' and '"+fechafinal+ "' and (Factura.Estatus='Timbrada' or Factura.Estatus='Pagada') order by Factura.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -93,7 +93,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where Folio =" + id;
+            string query = @"Select Factura.* ,Cliente2.* from Factura LEFT JOIN Cliente2 ON Factura.IdCliente = Cliente2.IdClientes where Folio =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -267,7 +267,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where IdClientes =" + id;
+            string query = @"select * from Cliente2 where IdClientes =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

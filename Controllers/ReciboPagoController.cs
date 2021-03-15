@@ -61,6 +61,7 @@ namespace ProlappApi.Controllers
 
             
             string query = @"select IDENT_CURRENT( 'ReciboPago' ) as Id from ReciboPago";
+            
             //string query = @"select MAX(ReciboPago.Id) + 1 as Id from ReciboPago";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -250,8 +251,8 @@ namespace ProlappApi.Controllers
                                 + ReciboPago.Tipo + "' , '" + ReciboPago.Certificado + "' , '" + ReciboPago.NoCertificado + "' , '"
                                 + ReciboPago.Cuenta + "' , '" + ReciboPago.CadenaOriginal + "' , '"
                                 + ReciboPago.SelloDigitalSAT + "' , '" + ReciboPago.SelloDigitalCFDI + "' , '" + ReciboPago.NoSelloSAT + "' , '" 
-                                + ReciboPago.RFCPAC + "' , '" + ReciboPago.Estatus + @"'
-                                ";
+                                + ReciboPago.RFCPAC + "' , '" + ReciboPago.Estatus + "','" + ReciboPago.folio + "'";
+                
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

@@ -425,7 +425,7 @@ namespace ProlappApi.Controllers
 
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
-
+                    
                 string query = @"update Factura2 set Estatus='Cancelada' where Id=" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -505,10 +505,9 @@ namespace ProlappApi.Controllers
                                 + detalleFactura.ClaveSat + "' , '" + detalleFactura.PrecioUnitario + "' , '" + detalleFactura.PrecioUnitarioDlls + "' , '"
                                 + detalleFactura.Cantidad + "' , '" + detalleFactura.Importe + "' , '" + detalleFactura.ImporteDlls + "' , '"
                                 + detalleFactura.Observaciones + "' , '" + detalleFactura.TextoExtra + "' , '"
-                                + detalleFactura.ImporteIVA + "' , '" + detalleFactura.ImporteIVADlls + @"'
-                                ";
+                                + detalleFactura.ImporteIVA + "' , '" + detalleFactura.ImporteIVADlls + "'";
 
-                query = @"update DetalleFactura2 set ClaveProducto = '" + detalleFactura.ClaveProducto + "', Producto = '" + detalleFactura.Producto + "', Unidad = '" + detalleFactura.Unidad + "', ClaveSAT = '" + detalleFactura.ClaveSat + "', PrecioUnitario = '" + detalleFactura.PrecioUnitario + "', PrecioUnitarioDlls = '" + detalleFactura.PrecioUnitarioDlls + "', Cantidad = '" + detalleFactura.Cantidad + "', Importe = '" + detalleFactura.Importe + "', ImporteDlls = '" + detalleFactura.ImporteDlls + "', Observaciones = '" + detalleFactura.Observaciones + "', TextoExtra = '" + detalleFactura.TextoExtra + "',ImporteIVA = '" + detalleFactura.ImporteIVA + "' where IdDetalle=" + detalleFactura.IdDetalle + ";";
+                query = @"update DetalleFactura2 set ClaveProducto = '" + detalleFactura.ClaveProducto + "', Producto = '" + detalleFactura.Producto + "', Unidad = '" + detalleFactura.Unidad + "', ClaveSAT = '" + detalleFactura.ClaveSat + "', PrecioUnitario = '" + detalleFactura.PrecioUnitario + "', PrecioUnitarioDlls = '" + detalleFactura.PrecioUnitarioDlls + "', Cantidad = '" + detalleFactura.Cantidad + "', Importe = '" + detalleFactura.Importe + "', ImporteDlls = '" + detalleFactura.ImporteDlls + "', Observaciones = '" + detalleFactura.Observaciones + "', TextoExtra = '" + detalleFactura.TextoExtra + "',ImporteIVA = '" + detalleFactura.ImporteIVA + "', ImporteIVADlls='" + detalleFactura.ImporteIVADlls + "' where IdDetalle=" + detalleFactura.IdDetalle + ";";
 
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -662,6 +661,7 @@ namespace ProlappApi.Controllers
             //string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id +" order by FechaDeExpedicion desc ";
             string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, FechaVencimiento, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion asc ";
             query = @"select Factura2.Idcliente, Factura2.Folio, Factura2.Tipo, Factura2.FechaDeExpedicion, Factura2.FechaVencimiento, Factura2.Total, Factura2.Moneda, Factura2.TipoDeCambio, Factura2.TotalDlls, sum(convert(float,PagoCFDI2.cantidad)) as pagos, sum(convert(float,NotaCredito.Total)) as NCTotal,sum(convert(float,NotaCredito.TotalDlls)) as NCTotalDlls from Factura2 left join PagoCFDI2 on Factura2.Id=PagoCFDI2.IdFactura left join NotaCredito on NotaCredito.IdFactura=Factura2.Id where Factura2.IdCliente=" + id + " and Factura2.Estatus ='Timbrada' group by Factura2.Idcliente, Factura2.Folio, Factura2.Tipo, Factura2.FechaDeExpedicion, Factura2.FechaVencimiento, Factura2.Total, Factura2.Moneda, Factura2.TipoDeCambio, Factura2.TotalDlls order by Factura2.FechaDeExpedicion ";
+            query = @"select Factura2.*, (select sum(convert(float,PagoCFDI2.cantidad)) as pagos from PagoCFDI2 where idFactura =factura2.ID) as pagos, (select sum(convert(float,NotaCredito.TotalDlls)) as NCTotalDlls from notacredito where idFactura =factura2.ID) as NCTotalDlls , (select sum(convert(float,NotaCredito.Total)) as NCTotal from notacredito where idFactura =factura2.ID) as NCTotal from factura2 where idcliente = " + id + " and estatus = 'Timbrada'";
             // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from Factura where IdCliente=" + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio, TotalDlls from NotaCredito where IdCliente= " + id + " and Estatus ='Timbrada'  order by FechaDeExpedicion desc ";
 
             // string query = @"select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from Factura where IdCliente= " + id + " union all select Idcliente, Folio, Tipo, FechaDeExpedicion, Total, Moneda, TipoDeCambio from NotaCredito where IdCliente= " + id + " order by FechaDeExpedicion desc ";
