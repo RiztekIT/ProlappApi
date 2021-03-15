@@ -772,6 +772,574 @@ namespace ProlappApi.Controllers
 
 
 
+        // ======================================================================== REPORTES CALIDAD =================================================================================
+
+   
+
+
+
+//obtener incidencias por fechas y procedencia
+        [Route("GetIncidenciasFechasProcedencia/{fechaini}/{fechafinal}/{procedencia}")]
+        public HttpResponseMessage GetIncidenciasFechasProcedencia(string fechaini, string fechafinal, string procedencia)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from incidencias where FechaElaboracion between '" + fechaini + "' and '" + fechafinal + "' and Procedencia = '"+procedencia+"' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        //obtener incidencias por fechas
+        [Route("GetIncidenciasFechas/{fechaini}/{fechafinal}")]
+        public HttpResponseMessage GetIncidenciasFechas(string fechaini, string fechafinal)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from incidencias where FechaElaboracion between '" + fechaini + "' and '" + fechafinal + "' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener incidencias por estatus y procedencia
+        [Route("GetIncidenciasEstatusProcedencia/{estatus}/{procedencia}")]
+        public HttpResponseMessage GetIncidenciasEstatus(string estatus, string procedencia)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Incidencias where Estatus = '" + estatus + "' and Procedencia = '" + procedencia+"' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        //obtener incidencias por estatus 
+        [Route("GetIncidenciasEstatus/{estatus}")]
+        public HttpResponseMessage GetIncidenciasEstatus(string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Incidencias where Estatus = '"+estatus+"' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener incidencias por fechas y procedencia y estatus
+        [Route("GetIncidenciasFechasProcedenciaEstatus/{fechaini}/{fechafinal}/{procedencia}/{estatus}")]
+        public HttpResponseMessage GetIncidenciasFechasProcedenciaEstatus(string fechaini, string fechafinal, string procedencia, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from incidencias where FechaElaboracion between '" + fechaini + "' and '" + fechafinal + "' and Procedencia = '" + procedencia + "' and Estatus = '"+estatus+"' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener incidencias por fechas y estatus
+        [Route("GetIncidenciasFechasEstatus/{fechaini}/{fechafinal}/{estatus}")]
+        public HttpResponseMessage GetIncidenciasFechasEstatus(string fechaini, string fechafinal, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from incidencias where FechaElaboracion between '" + fechaini + "' and '" + fechafinal + "' and Estatus = '" + estatus + "' order by FechaElaboracion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
+
+
+        // ======================================================================== REPORTES CALIDAD =================================================================================
+
+
+        // ======================================================================== REPORTES IMPORTACION =================================================================================
+
+        //  ----- ---- ------ NUEVO TRAPASO MERCANCIA
+
+        //  ----- ---- ------ NUEVO TRAPASO MERCANCIA
+
+        //obtener traspasos por Bodega Origen-Destino
+        [Route("GetTraspasoBodegas/{origen}/{destino}")]
+        public HttpResponseMessage GetTraspasoBodegas(string origen, string destino)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' order by FechaExpedicion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener traspasos por Bodega Origen-Destino y Fechas de Expedicion
+        [Route("GetTraspasoBodegasFechas/{origen}/{destino}/{fecha1}/{fecha2}")]
+        public HttpResponseMessage GetTraspasoBodegasFechas(string origen, string destino, string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and FechaExpedicion between '"+fecha1+"' and '"+fecha2+"'  order by FechaExpedicion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener traspasos por Bodega Origen-Destino y Estatus
+        [Route("GetTraspasoBodegasEstatus/{origen}/{destino}/{estatus}")]
+        public HttpResponseMessage GetTraspasoBodegasEstatus(string origen, string destino, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and Estatus = '"+estatus+"'  order by FechaExpedicion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener traspasos por Bodega Origen-Destino, Fechas de Expedicion y Estatus
+        [Route("GetTraspasoBodegasFechasEstatus/{origen}/{destino}/{fecha1}/{fecha2}/{estatus}")]
+        public HttpResponseMessage GetTraspasoBodegasFechas(string origen, string destino, string fecha1, string fecha2, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from TraspasoMercancia where Origen = '"+origen+"' and Destino = '"+destino+"' and FechaExpedicion between '"+fecha1+"' and '"+fecha2+"' and Estatus = '"+estatus+"' order by FechaExpedicion desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        // DOCUMENTOS
+
+
+        //obtener documentos
+        [Route("GetDocumentos")]
+        public HttpResponseMessage GetDocumentos()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos order by Vigencia ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener TIPO Y MODULO documentos
+        [Route("GetDocumentoTipoModuloFolio")]
+        public HttpResponseMessage GetDocumentoTipoModuloFolio()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Modulo, Tipo, Folio from Documentos group by Modulo, Tipo, Folio ";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener por fecha de vigencia
+        [Route("GetDocumentoFechas/{fecha1}/{fecha2}")]
+        public HttpResponseMessage GetDocumentoFechas(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos where Vigencia between '"+fecha1+"' and '"+fecha2+"' order by Vigencia";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Documentos por Modulo y Tipo y Folio del Documento
+        [Route("GetDocumentoModuloTipoFolio/{modulo}/{tipo}/{folio}")]
+        public HttpResponseMessage GetDocumentoModuloTipoFolio(string modulo, string tipo, string folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos where Folio = "+folio+" and Modulo = '"+modulo+"' and Tipo = '"+tipo+"' order by Vigencia";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Documentos por Modulo y Tipo y Folio del Documento y fecha vigencia
+        [Route("GetDocumentoModuloTipoFolioFecha/{modulo}/{tipo}/{folio}/{fecha1}/{fecha2}")]
+        public HttpResponseMessage GetDocumentoModuloTipoFolioFecha(string modulo, string tipo, string folio, string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Documentos where Folio = " + folio + " and Modulo = '" + modulo + "' and Tipo = '" + tipo + "' and Vigencia between '"+fecha1+"' and '"+fecha2+"' order by Vigencia";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
+        // ======================================================================== REPORTES IMPORTACION =================================================================================
+
+        // ======================================================================== REPORTES TRAFICO  =================================================================================
+
+
+        //obtener reporte Trafico sin filtro
+        [Route("GetTrafico")]
+        public HttpResponseMessage GetTrafico()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga order by FacturaFlete.Estatus asc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por Fletera
+        [Route("GetTraficoFletera/{fletera}")]
+        public HttpResponseMessage GetTraficoFletera(string fletera)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga where FacturaFlete.Fletera = '"+fletera+"' order by FacturaFlete.Estatus asc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por Id Orden Carga
+        [Route("GetTraficoOC/{id}")]
+        public HttpResponseMessage GetTraficoOC(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga where FacturaFlete.IDOrdenCarga ="+ id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por Estatus
+        [Route("GetTraficoEstatus/{estatus}")]
+        public HttpResponseMessage GetTraficoEstatus(string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga  where FacturaFlete.Estatus = '"+estatus+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por Fletera y Estatus
+        [Route("GetTraficoFleteraEstatus/{fletera}/{estatus}")]
+        public HttpResponseMessage GetTraficoFleteraEstatus(string fletera, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga where FacturaFlete.Fletera ='" + fletera+ "' and FacturaFlete.Estatus ='" + estatus+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por IDOrdenCarga y Fletera
+        [Route("GetTraficoOCFletera/{id}/{fletera}")]
+        public HttpResponseMessage GetTraficoOCFletera(int id, string fletera)  
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga where FacturaFlete.Fletera = '"+fletera+"' and FacturaFlete.IDOrdenCarga ="+id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por IDOrdenCarga y Estatus
+        [Route("GetTraficoOCEstatus/{id}/{estatus}")]
+        public HttpResponseMessage GetTraficoOCEstatus(int id, string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga  where FacturaFlete.Estatus = '"+estatus+"' and FacturaFlete.IDOrdenCarga = " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener reporte Trafico por IDOrdenCarga , Estatus y Fletera
+        [Route("GetTraficoOCEstatusFletera/{id}/{estatus}/{fletera}")]
+        public HttpResponseMessage GetTraficoOCEstatusFletera(int id, string estatus, string fletera)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IdOrdenCarga  where FacturaFlete.Estatus = '"+estatus+"' and FacturaFlete.IDOrdenCarga = "+id+" and FacturaFlete.Fletera = '"+fletera+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener informacion para grafica Trafico por IdCliente
+        [Route("GetTraficoIdCliente/{id}")]
+        public HttpResponseMessage GetTraficoIdCliente(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from FacturaFlete left join OrdenCarga on FacturaFlete.IDOrdenCarga = OrdenCarga.IDOrdenCarga where OrdenCarga.IdCliente ="+id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        // ======================================================================== REPORTES TRAFICO  =================================================================================
+
+        // ======================================================================== REPORTES CXP PAGOS  =================================================================================
+
+
+        //obtener pagos sin filtros
+        [Route("GetPagosGeneral")]
+        public HttpResponseMessage GetPagosGeneral()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from pagos";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener pagos tipo de Documento
+        [Route("GetPagosTipoDocumento/{documento}")]
+        public HttpResponseMessage GetPagosTipoDocumento(string documento)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from pagos where TipoDocumento = '"+documento+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener pagos fechas
+        [Route("GetPagosFechas/{fecha1}/{fecha2}")]
+        public HttpResponseMessage GetPagosFechas(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from pagos where FechaPago between '"+fecha1+"' and '"+fecha2+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //obtener pagos por tipo documento y fechas
+        [Route("GetPagosTipoDocumentoFechas/{documento}/{fecha1}/{fecha2}")]
+        public HttpResponseMessage GetPagosFechas(string documento, string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from pagos where TipoDocumento = '"+documento+"' and FechaPago between '" + fecha1 + "' and '" + fecha2 + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        // ======================================================================== REPORTES CXP PAGOS  =================================================================================
 
 
 

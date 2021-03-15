@@ -32,13 +32,31 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        [Route("Submenu/{iduser}/{idmenu}")]
-        public HttpResponseMessage GetSubmenu(int iduser, int idmenu)
+        [Route("Submenu/{iduser}/{idmenu}/{area}")]
+        public HttpResponseMessage GetSubmenu(int iduser, int idmenu, string area)
         {
             DataTable table = new DataTable();
 
             //string query = @"select * from submenu where idmenu="+id;
-            string query = @"select * from submenu where submenu.titulo in (select procesos.NombreProceso from privilegios left join procesos on privilegios.idprocesos=procesos.idprocesos where idusuario="+iduser+") and idmenu="+idmenu;
+            string query = @"select * from submenu where submenu.titulo in (select procesos.Modulo from privilegios left join procesos on privilegios.idprocesos=procesos.idprocesos where idusuario="+iduser+ " and procesos.Area = '"+area+"') and idmenu=" + idmenu+ " order by orden";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("ObtenerPrivilegios/{iduser}/{area}/{modulo}")]
+        public HttpResponseMessage GetPrivilegios(int iduser, string area, string modulo)
+        {
+            DataTable table = new DataTable();
+
+            //string query = @"select * from submenu where idmenu="+id;
+            string query = @"select * from privilegios left join procesos on privilegios.idprocesos=procesos.idprocesos where idusuario="+iduser+" and procesos.Area = '"+area+ "' and procesos.Modulo = '"+modulo+"';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

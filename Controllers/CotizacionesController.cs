@@ -8,15 +8,22 @@ using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using Microsoft.AspNet.SignalR;
+using ProlappApi.Hubs;
 
 namespace ProlappApi.Controllers
 {
+
+    
     [RoutePrefix("api/Cotizacion")]
     public class CotizacionesController : ApiController
     {
+        private readonly IHubContext<AlertasHub> hub;
+        
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
+            
 
             string query = @"exec stSelectTablaCotizaciones";
 
@@ -28,6 +35,9 @@ namespace ProlappApi.Controllers
                 da.Fill(table);
             }
 
+
+            
+            
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
@@ -136,6 +146,7 @@ namespace ProlappApi.Controllers
             {
 
 
+
                 DataTable table = new DataTable();
                 DateTime time = cotizaciones.FechaDeExpedicion;
                 DateTime time2 = cotizaciones.Vigencia;
@@ -154,7 +165,7 @@ namespace ProlappApi.Controllers
                 }
 
 
-
+                
                 return "Cotizacion Agregada";
             }
             catch (Exception exe)
@@ -240,9 +251,11 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevoDetalleCotizacion " +dp.IdCotizacion+ " , '" +dp.ClaveProducto+ "' , '" +dp.Producto+ "' , '" +dp.Unidad+ "' , '" +dp.PrecioUnitario+ "' , '" +dp.PrecioUnitarioDlls+ "' , '" 
-                                + dp.Cantidad + "' , '" + dp.Importe + "' , '" + dp.ImporteDlls + "' , '" + dp.Observaciones + "'";
+
+                string query = @"Insert Into DetalleCotizaciones(IdCotizacion,ClaveProducto,Producto,Unidad,PrecioUnitario,PrecioUnitarioDlls, Cantidad, Importe, ImporteDlls, Observaciones)
+values ( " + dp.IdCotizacion + " , '" + dp.ClaveProducto + "' , '" + dp.Producto + "' , '" + dp.Unidad + "' , '" + dp.PrecioUnitario + "' , '" + dp.PrecioUnitarioDlls + "' , '"
+                                + dp.Cantidad + "' , '" + dp.Importe + "' , '" + dp.ImporteDlls + "' , '" + dp.Observaciones + "')";
+              
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -318,8 +331,10 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
 
-                string query = @"
-                              exec dtBorrarDetalleCotizacion " + id;
+                // string query = @"
+                ///             exec dtBorrarDetalleCotizacion " + id;
+                ///             
+                string query = "delete DetalleCotizaciones where IdDetalleCotizacion = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -378,7 +393,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * From Prospecto";
+            string query = @"select * From Prospecto order by IdProspecto desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

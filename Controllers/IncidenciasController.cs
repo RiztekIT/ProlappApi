@@ -19,7 +19,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Incidencias";
+            string query = @"select * from Incidencias order by FechaElaboracion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -71,7 +71,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Incidencias where Procedencia = '"+procedencia+"'";
+            string query = @"select * from Incidencias where Procedencia = '"+procedencia+"' order by FechaElaboracion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

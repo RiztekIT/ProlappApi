@@ -198,6 +198,7 @@ namespace ProlappApi.Controllers
                 //Las variables de fecha, son igualadas a un valor Datatime
                 DateTime time2 = pedido.FechaVencimiento;
                 DateTime time3 = pedido.FechaDeEntrega;
+                DateTime time4 = pedido.FechaDeExpedicion;
                 //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
                 string format = "yyyy-MM-dd HH:mm:ss";
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
@@ -210,7 +211,7 @@ namespace ProlappApi.Controllers
                                 + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
                                 + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "' , '" 
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + @"
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -267,12 +268,13 @@ namespace ProlappApi.Controllers
             try
             {
                 DataTable table = new DataTable();
-                string query = @"
-                                Execute itInsertNuevoDetallePedido " + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
+                string query = @"insert into DetallePedidos (IdPedido, ClaveProducto, Producto, Unidad, PrecioUnitario, Cantidad, Importe, Observaciones, TextoExtra, PrecioUnitarioDlls, ImporteDlls)
+values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                                 + dp.Producto + "' , '" + dp.Unidad + "' , '"
                                 + dp.PrecioUnitario + "' , '" + dp.Cantidad + "' , '"
                                 + dp.Importe + "' , '" + dp.Observaciones + "' , '" + dp.TextoExtra + "'  ,  '"
-                                + dp.PrecioUnitarioDlls + "' , '" + dp.ImporteDlls + "'";
+                                + dp.PrecioUnitarioDlls + "' , '" + dp.ImporteDlls + "')";
+              
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -492,8 +494,255 @@ namespace ProlappApi.Controllers
             }
         }
 
+        [Route("ValidarOC/{token}")]
+        public HttpResponseMessage GetValidarOC(string token)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select pedidos.*, validarordencompra.* from pedidos left join validarordencompra on pedidos.IdPedido = validarordencompra.idordencompra where validarordencompra.token = '" + token + "'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("OrdenCarga/{id}")]
+        public HttpResponseMessage GetOC(string id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"update OrdenCarga set estatus='Creada' where idPedido= " + id + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("ValidarOC")]
+        public string PostValidarOC(ValidarOC validaroc)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time2 = validaroc.fechaenvio;
+                DateTime time3 = validaroc.fechavalidacion;
+                
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+                string query = @"insert into validarordencompra values("+validaroc.idordencompra+",'"+ validaroc .folioordencompra+ "','"+ time2.ToString(format) + "','"+ validaroc.estatus+ "','"+ time3.ToString(format) + "','"+ validaroc.token+ "')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Validador Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        [Route("ValidarOC")]
+        public string PutValidarOC(ValidarOC validaroc)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+                //Las variables de fecha, son igualadas a un valor Datatime
+                DateTime time2 = validaroc.fechaenvio;
+                DateTime time3 = validaroc.fechavalidacion;
+
+                //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
+                string format = "yyyy-MM-dd HH:mm:ss";
+                //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
+                //time.ToString(format)
+                string query = @"update validarordencompra set idordencompra = " + validaroc.idordencompra + ", folioordencompra='" + validaroc.folioordencompra + "', fechaenvio='" + time2.ToString(format) + "', estatus='" + validaroc.estatus + "',fechavalidacion='" + time3.ToString(format) + "',token='" + validaroc.token + "')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Pedido Agregado";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+
+        // ******* PEDIDO INFO ***** //
+
+        //Informacion Adicional a Pedido info.
+
+        //GET PEDIDO INFO
+        [Route("GetPedidoInfoId/{id}")]
+        public HttpResponseMessage GetPedidoInfoId(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PedidosInfo where IdPedidoInfo = " + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetPedidoInfoIdPedido/{id}")]
+        public HttpResponseMessage GetPedidoInfoIdPedido(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from PedidosInfo where IdPedido = " + id ;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //POST PEDIDO INFO
+        [Route("AddPedidoInfo")]
+        public string PostPedidoInfo(PedidoInfo pi)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+                string query = @"insert into PedidosInfo (IdPedido, SeleccionManual, Campo1, Campo2, Campo3) values("+pi.IdPedido+",'"+pi.SeleccionManual+"','"+pi.Campo1+"','"+pi.Campo2+"','"+pi.Campo3+"')" + @"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Agregado Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+
+        //PUT PEDIDO INFO
+
+        [Route("EditPedidoInfo")]
+        public string PutPedidoInfo(PedidoInfo pi)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+               
+                string query = @"update PedidosInfo set IdPedido = "+pi.IdPedido+", SeleccionManual = '"+pi.SeleccionManual+"', Campo1 = '"+pi.Campo1+"', Campo2 = '"+pi.Campo2+"', Campo3 = '"+pi.Campo3+"' where IdPedido ="+pi.IdPedido + @"";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Actualizado Correctamente";
+            }
+            catch (Exception exe)
+            {
+                return "Se produjo un error" + exe;
+            }
+        }
+        //DELETE PEDIDO INFO
+
+        // ******* PEDIDO INFO ***** //
+        [Route("DeletePedidoInfo/{id}")]
+        public string DeletePedidoInfo(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"delete PedidosInfo where IdPedido = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception)
+            {
+                return "Se produjo un error";
+            }
+        }
+
 
 
     }
+
+
+
+
+
 
 }

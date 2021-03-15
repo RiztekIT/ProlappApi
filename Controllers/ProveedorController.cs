@@ -53,7 +53,7 @@ namespace ProlappApi.Controllers
         }
 
 
-        public string Post(Proveedor proveedor)
+        public HttpResponseMessage Post(Proveedor proveedor)
         {
             try
             {
@@ -76,12 +76,37 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Proveedor Agregado";
+                return Request.CreateResponse(HttpStatusCode.OK, table);
             }
             catch (Exception exe)
             {
-                return "Se produjo un error" + exe;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, exe);
             }
+        }
+
+        public class Query
+        {
+            public string consulta { get; set; }
+        }
+
+
+        [Route("consulta")]
+        public HttpResponseMessage PostServicios(Querys consulta)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"" + consulta.consulta + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+            //return consulta;
         }
 
         public string Delete(int id)

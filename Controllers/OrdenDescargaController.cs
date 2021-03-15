@@ -19,7 +19,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from dbo.OrdenDescarga";
+            string query = @"select * from OrdenDescarga order by Folio desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -68,7 +68,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        [Route("BorrarOrdenCarga/{id}")]
+        [Route("BorrarOrdenDescarga/{id}")]
         public string Delete(int id)
         {
             try
@@ -76,7 +76,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarOrdenDescarga " + id;
+                string query = @" delete from  OrdenDescarga where IdOrdenDescarga=" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -101,7 +101,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @" exec dtBorrarDetalleOrdenDescarga" + id;
+                string query = @" delete from DetalleOrdenDescarga where IdOrdenDescarga =" + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -214,7 +214,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertNuevoDetalleOrdenDescarga " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
-                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.NumeroFactura
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
 
@@ -253,7 +253,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                exec etEditarOrdenDescarga " + ordenDescarga.IdOrdenDescarga + " , " + ordenDescarga.Folio + " , '" + time.ToString(format) + "' , " +
-                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', " + ordenDescarga.PO + " , '" + ordenDescarga.Fletera + "' , '" +
+                                ordenDescarga.IdProveedor + " , '" + ordenDescarga.Proveedor + "', '" + ordenDescarga.PO + "' , '" + ordenDescarga.Fletera + "' , '" +
                                 ordenDescarga.Caja + "' , '" + ordenDescarga.Sacos + "' , '" + ordenDescarga.Kg + "' , '" + ordenDescarga.Chofer + "' , '" + ordenDescarga.Origen +
                                 "' , '" + ordenDescarga.Destino + "' , '" + ordenDescarga.Observaciones + "' , '" + ordenDescarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
                                 time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordenDescarga.IdUsuario + " , '" + ordenDescarga.Usuario + @"'";
@@ -287,7 +287,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec etEditarDetalleOrdenDescarga " + dodc.IdDetalleOrdenDescarga + " , " + dodc.IdOrdenDescarga + " , '" + dodc.ClaveProducto + "' , '" + dodc.Producto + "' , '" + dodc.Sacos +
-                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.PO
+                                "' , '" + dodc.PesoxSaco + "' , '" + dodc.Lote + "' , " + dodc.IdProveedor + " , '" + dodc.Proveedor + "' , '" + dodc.NumeroFactura
                                 + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + dodc.Shipper + "' , '" + dodc.USDA + "' , '" + dodc.Pedimento +
                                 "' , '" + dodc.Saldo + @"'";
 
@@ -314,6 +314,25 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga  =" + id + " and Lote = '" + lote + "' and ClaveProducto = '" + clave + "';";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Detalle orden Carga por ID y  CLAVE PRODUCTO 
+        [Route("DetalleOrdenDescargaIdClave/{id}/{clave}")]
+        public HttpResponseMessage GetDetalleOrdenDescargaIdClave(int id, string clave)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from DetalleOrdenDescarga where IdOrdenDescarga  =" + id + "  and ClaveProducto = '" + clave + "';";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -451,5 +470,22 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("GetODDOD/{id}")]
+        public HttpResponseMessage GetODDOD(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from OrdenDescarga left join DetalleOrdenDescarga on OrdenDescarga.IdOrdenDescarga = DetalleOrdenDescarga.IdOrdenDescarga where ordendescarga.IdOrdenDescarga =" + id;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
     }
 }

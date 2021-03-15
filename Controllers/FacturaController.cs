@@ -88,6 +88,24 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("FacturaFechasReporte/{id}/{fechaini}/{fechafinal}")]
+        public HttpResponseMessage GetFacturaFechasReporte(int id, string fechaini, string fechafinal)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select Factura.* ,Cliente.* from Factura LEFT JOIN Cliente ON Factura.IdCliente = Cliente.IdClientes where Factura.IdCliente = " + id + " and Factura.FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Factura.Estatus='Timbrada' or Factura.Estatus='Pagada' or Factura.Estatus='Cancelada') order by Factura.folio asc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("FacturaClienteFolio/{id}")]
         public HttpResponseMessage GetFacturaClienteFolio(int id)
         {

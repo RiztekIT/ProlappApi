@@ -19,7 +19,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Compras";
+            string query = @"select * from Compras order by FechaElaboracion desc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -139,6 +139,25 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select sum(CAST(DetalleCompra.CostoTotal AS float)) as CostoTotal, sum(CAST(DetalleCompra.CostoTotalDlls AS float)) as CostoTotalDlls from DetalleCompra where IdCompra ="+id;
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener compra por estatus
+        [Route("GetCompraEstatus/{estatus}")]
+        public HttpResponseMessage GetCompraEstatus(string estatus)
+        {
+
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Estatus = '"+estatus+"'";
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
             using (var da = new SqlDataAdapter(cmd))
@@ -360,5 +379,169 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
+
+        ////////////////////////////////////////////////////////// compras historial
+
+
+            
+            [Route("GetComprasFecha/{Fecha}/{Fecha1}")]
+        public HttpResponseMessage GetComprasFecha(string Fecha, string Fecha1)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras where FechaElaboracion between '"+Fecha+"' and '"+Fecha1+"' and(Estatus = 'Terminada' or estatus = 'Creada' or estatus = 'Transito') and ver LIKE '%[0-9]%' order by Folio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        
+
+            [Route("GetComprasHistorial")]
+        public HttpResponseMessage GetComprasHistorial()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras where ver LIKE '%[0-9]%' order by Folio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetComprasODDOD/{id}")]
+        public HttpResponseMessage GetComprasODDOD(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select* from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga  where compras.ver =" + id + "order by compras.Folio desc";
+            
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetComprasODDIdProveedor/{id}")]
+        public HttpResponseMessage GetComprasODDIdProveedor(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.IdProveedor = "+ id +" and ver LIKE '%[0-9]%' order by Compras.Folio desc" ;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("GetComprasODDEstatus/{estatus}")]
+        public HttpResponseMessage GetComprasODDEstatus(string estatus)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                            select * from compras left join OrdenDescarga on compras.ver = OrdenDescarga.IdOrdenDescarga left join detalleordendescarga on ordendescarga.idordendescarga = detalleordendescarga.IdOrdendescarga where compras.Estatus = '"+ estatus + "' and ver LIKE '%[0-9]%'  order by Compras.folio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        /*
+        [Route("GetComprasOrderFolio")]
+        public HttpResponseMessage GetComprasOrderFolio()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"
+                          Select* from Compras where ver LIKE '%[0-9]%'   order by Folio desc";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("getComprasODHFolio/{folio}")]
+        public HttpResponseMessage getComprasODHFolio(int folio)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select * from Compras where Folio =" + folio+ " and ver LIKE '%[0-9]%' order by Compras.Folio;
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        */
+
+        public class Query
+        {
+            public string consulta { get; set; }
+        }
+
+
+        [Route("consulta")]
+        public HttpResponseMessage PostServicios(Querys consulta)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"" + consulta.consulta + "";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+            //return consulta;
+        }
+
     }
 }

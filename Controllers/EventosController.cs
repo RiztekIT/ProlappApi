@@ -107,7 +107,7 @@ namespace ProlappApi.Controllers
 
 
 
-                return "Evento Agregada";
+                return "Evento Agregado";
             }
             catch (Exception exe)
             {

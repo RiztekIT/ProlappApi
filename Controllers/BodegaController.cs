@@ -49,7 +49,40 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-               
+
+        [Route("DeleteBodega/{id}")]
+        public string Delete(int id)
+        {
+            try
+            {
+
+
+                DataTable table = new DataTable();
+
+
+                string query = @"
+                              Delete from Bodegas where IdBodega = " + id;
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+
+
+                return "Se Elimino Correctamente";
+            }
+            catch (Exception ex)
+            {
+                return "Se produjo un error" + ex;
+            }
+        }
+
+
+
         public string Post(Bodegas Bodega)
         {
             try
@@ -83,8 +116,6 @@ namespace ProlappApi.Controllers
         {
             try
             {
-
-
                 DataTable table = new DataTable();
 
                 string query = @"update Bodegas set 
@@ -93,7 +124,6 @@ namespace ProlappApi.Controllers
                                Direccion = '" + Bodega.Direccion + @"',
                                Origen = '" + Bodega.Origen + "' where  IdBodega = " + Bodega.IdBodega + @"";
 
-
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
                 using (var da = new SqlDataAdapter(cmd))
@@ -101,8 +131,6 @@ namespace ProlappApi.Controllers
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
                 }
-
-
 
                 return "Actualizacion Exitosa";
             }

@@ -56,14 +56,14 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-        //Obtener Usuario y Login por fechas 
-        [Route("api/usuario/login/{fecha}")]
+        //Obtener Usuario logeado en x semana
+        [Route("api/usuario/loginSemana/{fecha1}/{fecha2}")]
 
-        public HttpResponseMessage Getlogin(string fecha)
+        public HttpResponseMessage GetloginSemana(string fecha1, string fecha2)
         {
             DataTable table = new DataTable();
 
-            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where fechainiciosesion between '"+fecha+"' and DATEADD(DAY,1,'"+fecha+"')";
+            string query = @" select username from login where fechainiciosesion between '"+fecha1+"' and DATEADD(DAY,1,'"+fecha2+"') group by username";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -74,8 +74,97 @@ namespace ProlappApi.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
-        } 
-    
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/usuario/loginFechas/{fecha1}/{fecha2}")]
+
+        public HttpResponseMessage GetloginFechas(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where fechainiciosesion between '"+fecha1+"' and DATEADD(DAY,1,'"+fecha2+"')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario y Login por fechas 
+        [Route("api/usuario/loginFechasId/{fecha1}/{fecha2}/{id}")]
+
+        public HttpResponseMessage GetloginFechasId(string fecha1, string fecha2)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username where where usuario.IdUsuario = 1 and fechainiciosesion between '" + fecha1 + "' and DATEADD(DAY,1,'" + fecha2 + "')";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        //Obtener Usuario USERNAME y Login por fechas 
+        [Route("api/usuario/loginFechasUser/{fecha1}/{fecha2}/{user}")]
+
+        public HttpResponseMessage GetloginFechasUser(string fecha1, string fecha2, string user)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select login.*, usuario.* from login left join Usuario on Usuario.NombreUsuario=login.username  where fechainiciosesion between '" + fecha1 + "' and DATEADD(DAY,1,'" + fecha2 + "')  and login.username = '"+user+"'";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+        //Obtener EarlistDate por Fechas y username
+        [Route("api/usuario/loginEarliestDatesUser/{diaLimite}/{diaInicio}/{diaFin}/{mesInicio}/{mesFin}/{yearInicio}/{yearFin}/{user}")]
+
+        public HttpResponseMessage GetloginEarliestDatesUser(int diaLimite, int diaInicio, int diaFin, int mesInicio, int mesFin, int yearInicio, int yearFin, string user)
+        {
+            DataTable table = new DataTable();
+
+            //  string query = @"DECLARE @output TABLE (fecha DATETIME, device varchar(500)) declare @fechaInicio int = "+diaInicio+" declare @fechaFinal int = "+diaFin+
+            //    " while @fechaInicio <= @fechaFinal begin insert into @output(fecha, device) select  TOP 1 MIN(login.fechainiciosesion) as fecha, login.dispositivo from login where login.fechainiciosesion between '"+mesInicio+
+            //   "/'+ CAST(@fechaInicio as varchar(10)) +'/"+yearInicio+"' and DATEADD(DAY, 1, '"+mesFin+"/'+ CAST(@fechaInicio as varchar(10)) +'/"+yearFin+"') and login.username = '"+user+"' group by login.dispositivo set @fechaInicio = @fechaInicio + 1; end; SELECT * FROM @output";
+            string query = "DECLARE @output TABLE (fecha DATETIME, device varchar(500)) declare @diaLimite int = "+diaLimite+" declare @fechaInicio int = "+diaInicio+" declare @fechaFinal int = "+diaFin+" declare @contador int = 0 " +
+                "declare @mesInicio varchar(5) = "+mesInicio+" declare @mesFinal varchar(5) = "+mesFin+" declare @yearInicio varchar(5) = "+yearInicio+" declare @yearFinal varchar(5) = "+yearFin+
+                " while @contador <= 6 begin insert into @output(fecha, device) select TOP 1 MIN(login.fechainiciosesion) as fecha, login.dispositivo from login where login.fechainiciosesion between +" +
+                "@mesInicio + '/' + CAST(@fechaInicio as varchar(10)) + '/' + @yearInicio  and DATEADD(DAY, 1,   +@mesInicio + '/' + CAST(@fechaInicio as varchar(10)) + '/' + @yearInicio) and login.username = '"+user+"'" +
+                " group by login.dispositivo set @fechaInicio = @fechaInicio + 1; if (@fechaInicio > @diaLimite) begin set @fechaInicio = 1 set @mesInicio = @mesFinal end set @contador = @contador + 1; end; " +
+                "if (@mesInicio = 12 and @fechaInicio = 31) begin set @yearInicio = @yearFinal end SELECT* FROM @output";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
 
         //Obtener Usuario por NombreUsuario
         [Route("api/usuario/userinfo/{nombre}")]
@@ -136,7 +225,7 @@ namespace ProlappApi.Controllers
                     var nombreusuario = table.Rows[0].Field<string>("NombreUsuario");
                     string format = "yyyy-MM-dd HH:mm:ss";
                     var fecha = DateTime.Now;
-                    string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToString(format)+"','Dispositivo');";
+                    string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToString(format)+"','"+usuario.Dispositivo+"');";
                     using (var cmd2 = new SqlCommand(query2, con))
               
                     using (var da2 = new SqlDataAdapter(cmd2))
