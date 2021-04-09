@@ -25,7 +25,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente order by Nombre";
+            string query = @"select * from Cliente where Estatus='Activo' order by Nombre";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -42,7 +42,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente order by IdClientes";
+            string query = @"select * from Cliente where Estatus='Activo' order by IdClientes";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -60,7 +60,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where IdClientes<>78 order by IdClientes";
+            string query = @"select * from Cliente where IdClientes<>78 and Estatus='Activo' order by IdClientes";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -131,7 +131,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where idClientes =" + id;
+            string query = @"select * from Cliente where Estatus='Activo' and idClientes =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

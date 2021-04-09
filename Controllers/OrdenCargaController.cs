@@ -170,9 +170,9 @@ namespace ProlappApi.Controllers
                 return "Error al Eliminar";
             }
         }
-        public string Post(OrdenCarga ordencarga)
+        public HttpResponseMessage Post(OrdenCarga ordencarga)
         {
-            try
+           
             {
 
                 DataTable table = new DataTable();
@@ -200,13 +200,10 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-                return "Se Actualizo Correctamente";
+                // return "Se Actualizo Correctamente";
+                return Request.CreateResponse(HttpStatusCode.OK, table);
             }
-            catch (Exception exe)
-            {
-                return "Se produjo un error" + exe;
-
-            }
+          
         }
 
         [Route("AddOrdenCarga")]
