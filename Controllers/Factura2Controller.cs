@@ -75,7 +75,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada' or Factura2.Estatus='Cancelada') order by Factura2.folio asc";
+            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + " 23:59' and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada' or Factura2.Estatus='Cancelada') order by Factura2.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -93,7 +93,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where Factura2.IdCliente = "+id+" and FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada' or Factura2.Estatus='Cancelada') order by Factura2.folio asc";
+            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where Factura2.IdCliente = "+id+" and FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + " 23:59' and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada' or Factura2.Estatus='Cancelada') order by Factura2.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -111,7 +111,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + "' and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada') order by Factura2.folio asc";
+            string query = @"Select Factura2.* ,Cliente.* from Factura2 LEFT JOIN Cliente ON Factura2.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + " 23:59'  and (Factura2.Estatus='Timbrada' or Factura2.Estatus='Pagada') order by Factura2.folio asc";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -244,7 +244,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select DetalleFactura2.*, Producto.* from DetalleFactura2 LEFT JOIN Producto on DetalleFactura2.ClaveProducto=Producto.ClaveProducto where IdFactura =" + id;
+            string query = @"select DetalleFactura2.*, Producto.* from DetalleFactura2 LEFT JOIN Producto on SUBSTRING(DetalleFactura2.ClaveProducto,1,2)=Producto.ClaveProducto where IdFactura =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

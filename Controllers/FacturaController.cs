@@ -88,6 +88,7 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+
         [Route("FacturaFechasReporte/{id}/{fechaini}/{fechafinal}")]
         public HttpResponseMessage GetFacturaFechasReporte(int id, string fechaini, string fechafinal)
         {
@@ -190,7 +191,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from producto";
+            string query = @"select * from producto where Estatus='ActivoFact'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
