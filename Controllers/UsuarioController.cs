@@ -12,12 +12,16 @@ using System.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNet.SignalR;
+using ProlappApi.Hubs;
 
 namespace ProlappApi.Controllers
 {
     public class UsuarioController : ApiController
     {
 
+
+        private readonly IHubContext<AlertasHub> hub;
 
         public HttpResponseMessage Get()
         {

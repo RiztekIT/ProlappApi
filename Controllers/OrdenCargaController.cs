@@ -200,17 +200,10 @@ namespace ProlappApi.Controllers
                     da.Fill(table);
                 }
 
-<<<<<<< HEAD
               //  return "Se Actualizo Correctamente";
                 return Request.CreateResponse(HttpStatusCode.OK, table);
             }
   
-=======
-                // return "Se Actualizo Correctamente";
-                return Request.CreateResponse(HttpStatusCode.OK, table);
-            }
-          
->>>>>>> 0f27004cab02ddc165a0e8c76c2b712b07813ab2
         }
 
         [Route("AddOrdenCarga")]
