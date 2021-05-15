@@ -71,7 +71,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec itInsertNuevoTraspasoTarima " + Tt.IdOrigenTarima + " , " + Tt.IdDestinoTarima + " , '" +
                                 Tt.ClaveProducto + "' , '" + Tt.Producto + "' , '" + Tt.Lote + "' , '" +
-                                Tt.Sacos + "' , '" + time.ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
+                                Tt.Sacos + "' , '" + time.ToLocalTime().ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -102,7 +102,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarTraspasoTarima " + Tt.IdTraspasoTarima + " , " + Tt.IdOrigenTarima + " , " + Tt.IdDestinoTarima + " , '" +
                                 Tt.ClaveProducto + "' , '" + Tt.Producto + "' , '" + Tt.Lote + "' , '" +
-                                Tt.Sacos + "' , '" + time.ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
+                                Tt.Sacos + "' , '" + time.ToLocalTime().ToString(format) + "' , " + Tt.IdUsuario + " , '" + Tt.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

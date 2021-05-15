@@ -350,7 +350,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"insert into DetalleTarima (ClaveProducto, Producto, SacosTotales, PesoxSaco, Lote, PesoTotal, SacosxTarima, TarimasTotales, Bodega, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento, Estatus) VALUES ('" +
                                      dt.ClaveProducto + "', '" + dt.Producto + "', '" + dt.SacosTotales + "', '" + dt.PesoxSaco + "', '" + dt.Lote + "', '" + dt.PesoTotal + "', '" + dt.SacosxTarima + "', '" + dt.TarimasTotales + "', '" + dt.Bodega +
-                                        "', " + dt.IdProveedor + ", '" + dt.Proveedor + "', '" + dt.PO + "', '" + time.ToString(format) + "', '" + time2.ToString(format) + "', '" + dt.Shipper + "', '" + dt.USDA + "', '" + dt.Pedimento + "', '" + dt.Estatus + @"')";
+                                        "', " + dt.IdProveedor + ", '" + dt.Proveedor + "', '" + dt.PO + "', '" + time.ToLocalTime().ToString(format) + "', '" + time2.ToLocalTime().ToString(format) + "', '" + dt.Shipper + "', '" + dt.USDA + "', '" + dt.Pedimento + "', '" + dt.Estatus + @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -410,7 +410,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                              update DetalleTarima set ClaveProducto = '" + dt.ClaveProducto + "', Producto = '" + dt.Producto + "', SacosTotales = '" + dt.SacosTotales + "', PesoxSaco = '" + dt.PesoxSaco + "', Lote = '" + dt.Lote + "', PesoTotal = '" + dt.PesoTotal + "', SacosxTarima = '" + dt.SacosxTarima +
-                                "', TarimasTotales = '" + dt.TarimasTotales + "', Bodega = '" + dt.Bodega + "', IdProveedor = " + dt.IdProveedor + ", Proveedor = '" + dt.Proveedor + "', PO = '" + dt.PO + "', FechaMFG = '" + time.ToString(format) + "', FechaCaducidad = '" + time2.ToString(format) +
+                                "', TarimasTotales = '" + dt.TarimasTotales + "', Bodega = '" + dt.Bodega + "', IdProveedor = " + dt.IdProveedor + ", Proveedor = '" + dt.Proveedor + "', PO = '" + dt.PO + "', FechaMFG = '" + time.ToLocalTime().ToString(format) + "', FechaCaducidad = '" + time2.ToLocalTime().ToString(format) +
                                     "', Shipper = '" + dt.Shipper + "', USDA = '" + dt.USDA + "', Pedimento = '" + dt.Pedimento + "', Estatus = '" + dt.Estatus + "' where IdDetalleTarima = " + dt.IdDetalleTarima + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

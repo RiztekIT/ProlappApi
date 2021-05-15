@@ -241,7 +241,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 Insert into Incidencias (Folio, FolioProcedencia, TipoIncidencia, Procedencia, IdDetalle, Cantidad, Estatus, FechaElaboracion, FechaFinalizacion, Observaciones) 
-                                        values ("+i.Folio+", "+i.FolioProcedencia+", '"+i.TipoIncidencia+"', '"+i.Procedencia+"', "+i.IdDetalle+", '"+i.Cantidad+"', '"+i.Estatus+ "', '"+time.ToString(format)+"','"+ time2.ToString(format) + "','"+i.Observaciones+@"');";
+                                        values ("+i.Folio+", "+i.FolioProcedencia+", '"+i.TipoIncidencia+"', '"+i.Procedencia+"', "+i.IdDetalle+", '"+i.Cantidad+"', '"+i.Estatus+ "', '"+time.ToLocalTime().ToString(format)+"','"+ time2.ToLocalTime().ToString(format) + "','"+i.Observaciones+@"');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -274,7 +274,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                update Incidencias set Folio = " + i.Folio + ", FolioProcedencia =" + i.FolioProcedencia+ ", TipoIncidencia = '" + i.TipoIncidencia + "', Procedencia= '" + i.Procedencia + "', IdDetalle =  " + i.IdDetalle +
-                               ", Cantidad =  '" + i.Cantidad + "', Estatus = '" + i.Estatus + "', FechaElaboracion = '" + time.ToString(format) + "', FechaFinalizacion = '" + time2.ToString(format) + "', Observaciones = '" + i.Observaciones + "' where IdIncidencia = "+ i.IdIncidencia + @"";
+                               ", Cantidad =  '" + i.Cantidad + "', Estatus = '" + i.Estatus + "', FechaElaboracion = '" + time.ToLocalTime().ToString(format) + "', FechaFinalizacion = '" + time2.ToLocalTime().ToString(format) + "', Observaciones = '" + i.Observaciones + "' where IdIncidencia = "+ i.IdIncidencia + @"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

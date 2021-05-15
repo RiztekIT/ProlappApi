@@ -121,8 +121,8 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec etEditarCotizacion " + cotizaciones.IdCotizacion + " , " +cotizaciones.IdCliente+ " , '" +cotizaciones.Nombre+ "' , '" +cotizaciones.RFC+ "' , '" +cotizaciones.Subtotal+"' , '" +cotizaciones.Total+ "' , '" +cotizaciones.Descuento+ "' , '"
-                                +cotizaciones.SubtotalDlls+ "' , '" +cotizaciones.TotalDlls+ "' , '" +cotizaciones.DescuentoDlls+ "', '" +cotizaciones.Observaciones+ "' , '" +cotizaciones.Vendedor+ "' , '" +cotizaciones.Moneda+ "' , '" +time.ToString(format)+ "' , '" 
-                                +cotizaciones.Flete+ "' , " +cotizaciones.Folio+ " , '" +cotizaciones.Telefono+ "' , '" +cotizaciones.Correo+ "' , " +cotizaciones.IdDireccion+ " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ " , '" +time2.ToString(format)+ "' ";
+                                +cotizaciones.SubtotalDlls+ "' , '" +cotizaciones.TotalDlls+ "' , '" +cotizaciones.DescuentoDlls+ "', '" +cotizaciones.Observaciones+ "' , '" +cotizaciones.Vendedor+ "' , '" +cotizaciones.Moneda+ "' , '" +time.ToLocalTime().ToString(format)+ "' , '" 
+                                +cotizaciones.Flete+ "' , " +cotizaciones.Folio+ " , '" +cotizaciones.Telefono+ "' , '" +cotizaciones.Correo+ "' , " +cotizaciones.IdDireccion+ " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ " , '" +time2.ToLocalTime().ToString(format)+ "' ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -151,11 +151,14 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
                 DateTime time = cotizaciones.FechaDeExpedicion;
                 DateTime time2 = cotizaciones.Vigencia;
+                
                 string format = "yyyy-MM-dd HH:mm:ss";
 
+                
+
                 string query = @" Execute itInsertNuevaCotizacion " + cotizaciones.IdCliente + " , '" + cotizaciones.Nombre + "' , '" + cotizaciones.RFC + "' , '" + cotizaciones.Subtotal + "' , '" + cotizaciones.Total + "' , '" + cotizaciones.Descuento + "' , '"
-                                + cotizaciones.SubtotalDlls + "' , '" + cotizaciones.TotalDlls + "' , '" + cotizaciones.DescuentoDlls + "' , '" + cotizaciones.Observaciones + "' , '" + cotizaciones.Vendedor + "' , '" + cotizaciones.Moneda + "' , '" + time.ToString(format) +
-                                "' , '" + cotizaciones.Flete + "' , " + cotizaciones.Folio + " , '" + cotizaciones.Telefono + "' , '" + cotizaciones.Correo + "' , " + cotizaciones.IdDireccion + " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ " , '" + time2.ToString(format) + "' "; 
+                                + cotizaciones.SubtotalDlls + "' , '" + cotizaciones.TotalDlls + "' , '" + cotizaciones.DescuentoDlls + "' , '" + cotizaciones.Observaciones + "' , '" + cotizaciones.Vendedor + "' , '" + cotizaciones.Moneda + "' , '" + time.ToLocalTime().ToString(format) +
+                                "' , '" + cotizaciones.Flete + "' , " + cotizaciones.Folio + " , '" + cotizaciones.Telefono + "' , '" + cotizaciones.Correo + "' , " + cotizaciones.IdDireccion + " , '" + cotizaciones.Estatus + "' , " +cotizaciones.TipoDeCambio+ " , '" + time2.ToLocalTime().ToString(format) + "' "; 
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

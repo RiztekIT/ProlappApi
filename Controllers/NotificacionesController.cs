@@ -134,7 +134,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"insert into Notificaciones (Folio, IdUsuario, Usuario, Mensaje, ModuloOrigen, FechaEnvio) OUTPUT inserted.* VALUES((select MAX(folio)+1 from notificaciones)," + n.IdUsuario+", '"+n.Usuario+"', '"+n.Mensaje+"', '"+n.ModuloOrigen+"', '"+time.ToString(format)+"')";
+                string query = @"insert into Notificaciones (Folio, IdUsuario, Usuario, Mensaje, ModuloOrigen, FechaEnvio) OUTPUT inserted.* VALUES((select MAX(folio)+1 from notificaciones)," + n.IdUsuario+", '"+n.Usuario+"', '"+n.Mensaje+"', '"+n.ModuloOrigen+"', '"+time.ToLocalTime().ToString(format)+"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -158,7 +158,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"update Notificaciones set Folio = "+n.Folio+", IdUsuario = "+n.IdUsuario+", Usuario = '"+n.Usuario+"', Mensaje = '"+n.Mensaje+"', ModuloOrigen = '"+n.ModuloOrigen+"', FechaEnvio = '"+time.ToString(format)+"' where IdNotificacion = "+n.IdNotificacion+";";
+                string query = @"update Notificaciones set Folio = "+n.Folio+", IdUsuario = "+n.IdUsuario+", Usuario = '"+n.Usuario+"', Mensaje = '"+n.Mensaje+"', ModuloOrigen = '"+n.ModuloOrigen+"', FechaEnvio = '"+time.ToLocalTime().ToString(format)+"' where IdNotificacion = "+n.IdNotificacion+";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -214,7 +214,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"insert into DetalleNotificacion (IdNotificacion, IdUsuarioDestino, UsuarioDestino, BanderaLeido, FechaLeido) VALUES ("+n.IdNotificacion+", "+n.IdUsuarioDestino+", '"+n.UsuarioDestino+"', "+n.BanderaLeido+", '"+time.ToString(format)+"')";
+                string query = @"insert into DetalleNotificacion (IdNotificacion, IdUsuarioDestino, UsuarioDestino, BanderaLeido, FechaLeido) VALUES ("+n.IdNotificacion+", "+n.IdUsuarioDestino+", '"+n.UsuarioDestino+"', "+n.BanderaLeido+", '"+time.ToLocalTime().ToString(format)+"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -243,7 +243,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
 
-                string query = @"update DetalleNotificacion set IdNotificacion = "+n.IdNotificacion+", IdUsuarioDestino = "+n.IdUsuarioDestino+", UsuarioDestino = '"+n.UsuarioDestino+"', BanderaLeido = "+n.BanderaLeido+", FechaLeido = '"+time.ToString(format)+"' where IdDetalleNotificacion = "+n.IdDetalleNotificacion+";";
+                string query = @"update DetalleNotificacion set IdNotificacion = "+n.IdNotificacion+", IdUsuarioDestino = "+n.IdUsuarioDestino+", UsuarioDestino = '"+n.UsuarioDestino+"', BanderaLeido = "+n.BanderaLeido+", FechaLeido = '"+time.ToLocalTime().ToString(format)+"' where IdDetalleNotificacion = "+n.IdDetalleNotificacion+";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

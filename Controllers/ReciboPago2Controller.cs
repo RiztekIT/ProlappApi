@@ -243,7 +243,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
                 string query = @"
                                  Execute itInsertNuevoReciboPago2 " + ReciboPago.IdCliente + " , '"
-                                + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '"
+                                + time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) + "' , '"
                                 + ReciboPago.FormaPago + "' , '" + ReciboPago.Moneda + "' , '"
                                 + ReciboPago.TipoCambio + "' , '" + ReciboPago.Cantidad + "' , '"
                                 + ReciboPago.Referencia + "' , '" + ReciboPago.UUID + "' , '"
@@ -288,7 +288,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
                 string query = @"
                                  Execute etEditarReciboPago2 " + ReciboPago.Id + " , " + ReciboPago.IdCliente + " , '"
-                                + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '"
+                                + time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) + "' , '"
                                 + ReciboPago.FormaPago + "' , '" + ReciboPago.Moneda + "' , '"
                                 + ReciboPago.TipoCambio + "' , '" + ReciboPago.Cantidad + "' , '"
                                 + ReciboPago.Referencia + "' , '" + ReciboPago.UUID + "' , '"

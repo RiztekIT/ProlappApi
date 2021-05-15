@@ -91,7 +91,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertNuevaForward '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" +
+                                exec itInsertNuevaForward '" + time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" +
                                 forward.CantidadDlls + "' , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
                                 forward.GarantiaPagada + "' , '" + forward.CantidadPendiente + "' , '" + forward.Destino + "' , '" + forward.Promedio + "' , '" + forward.Estatus + @"';";
 
@@ -126,7 +126,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                               exec etEditarForward " + forward.IdForward + " , '"+ time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" +
+                               exec etEditarForward " + forward.IdForward + " , '"+ time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" +
                                 forward.CantidadDlls + "' , '" + forward.TipoCambio + "', '" + forward.CantidadMXN + "' , '" + forward.Garantia + "' , '" +
                                 forward.GarantiaPagada + "' , '" + forward.CantidadPendiente + "' , '" + forward.Destino + "' , '" + forward.Promedio + "' , '" + forward.Estatus + @"'";
 

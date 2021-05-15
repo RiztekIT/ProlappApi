@@ -69,7 +69,7 @@ namespace ProlappApi.Controllers
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
                 string query = @"insert into TraspasoMercancia (Folio, IdOrdenCarga, FolioOrdenCarga, IdCliente, Cliente, SacosTotales, KilogramosTotales, FechaExpedicion, Estatus, Origen, Destino, CampoExtra1, CampoExtra2) values ("+t.Folio+", "
-                    +t.IdOrdenCarga+" , "+t.FolioOrdenCarga+", "+t.IdCliente+", '"+t.Cliente+"', '"+t.SacosTotales+"', '"+t.KilogramosTotales+"', '"+time.ToString(format)+"', '"+t.Estatus+"', '"+t.Origen+"','"+t.Destino+"', '"+t.CampoExtra1+"', '"+t.CampoExtra2+"')";
+                    +t.IdOrdenCarga+" , "+t.FolioOrdenCarga+", "+t.IdCliente+", '"+t.Cliente+"', '"+t.SacosTotales+"', '"+t.KilogramosTotales+"', '"+time.ToLocalTime().ToString(format)+"', '"+t.Estatus+"', '"+t.Origen+"','"+t.Destino+"', '"+t.CampoExtra1+"', '"+t.CampoExtra2+"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -102,7 +102,7 @@ namespace ProlappApi.Controllers
                 //time.ToString(format)
 
                 string query = @"update TraspasoMercancia set Folio = "+t.Folio+", IdOrdenCarga = "+t.IdOrdenCarga+", FolioOrdenCarga = "+t.FolioOrdenCarga+", IdCliente = "+t.IdCliente+", Cliente = '"+t.Cliente+"', SacosTotales = '"+t.SacosTotales+"', KilogramosTotales = '"+t.KilogramosTotales+"'," +
-                    " FechaExpedicion = '"+time.ToString(format)+"', Estatus = '"+t.Estatus+"', Origen = '"+t.Origen+"', Destino = '"+t.Destino+"', CampoExtra1 = '"+t.CampoExtra1+"', CampoExtra2 = '"+t.CampoExtra2+"' where IdTraspasoMercancia = "+t.IdTraspasoMercancia+"";
+                    " FechaExpedicion = '"+time.ToLocalTime().ToString(format)+"', Estatus = '"+t.Estatus+"', Origen = '"+t.Origen+"', Destino = '"+t.Destino+"', CampoExtra1 = '"+t.CampoExtra1+"', CampoExtra2 = '"+t.CampoExtra2+"' where IdTraspasoMercancia = "+t.IdTraspasoMercancia+"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

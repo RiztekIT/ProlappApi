@@ -318,7 +318,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute itInsertNuevaFactura " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '" 
-                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '" 
+                                + factura.Tipo + "' , '" + time.ToLocalTime().ToString(format) + "' , '" 
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '" 
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '" 
                                 + factura.UsoDelCFDI + "' , '"+ factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '" 
@@ -329,8 +329,8 @@ namespace ProlappApi.Controllers
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '" 
                                 + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '" 
                                 + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '" 
-                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"  
-                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '" 
+                                + time2.ToLocalTime().ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"  
+                                + factura.TipoDeCambio + "' , '" + time3.ToLocalTime().ToString(format) + "' , '" 
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '" 
                                 + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + "'";
 
@@ -372,7 +372,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute etEditarFactura " + factura.Id + " , " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '"
-                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
+                                + factura.Tipo + "' , '" + time.ToLocalTime().ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
                                 + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '" 
@@ -383,8 +383,8 @@ namespace ProlappApi.Controllers
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
                                 + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '"
                                 + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '"
-                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
-                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '"
+                                + time2.ToLocalTime().ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
+                                + factura.TipoDeCambio + "' , '" + time3.ToLocalTime().ToString(format) + "' , '"
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '"
                                 + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + @"'
                                 ";
