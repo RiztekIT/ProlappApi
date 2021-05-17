@@ -505,7 +505,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 INSERT INTO Documentos (Folio, IdDetalle, Modulo, Tipo, ClaveProducto, NombreDocumento, Path, Observaciones, Vigencia) VALUES 
-                                ("+d.Folio+", "+d.IdDetalle+", '"+d.Modulo+"', '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToString(format)+ @"');";
+                                ("+d.Folio+", "+d.IdDetalle+", '"+d.Modulo+"', '"+d.Tipo+"', '"+d.ClaveProducto+"', '"+d.NombreDocumento+"', '"+d.Path+"', '"+d.Observaciones+"', '"+time.ToLocalTime().ToString(format)+ @"');";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -536,7 +536,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 UPDATE Documentos SET Folio = "+d.Folio+", IdDetalle ="+d.IdDetalle+", Modulo = '"+d.Modulo+"', Tipo = '"+d.Tipo+"', ClaveProducto ='" + d.ClaveProducto + "', NombreDocumento = '"+d.NombreDocumento+"'," +
-                                " Path = '"+d.Path+"', Observaciones = '"+d.Observaciones+"', Vigencia = '"+time.ToString(format)+"' where IdDocumento = "+d.IdDocumento+ @";";
+                                " Path = '"+d.Path+"', Observaciones = '"+d.Observaciones+"', Vigencia = '"+time.ToLocalTime().ToString(format)+"' where IdDocumento = "+d.IdDocumento+ @";";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

@@ -165,7 +165,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                insert into Pagos (Folio, FolioDocumento, TipoDocumento, Cantidad, CuentaOrigen, CuentaDestino, FechaPago, Observaciones)
-                                    values ("+p.Folio+", "+p.FolioDocumento+", '"+p.TipoDocumento+"', '"+p.Cantidad+"', '"+p.CuentaOrigen+"', '"+p.CuentaDestino+"', '"+time.ToString(format)+"', '"+p.Observaciones+ @"')";
+                                    values ("+p.Folio+", "+p.FolioDocumento+", '"+p.TipoDocumento+"', '"+p.Cantidad+"', '"+p.CuentaOrigen+"', '"+p.CuentaDestino+"', '"+time.ToLocalTime().ToString(format)+"', '"+p.Observaciones+ @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -196,7 +196,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                              update Pagos set Folio = " + p.Folio + ", FolioDocumento = " + p.FolioDocumento + ", TipoDocumento = '" + p.TipoDocumento + "', Cantidad = '" + p.Cantidad +
-                             "', CuentaOrigen = '" + p.CuentaOrigen + "', CuentaDestino = '" + p.CuentaDestino + "', FechaPago = '" + time.ToString(format) +
+                             "', CuentaOrigen = '" + p.CuentaOrigen + "', CuentaDestino = '" + p.CuentaDestino + "', FechaPago = '" + time.ToLocalTime().ToString(format) +
                              "', Observaciones = '" + p.Observaciones + "' where IdPago = "+p.IdPago+@"; ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

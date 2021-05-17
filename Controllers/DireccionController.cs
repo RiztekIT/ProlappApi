@@ -43,7 +43,7 @@ namespace ProlappApi.Controllers
 
                 string query = @"
                                 exec itInsertarHistoricoLeche " + hl.PrecioLeche + " , " + hl.VarianteDiaAnterior + 
-                                " , '" + time.ToString(format) + @"'";
+                                " , '" + time.ToLocalTime().ToString(format) + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

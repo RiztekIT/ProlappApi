@@ -95,7 +95,7 @@ namespace ProlappApi.Controllers
 
                                 insert into Eventos (IdUsuario, Movimiento, Fecha, Autorizacion) 
                                     Values(" + evento.IdUsuario + " , '" + evento.Movimiento + "' , '"
-                                    + time.ToString(format) + "' , '" + evento.Autorizacion + "')";
+                                    + time.ToLocalTime().ToString(format) + "' , '" + evento.Autorizacion + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -130,7 +130,7 @@ namespace ProlappApi.Controllers
 
                                 IdUsuario = " + evento.IdUsuario + @",
                                Movimiento = '" + evento.Movimiento + @"',
-                               Fecha = '" + time.ToString(format) + @"',
+                               Fecha = '" + time.ToLocalTime().ToString(format) + @"',
                                Autorizacion = '" + evento.Autorizacion + "' " +
                                "    where  IdEventos = " + evento.IdEventos + @"";
 

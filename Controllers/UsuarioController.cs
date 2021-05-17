@@ -12,12 +12,16 @@ using System.Configuration;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNet.SignalR;
+using ProlappApi.Hubs;
 
 namespace ProlappApi.Controllers
 {
     public class UsuarioController : ApiController
     {
 
+
+        private readonly IHubContext<AlertasHub> hub;
 
         public HttpResponseMessage Get()
         {
@@ -225,7 +229,7 @@ namespace ProlappApi.Controllers
                     var nombreusuario = table.Rows[0].Field<string>("NombreUsuario");
                     string format = "yyyy-MM-dd HH:mm:ss";
                     var fecha = DateTime.Now;
-                    string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToString(format)+"','"+usuario.Dispositivo+"');";
+                    string query2 = @"insert into login values('"+nombreusuario+"','"+ jwtTokenString + "','"+fecha.ToLocalTime().ToString(format)+"','"+usuario.Dispositivo+"');";
                     using (var cmd2 = new SqlCommand(query2, con))
               
                     using (var da2 = new SqlDataAdapter(cmd2))
@@ -259,7 +263,7 @@ namespace ProlappApi.Controllers
                 //time.ToString(format)
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevoUsuario '" + usuario.Nombre + "' , '" + usuario.NombreUsuario + "' , '" + usuario.ApellidoPaterno + "' , '" + usuario.ApellidoMaterno + "' , '" + usuario.Correo + "' , '" + usuario.Telefono + "' , '" + usuario.Contra + "' , '" + time.ToString(format) + @"'
+                                Execute itInsertNuevoUsuario '" + usuario.Nombre + "' , '" + usuario.NombreUsuario + "' , '" + usuario.ApellidoPaterno + "' , '" + usuario.ApellidoMaterno + "' , '" + usuario.Correo + "' , '" + usuario.Telefono + "' , '" + usuario.Contra + "' , '" + time.ToLocalTime().ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -325,7 +329,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarUsuario " + usuario.IdUsuario + ",'" + usuario.Nombre + "','"+ usuario.NombreUsuario + "','" + usuario.ApellidoPaterno + "','" + usuario.ApellidoMaterno + "','" + usuario.Correo + "'," + usuario.Telefono + ",'" + usuario.Contra + "' , '" + time.ToString(format) + @"'
+                                exec etEditarUsuario " + usuario.IdUsuario + ",'" + usuario.Nombre + "','"+ usuario.NombreUsuario + "','" + usuario.ApellidoPaterno + "','" + usuario.ApellidoMaterno + "','" + usuario.Correo + "'," + usuario.Telefono + ",'" + usuario.Contra + "' , '" + time.ToLocalTime().ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

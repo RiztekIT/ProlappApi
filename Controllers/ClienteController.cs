@@ -362,7 +362,7 @@ namespace ProlappApi.Controllers
                     var RFC = table.Rows[0].Field<string>("RFC");
                     string format = "yyyy-MM-dd HH:mm:ss";
                     var fecha = DateTime.Now;
-                    string query2 = @"insert into loginclientes values('" + RFC + "','" + jwtTokenString + "','" + fecha.ToString(format) + "','Dispositivo');";
+                    string query2 = @"insert into loginclientes values('" + RFC + "','" + jwtTokenString + "','" + fecha.ToLocalTime().ToString(format) + "','Dispositivo');";
                     using (var cmd2 = new SqlCommand(query2, con))
 
                     using (var da2 = new SqlDataAdapter(cmd2))

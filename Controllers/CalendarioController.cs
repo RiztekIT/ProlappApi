@@ -238,7 +238,7 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @" insert into detalleCalendar (IdCalendario, Folio, Documento, Descripcion, Start, Endd, Title, Color, AllDay, ResizableBeforeStart, ResizableBeforeEnd, Draggable)
-                                    VALUES ("+c.IdCalendario+","+c.Folio+",'"+c.Documento+"','"+c.Descripcion+"', '"+time.ToString(format)+"','"+time2.ToString(format)+
+                                    VALUES ("+c.IdCalendario+","+c.Folio+",'"+c.Documento+"','"+c.Descripcion+"', '"+time.ToLocalTime().ToString(format)+"','"+time2.ToLocalTime().ToString(format)+
                                     "','"+c.Title+"','"+c.Color+"',"+c.AllDay+","+c.ResizableBeforeStart+","+c.ResizableBeforeEnd+","+c.Draggable+ @")";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -272,7 +272,7 @@ namespace ProlappApi.Controllers
 
                 string query = @" update DetalleCalendar set IdCalendario =" + dc.IdCalendario +
                    ", Folio =" + dc.Folio + ", Documento = '" + dc.Documento + "', Descripcion = '" + dc.Descripcion +
-                   "', Start = '" + time.ToString(format) + "', Endd = '" + time2.ToString(format) + "', Title = '" + dc.Title + "', Color = '" + dc.Color +
+                   "', Start = '" + time.ToLocalTime().ToString(format) + "', Endd = '" + time2.ToLocalTime().ToString(format) + "', Title = '" + dc.Title + "', Color = '" + dc.Color +
                    "', AllDay =" + dc.AllDay + ", ResizableBeforeStart =" + dc.ResizableBeforeStart + ", ResizableBeforeEnd = " + dc.ResizableBeforeEnd + ", Draggable = " + dc.Draggable +
                    " where IdDetalleCalendario = " + dc.IdDetalleCalendario + @"";
 
@@ -308,7 +308,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 exec etEditarDetalleOrdenCarga " + doc.IdDetalleOrdenCarga + " , " + doc.IdOrdenCarga + " , " + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
                                 "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
-                                + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) + "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento + "' , '" +
+                                + "' , '" + time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento + "' , '" +
                                 doc.Saldo + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
