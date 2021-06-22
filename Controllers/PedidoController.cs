@@ -164,11 +164,11 @@ namespace ProlappApi.Controllers
                                 Execute itInsertNuevoPedido " + pedido.IdCliente + " , '" + pedido.Folio + "' , '"
                                 + pedido.Subtotal + "' , '" + pedido.Descuento + "' , '"
                                 + pedido.Total + "' , '" + pedido.Observaciones + "' , '"
-                                + time2.ToLocalTime().ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
-                                + time3.ToLocalTime().ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
+                                + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
+                                + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
                                 + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "', '"
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToLocalTime().ToString(format) + "';";
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToString(format) + "';";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -207,11 +207,11 @@ namespace ProlappApi.Controllers
                                 Execute etEditarPedido " + pedido.IdPedido + " , " + pedido.IdCliente + " , '" + pedido.Folio + "' , '"
                                 + pedido.Subtotal + "' , '" + pedido.Descuento + "' , '"
                                 + pedido.Total + "' , '" + pedido.Observaciones + "' , '"
-                                + time2.ToLocalTime().ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
-                                + time3.ToLocalTime().ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
+                                + time2.ToString(format) + "' , '" + pedido.OrdenDeCompra + "' , '"
+                                + time3.ToString(format) + "' , '" + pedido.CondicionesDePago + "' , '" + pedido.Vendedor + "' , '"
                                 + pedido.Estatus + "' , '" + pedido.Usuario + "' , '"
                                 + pedido.Factura + "' , '" + pedido.LugarDeEntrega + "' , '" + pedido.Moneda + "' , '" + pedido.Prioridad + "' , '" 
-                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToLocalTime().ToString(format) + @"'
+                                + pedido.SubtotalDlls + "' , '" + pedido.DescuentoDlls + "' , '" + pedido.TotalDlls + "' , '" + pedido.Flete + "' , " + pedido.IdDireccion + " ,'" + time4.ToString(format) + @"'
                                 ";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -545,7 +545,7 @@ values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                 string format = "yyyy-MM-dd HH:mm:ss";
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
-                string query = @"insert into validarordencompra values("+validaroc.idordencompra+",'"+ validaroc .folioordencompra+ "','"+ time2.ToLocalTime().ToString(format) + "','"+ validaroc.estatus+ "','"+ time3.ToLocalTime().ToString(format) + "','"+ validaroc.token+ "')";
+                string query = @"insert into validarordencompra values("+validaroc.idordencompra+",'"+ validaroc .folioordencompra+ "','"+ time2.ToString(format) + "','"+ validaroc.estatus+ "','"+ time3.ToString(format) + "','"+ validaroc.token+ "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -581,7 +581,7 @@ values (" + dp.IdPedido + " , '" + dp.ClaveProducto + "' , '"
                 string format = "yyyy-MM-dd HH:mm:ss";
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
-                string query = @"update validarordencompra set idordencompra = " + validaroc.idordencompra + ", folioordencompra='" + validaroc.folioordencompra + "', fechaenvio='" + time2.ToLocalTime().ToString(format) + "', estatus='" + validaroc.estatus + "',fechavalidacion='" + time3.ToLocalTime().ToString(format) + "',token='" + validaroc.token + "')";
+                string query = @"update validarordencompra set idordencompra = " + validaroc.idordencompra + ", folioordencompra='" + validaroc.folioordencompra + "', fechaenvio='" + time2.ToString(format) + "', estatus='" + validaroc.estatus + "',fechavalidacion='" + time3.ToString(format) + "',token='" + validaroc.token + "')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))

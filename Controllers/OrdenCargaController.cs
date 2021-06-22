@@ -186,11 +186,11 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToLocalTime().ToString(format) + "' , " +
+                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
                                 ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
                                 ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" +
-                                time3.ToLocalTime().ToString(format) + "' , '" + time4.ToLocalTime().ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
+                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -222,11 +222,11 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToLocalTime().ToString(format) + "' , " +
+                                exec itInsertarNuevaOrdenCarga " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
                                 ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
                                 ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" +
-                                time3.ToLocalTime().ToString(format) + "' , '" + time4.ToLocalTime().ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
+                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -259,7 +259,7 @@ namespace ProlappApi.Controllers
                 string query = @"insert into DetalleOrdenCarga (IdOrdenCarga, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento, Saldo)
                                     values (" + doc.IdOrdenCarga + " , '" + doc.ClaveProducto + "' , '" + doc.Producto + "' , '" + doc.Sacos +
                               "' , '" + doc.PesoxSaco + "' , '" + doc.Lote + "' , " + doc.IdProveedor + " , '" + doc.Proveedor + "' , '" + doc.PO
-                            + "' , '" + time.ToLocalTime().ToString(format) + "' , '" + time2.ToLocalTime().ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
+                            + "' , '" + time.ToString(format) + "' , '" + time2.ToString(format) +  "' , '" + doc.Shipper + "' , '" + doc.USDA + "' , '" + doc.Pedimento +
                           "' , '" + doc.Saldo + @"')";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
@@ -295,11 +295,11 @@ namespace ProlappApi.Controllers
                 string format = "yyyy-MM-dd HH:mm:ss";
 
                 string query = @"
-                                exec etEditarOrdenCarga " + ordencarga.IdOrdenCarga + " , " + ordencarga.Folio + " , '" + time.ToLocalTime().ToString(format) + "' , " +
+                                exec etEditarOrdenCarga " + ordencarga.IdOrdenCarga + " , " + ordencarga.Folio + " , '" + time.ToString(format) + "' , " +
                                 ordencarga.IdCliente + " , '" + ordencarga.Cliente + "', " + ordencarga.IdPedido + " , '" + ordencarga.Fletera + "' , '" +
                                 ordencarga.Caja + "' , '" + ordencarga.Sacos + "' , '" + ordencarga.Kg + "' , '" + ordencarga.Chofer + "' , '" + ordencarga.Origen +
-                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToLocalTime().ToString(format) + "' , '" +
-                                time3.ToLocalTime().ToString(format) + "' , '" + time4.ToLocalTime().ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
+                                "' , '" + ordencarga.Destino + "' , '" + ordencarga.Observaciones + "' , '" + ordencarga.Estatus + "' , '" + time2.ToString(format) + "' , '" +
+                                time3.ToString(format) + "' , '" + time4.ToString(format) + "' , " + ordencarga.IdUsuario + " , '" + ordencarga.Usuario + @"'";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -331,7 +331,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 update DetalleOrdenCarga set IdOrdenCarga =" + doc.IdOrdenCarga + " , ClaveProducto = '" + doc.ClaveProducto + "' , Producto ='" + doc.Producto + "' , Sacos ='" + doc.Sacos +
                                 "' , PesoxSaco ='" + doc.PesoxSaco + "' , Lote='" + doc.Lote + "' , IdProveedor=" + doc.IdProveedor + " , Proveedor='" + doc.Proveedor + "' , PO='" + doc.PO
-                                + "' , FechaMFG='" + time.ToLocalTime().ToString(format) + "' , FechaCaducidad='" + time2.ToLocalTime().ToString(format) + "' , Shipper='" + doc.Shipper + "' , USDA='" + doc.USDA + "' , Pedimento='" + doc.Pedimento + "' , Saldo='" + 
+                                + "' , FechaMFG='" + time.ToString(format) + "' , FechaCaducidad='" + time2.ToString(format) + "' , Shipper='" + doc.Shipper + "' , USDA='" + doc.USDA + "' , Pedimento='" + doc.Pedimento + "' , Saldo='" + 
                                 doc.Saldo + "' where IdDetalleOrdenCarga ="+ doc.IdDetalleOrdenCarga +@"";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))

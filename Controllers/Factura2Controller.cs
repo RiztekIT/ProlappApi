@@ -335,7 +335,7 @@ namespace ProlappApi.Controllers
                 string query = @"
                                 Execute itInsertNuevaFactura2 " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '"
-                                + factura.Tipo + "' , '" + time.ToLocalTime().ToString(format) + "' , '"
+                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
                                 + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '"
@@ -346,8 +346,8 @@ namespace ProlappApi.Controllers
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
                                 + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '"
                                 + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '"
-                                + time2.ToLocalTime().ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
-                                + factura.TipoDeCambio + "' , '" + time3.ToLocalTime().ToString(format) + "' , '"
+                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
+                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '"
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '"
                                 + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + "'";
 
@@ -378,18 +378,20 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 //Las variables de fecha, son igualadas a un valor Datatime
+                
                 DateTime time = factura.FechaDeExpedicion;
                 DateTime time2 = factura.FechaVencimiento;
                 DateTime time3 = factura.FechaDeEntrega;
                 //Al momento de insertar los valores de las fechas, estan seran insertadas con el formato 'Format'
                 string format = "yyyy-MM-dd HH:mm:ss";
+                
                 //De esta manera no causara error al tratar de insertar fechas en la base de datos SQL
                 //time.ToString(format)
 
                 string query = @"
                                 Execute etEditarFactura2 " + factura.Id + " , " + factura.IdCliente + " , '"
                                 + factura.Serie + "' , '" + factura.Folio + "' , '"
-                                + factura.Tipo + "' , '" + time.ToLocalTime().ToString(format) + "' , '"
+                                + factura.Tipo + "' , '" + time.ToString(format) + "' , '"
                                 + factura.LugarDeExpedicion + "' , '" + factura.Certificado + "' , '"
                                 + factura.NumeroDeCertificado + "' , '" + factura.UUID + "' , '"
                                 + factura.UsoDelCFDI + "' , '" + factura.Subtotal + "' , '" + factura.SubtotalDlls + "' , '"
@@ -400,8 +402,8 @@ namespace ProlappApi.Controllers
                                 + factura.CadenaOriginal + "' , '" + factura.SelloDigitalSAT + "' , '"
                                 + factura.SelloDigitalCFDI + "' , '" + factura.NumeroDeSelloSAT + "' , '"
                                 + factura.RFCdelPAC + "' , '" + factura.Observaciones + "' , '"
-                                + time2.ToLocalTime().ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
-                                + factura.TipoDeCambio + "' , '" + time3.ToLocalTime().ToString(format) + "' , '"
+                                + time2.ToString(format) + "' , '" + factura.OrdenDeCompra + "' , '"
+                                + factura.TipoDeCambio + "' , '" + time3.ToString(format) + "' , '"
                                 + factura.CondicionesDePago + "' , '" + factura.Vendedor + "' , '"
                                 + factura.Estatus + "' , '" + factura.Ver + "' , '" + factura.Usuario + @"'
                                 ";
