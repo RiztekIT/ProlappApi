@@ -219,6 +219,7 @@
     <Compile Include="Controllers\FacturaFleteController.cs" />
     <Compile Include="Controllers\FolioController.cs" />
     <Compile Include="Controllers\ForwardsController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IncidenciasController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
