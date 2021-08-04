@@ -4,21 +4,19 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+
+using ProlappApi.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
 namespace ProlappApi.Controllers
 {
-    public class Query2
-    {
-        public string consulta { get; set; }
-    }
     [RoutePrefix("api/General")]
-    public class GeneralControlller : ApiController
+    public class GeneralController : ApiController
     {
-        [Route("consulta")]
-        public HttpResponseMessage PostServicios(Query2 consulta)
+        [Route("Consulta")]
+        public HttpResponseMessage PostGeneral(Querys consulta)
         {
             DataTable table = new DataTable();
 
