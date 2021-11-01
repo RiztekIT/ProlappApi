@@ -28,5 +28,11 @@ namespace ProlappApi.Models
         public string MetodoPagoCliente { get; set; }
         public int Vendedor { get; set; }
 
-}
+        public string contacto { get; set; }
+
+        public string telefono { get; set; }
+
+        public string correo { get; set; }
+
+    }
 }
