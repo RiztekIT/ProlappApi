@@ -43,6 +43,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from Cliente where Estatus='Activo' order by IdClientes";
+            query = "select c.*, cc.* from Cliente c left join ContactoClientes cc on c.IdClientes=cc.idcliente where c.Estatus='Activo' order by IdClientes";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -149,6 +150,7 @@ namespace ProlappApi.Controllers
             DataTable table = new DataTable();
 
             string query = @"select * from Cliente where Estatus='Activo' and idClientes =" + id;
+            query = "select c.*, cc.* from Cliente c left join ContactoClientes cc on c.IdClientes=cc.idcliente where c.Estatus='Activo' and idClientes =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -482,7 +484,58 @@ namespace ProlappApi.Controllers
         /////////////////////////////////////////////////////////////////////// FIN CLIENTE MODULOS /////////////////////////////////////////////////////////////////////////////////////
 
 
+        [Route("AgregarContacto")]
+        public HttpResponseMessage PostContacto(Cliente cliente)
+        {
+            try
+            {
 
+
+                DataTable table = new DataTable();
+
+                string query = @"delete from ContactoClientes where idcliente = '" + cliente.IdClientes + "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+
+                }
+
+                query = @"insert into ContactoClientes OUTPUT inserted.* values ('"+cliente.IdClientes+"','"+cliente.contacto+"','"+cliente.telefono+"','"+cliente.correo+"')";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+
+                }
+                
+
+                //  {
+                //    cmd.CommandType = CommandType.Text;
+                //    da.Fill(table);
+                //  }
+
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, table);
+            }
+            catch (Exception exe)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exe);
+            }
+        }
 
 
 

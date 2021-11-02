@@ -1,0 +1,13 @@
+diff a/Controllers/Factura3Controller.cs b/Controllers/Factura3Controller.cs	(rejected hunks)
+@@ -129,7 +129,11 @@
+         {
+             DataTable table = new DataTable();
+ 
++<<<<<<< HEAD
+             string query = @"Select Factura3.* ,Cliente3.* from Factura3 LEFT JOIN Cliente3 ON Factura3.IdCliente = Cliente3.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + " 23:59'  and (Factura3.Estatus='Timbrada' or Factura3.Estatus='Pagada') order by Factura3.folio asc";
++=======
++            string query = @"Select Factura3.* ,Cliente.* from Factura3 LEFT JOIN Cliente ON Factura3.IdCliente = Cliente.IdClientes where FechaDeExpedicion between '" + fechaini + "' and '" + fechafinal + " 23:59'  and (Factura3.Estatus='Timbrada' or Factura3.Estatus='Pagada') order by Factura3.folio asc";
++>>>>>>> fb0869e511b3b39ce97e4e93329d6bd38f079d70
+ 
+             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+             using (var cmd = new SqlCommand(query, con))
