@@ -18,14 +18,14 @@ using Microsoft.IdentityModel.Logging;
 
 namespace ProlappApi.Controllers
 {
-    [RoutePrefix("api/Cliente")]
-    public class ClienteController : ApiController
+    [RoutePrefix("api/Cliente2")]
+    public class Cliente2Controller : ApiController
     {
         public HttpResponseMessage Get()
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where Estatus='Activo' order by Nombre";
+            string query = @"select * from Cliente2 where Estatus='Activo' order by Nombre";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -42,7 +42,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where Estatus='Activo' order by IdClientes";
+            string query = @"select * from Cliente2 where Estatus='Activo' order by IdClientes";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -60,7 +60,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where IdClientes<>78 and Estatus='Activo' order by IdClientes";
+            string query = @"select * from Cliente2 where IdClientes<>78 and Estatus='Activo' order by IdClientes";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -74,23 +74,23 @@ namespace ProlappApi.Controllers
         }
 
         [Route("Contacto")]
-            public HttpResponseMessage GetContacto()
+        public HttpResponseMessage GetContacto()
+        {
+            DataTable table = new DataTable();
+
+            string query = @"select Cliente2.*, contactoClientes2.* from Cliente2 left join ContactoClientes2 on Cliente2.IdClientes=ContactoClientes2.idcliente order by Nombre";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
             {
-                DataTable table = new DataTable();
-
-                string query = @"select Cliente.*, contactoClientes.* from Cliente left join ContactoClientes on Cliente.IdClientes=ContactoClientes.idcliente order by Nombre";
-
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                using (var cmd = new SqlCommand(query, con))
-                using (var da = new SqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    da.Fill(table);
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK, table);
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
             }
-            [Route("Facturar")]
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+        [Route("Facturar")]
         public HttpResponseMessage GetFacturar()
         {
             DataTable table = new DataTable();
@@ -148,7 +148,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from Cliente where Estatus='Activo' and idClientes =" + id;
+            string query = @"select * from Cliente2 where Estatus='Activo' and idClientes =" + id;
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))
@@ -170,7 +170,7 @@ namespace ProlappApi.Controllers
 
                 DataTable table = new DataTable();
                 string query = @"
-                                Execute itInsertNuevoClientes '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
+                                Execute itInsertNuevoClientes2 '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
                                 "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
                                 cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + "' , '" + cliente.MetodoPagoCliente + "' , " + cliente.Vendedor + @"
                                 ";
@@ -204,7 +204,7 @@ namespace ProlappApi.Controllers
 
 
                 string query = @"
-                              Delete from Cliente where IdClientes = " + id;
+                              Delete from Cliente2 where IdClientes = " + id;
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
@@ -233,7 +233,7 @@ namespace ProlappApi.Controllers
                 DataTable table = new DataTable();
 
                 string query = @"
-                                exec etEditarCliente " + cliente.IdClientes + " , '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
+                                exec etEditarCliente2 " + cliente.IdClientes + " , '" + cliente.Nombre + "' , '" + cliente.RFC + "' , '" + cliente.RazonSocial + "' , '" + cliente.Calle + "' , '" + cliente.Colonia + "' , '" + cliente.CP + "' , '" + cliente.Ciudad + "' , '" + cliente.Estado + "' , '" + cliente.NumeroInterior + "' , '" + cliente.NumeroExterior +
                                 "' , '" + cliente.ClaveCliente + "' , '" + cliente.Estatus + "' , '" + cliente.LimiteCredito + "' , '" + cliente.DiasCredito + "' , '" +
                                 cliente.MetodoPago + "' , '" + cliente.UsoCFDI + "' , '" + cliente.IdApi + "' , '" + cliente.MetodoPagoCliente + "' , " + cliente.Vendedor + @"
                                 ";
@@ -259,41 +259,41 @@ namespace ProlappApi.Controllers
         }
         [Route("UID")]
         public string PostUID(Cliente cliente)
+        {
+            try
             {
-                try
+
+
+                DataTable table = new DataTable();
+
+                string query = @"update cliente2 set IdApi = " + cliente.IdApi + " where RFC='" + cliente.RFC + "'";
+
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var da = new SqlDataAdapter(cmd))
                 {
-
-
-                    DataTable table = new DataTable();
-
-                    string query = @"update cliente set IdApi = "+cliente.IdApi+" where RFC='"+cliente.RFC+"'";
-
-                    using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
-                    using (var cmd = new SqlCommand(query, con))
-                    using (var da = new SqlDataAdapter(cmd))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        da.Fill(table);
-                    }
-
-
-
-                    return "UID Actualizado";
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(table);
                 }
-                catch (Exception exe)
-                {
-                    return "Failed to Update" + exe;
+
+
+
+                return "UID Actualizado";
+            }
+            catch (Exception exe)
+            {
+                return "Failed to Update" + exe;
 
 
 
 
 
-
-
-                }
 
 
             }
+
+
+        }
 
 
         ////////////////////////////////////////////////////////////////////////LOGIN DE CLIENTE /////////////////////////////////////////////////////////////////////////////////////
@@ -417,7 +417,7 @@ namespace ProlappApi.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
-        
+
 
 
         //////////////////////////////////////////////////////////////////////// FIN LOGIN DE CLIENTE /////////////////////////////////////////////////////////////////////////////////////
@@ -447,7 +447,7 @@ namespace ProlappApi.Controllers
         {
             DataTable table = new DataTable();
 
-            string query = @"select * from pedidos left join cliente on pedidos.idCliente = cliente.idClientes where cliente.idClientes =" + id+ "and pedidos.Estatus = 'cerrada'";
+            string query = @"select * from pedidos left join cliente on pedidos.idCliente = cliente.idClientes where cliente.idClientes =" + id + "and pedidos.Estatus = 'cerrada'";
 
             using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
             using (var cmd = new SqlCommand(query, con))

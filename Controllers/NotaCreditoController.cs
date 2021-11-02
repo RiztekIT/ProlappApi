@@ -53,6 +53,42 @@ namespace ProlappApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
+        [Route("NotaCreditoID3/{id}")]
+        public HttpResponseMessage GetNotaCreditoID3(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from NotaCredito where IdFactura =" + id + " and Estatus = 'Timbrada' and Serie='407292'";
+            query = @"Select * from NotaCredito where IdFactura =" + id + " and Serie='558311'";
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+        [Route("NotaCreditoID2/{id}")]
+        public HttpResponseMessage GetNotaCreditoID2(int id)
+        {
+            DataTable table = new DataTable();
+
+            string query = @"Select * from NotaCredito where IdFactura =" + id + " and Estatus = 'Timbrada' and Serie='407292'";
+            query = @"Select * from NotaCredito where IdFactura =" + id + " and Serie='315384'";
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                da.Fill(table);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
         [Route("NotaDetalle")]
         public HttpResponseMessage GetFacturaCliente()
         {
