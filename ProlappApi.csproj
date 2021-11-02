@@ -216,6 +216,7 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\Factura2Controller.cs" />
     <Compile Include="Controllers\EventosController.cs" />
+    <Compile Include="Controllers\Factura3Controller.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\FacturaFleteController.cs" />
     <Compile Include="Controllers\FolioController.cs" />
