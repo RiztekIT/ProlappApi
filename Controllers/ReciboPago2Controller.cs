@@ -498,7 +498,7 @@ namespace ProlappApi.Controllers
             {
 
                 DataTable table = new DataTable();
-                string query = @"update PagoCFDI2 set saldo=convert(float,Cantidad)+convert(float,saldo), cantidad=0 where IdReciboPago=" + id + "";
+                string query = @"update PagoCFDI2 set saldo=convert(float,Cantidad)+convert(float,saldo), cantidad=0, NoParcialidad=0 where IdReciboPago=" + id + "";
 
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Prolapp"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
